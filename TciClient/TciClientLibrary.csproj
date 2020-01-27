@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>TciClientLibrary</AssemblyName>
+    <RootNamespace>ExpertElectronics.Tci</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageTags>TCI</PackageTags>
+    <Copyright>Copyright (c) 2020 Vinod ES (VU3ESV)</Copyright>
+  </PropertyGroup>
+
+</Project>
