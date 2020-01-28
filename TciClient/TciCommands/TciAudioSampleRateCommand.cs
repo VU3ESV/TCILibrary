@@ -58,7 +58,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.IqSampleRate(audioSampleRate);
+            _transceiverController.SetIqSampleRate(audioSampleRate);
             return true;
         }
 

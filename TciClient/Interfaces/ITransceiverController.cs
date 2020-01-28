@@ -7,12 +7,13 @@ namespace ExpertElectronics.Tci.Interfaces
 {
     public interface ITransceiverController
     {
+        #region Properties
+
         ITciClient TciClient { get; }
 
         string SoftwareName { get; set; }
-        string SoftwareVersion { get; set; }
 
-        // Few Parameters are broadcast by the TCIServer when a client connects
+        string SoftwareVersion { get; set; }
 
         long VfoMin { get; }
 
@@ -35,9 +36,33 @@ namespace ExpertElectronics.Tci.Interfaces
 
         float TxSwr { get; set; }
 
+        uint CwMacroSpeed { get; }
+
+        uint CwMacrosDelay { get; }
+
+        uint Drive { get; }
+
+        uint TuneDrive { get; }
+
+        int Volume { get; }
+
+        uint IqSampleRate { get; }
+
+        uint AudioSampleRate { get; }
+
+        bool Ready { get; set; }
+
+        bool Mute { get; }
+
         IEnumerable<string> ModulationsList { get; }
 
         IEnumerable<ITransceiver> Transceivers { get; }
+
+        TransceiverConnectionState ConnectionState { get; }
+
+        #endregion
+
+        #region Methods      
 
         ITransceiver GeTransceiver(uint transceiverPeriodicNumber);
 
@@ -48,6 +73,8 @@ namespace ExpertElectronics.Tci.Interfaces
         void Start();
 
         void Stop();
+
+        void CreateTransceivers(uint transceiverCount);
 
         void SetDdsFrequency(uint transceiverPeriodicNumber, double frequency);
 
@@ -84,7 +111,6 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool ChannelEnable(uint transceiverPeriodicNumber, uint channel);
 
-
         void RxFilter(uint transceiverPeriodicNumber, int bottomFrequencyLimitInHz, int topFrequencyLimitInHz);
 
         int RxFilterLowLimit(uint transceiverPeriodicNumber);
@@ -95,17 +121,13 @@ namespace ExpertElectronics.Tci.Interfaces
 
         int RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
-        void CwMacroSpeed(uint value);
-
-        uint CwMacroSpeed();
+        void SetCwMacroSpeed(uint value);
 
         void CwMacroSpeedUp(uint value);
 
         void CwMacroSpeedDown(uint value);
 
-        void CwMacrosDelay(uint value);
-
-        uint CwMacrosDelay();
+        void SetCwMacrosDelay(uint value);
 
         void Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic");
 
@@ -115,29 +137,21 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool Tune(uint transceiverPeriodicNumber);
 
-        void Drive(uint level);
+        void SetDrive(uint level);
 
-        uint Drive();
-
-        void TuneDrive(uint powerOutput);
-
-        uint TuneDrive();
+        void SetTuneDrive(uint powerOutput);
 
         bool IqStart(uint transceiverPeriodicNumber);
 
         bool IqStop(uint transceiverPeriodicNumber);
 
-        void IqSampleRate(uint sampleRateInHz);
-
-        uint IqSampleRate();
+        void SetIqSampleRate(uint sampleRateInHz);
 
         void AudioStart(uint transceiverPeriodicNumber);
 
         void AudioStop(uint transceiverPeriodicNumber);
 
-        void AudioSampleRate(uint sampleRateInHz);
-
-        uint AudioSampleRate();
+        void SetAudioSampleRate(uint sampleRateInHz);
 
         void Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText);
 
@@ -145,9 +159,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         void SpotClear();
 
-        void Volume(int volumeValueIndB);
-
-        int Volume();
+        void SetVolume(int volumeValueIndB);
 
         void SquelchEnable(uint transceiverPeriodicNumber, bool state);
 
@@ -157,25 +169,17 @@ namespace ExpertElectronics.Tci.Interfaces
 
         int SquelchLevel(uint transceiverPeriodicNumber);
 
-
         void Vfo(uint transceiverPeriodicNumber, uint channelNumber, long tuningFrequencyInHz);
 
         long Vfo(uint transceiverPeriodicNumber, uint channelNumber);
 
-        void Mute(bool state);
-
-        bool Mute();
+        void SetMute(bool state);
 
         void RxMute(uint receiverPeriodicNumber, bool state);
 
         bool RxMute(uint receiverPeriodicNumber);
 
-        TransceiverConnectionState ConnectionState { get; }
-
-        bool Ready { get; set; }
-
         bool IsStarted();
-
 
         void SetMacros(uint transceiverPeriodicNumber, string text);
 
@@ -183,11 +187,11 @@ namespace ExpertElectronics.Tci.Interfaces
 
         void RitOffset(uint transceiverPeriodicNumber, int value);
 
-
         void CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after);
 
         void AddCwMessageCallSign(string callSign);
-
+        #endregion
+        #region Events
 
         event EventHandler<EventArgs> OnStarted;
 
@@ -208,7 +212,7 @@ namespace ExpertElectronics.Tci.Interfaces
         event EventHandler<IfLimitsChangedEventArgs> OnIfLimitsChanged;
 
         event EventHandler<ChannelSMeterChangeEventArgs> OnChannelSMeterChanged;
-       
+
         event EventHandler<TrxStringValueChangedEventArgs> OnModulationChanged;
 
         event EventHandler<UintValueChangedEventArgs> OnIqOutSampleRateChanged;
@@ -273,6 +277,6 @@ namespace ExpertElectronics.Tci.Interfaces
 
         event EventHandler<VfoChangeEventArgs> OnVfoChange;
 
-        void CreateTransceivers(uint transceiverCount);
+        #endregion
     }
 }
