@@ -119,6 +119,8 @@ namespace ExpertElectronics.Tci
 
         public string Device { get; set; }
 
+        public bool Mute { get; private set; }
+
         public bool ReceiveOnly
         {
             get => _receiveOnly;
@@ -147,6 +149,23 @@ namespace ExpertElectronics.Tci
 
         public IEnumerable<string> ModulationsList { get; private set; }
 
+         public uint CwMacroSpeed { get; private set; }
+
+        public uint CwMacrosDelay { get; private set; }
+
+        public uint Drive { get; private set; }
+
+        public uint TuneDrive { get; private set; }
+
+        public TransceiverConnectionState ConnectionState { get; private set; }
+        public bool Ready { get; set; }
+           
+        public int Volume { get; set; }
+
+        public uint AudioSampleRate { get; set; }
+
+        public uint IqSampleRate { get; set; }
+
         internal void AddModulationList(List<string> modulationList)
         {
             ModulationsList = modulationList;
@@ -169,7 +188,7 @@ namespace ExpertElectronics.Tci
         {
             foreach (var transceiver in Transceivers)
             {
-               transceiver.AddChannel(channelCount);
+                transceiver.AddChannel(channelCount);
             }
 
             ChannelsCount = channelCount;
@@ -515,25 +534,20 @@ namespace ExpertElectronics.Tci
             return channel?.RxSMeter ?? 0;
         }
 
-        public void CwMacroSpeed(uint value)
+        public void SetCwMacroSpeed(uint value)
         {
             if (value < 1 || value > 60)
             {
                 return;
             }
 
-            if (CwMacroSpeedValue == value)
+            if (CwMacroSpeed == value)
             {
                 return;
             }
 
-            CwMacroSpeedValue = value;
+            CwMacroSpeed = value;
             OnCwSpeedChanged?.Invoke(this, new UintValueChangedEventArgs(value));
-        }
-
-        public uint CwMacroSpeed()
-        {
-            return CwMacroSpeedValue;
         }
 
         public void CwMacroSpeedUp(uint value)
@@ -546,26 +560,23 @@ namespace ExpertElectronics.Tci
             OnCwMacroSpeedDown?.Invoke(this, new UintValueChangedEventArgs(value));
         }
 
-        public void CwMacrosDelay(uint value)
+        public void SetCwMacrosDelay(uint value)
         {
             if (value < 10 || value > 1000)
             {
                 return;
             }
 
-            if (CwMacroDelayValue == value)
+            if (CwMacrosDelay == value)
             {
                 return;
             }
 
-            CwMacroDelayValue = value;
+            CwMacrosDelay = value;
             OnCwMacrosDelayChanged?.Invoke(this, new UintValueChangedEventArgs(value));
         }
 
-        public uint CwMacrosDelay()
-        {
-            return CwMacroDelayValue;
-        }
+
 
         public void Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic")
         {
@@ -613,47 +624,37 @@ namespace ExpertElectronics.Tci
             return transceiver?.Tune ?? false;
         }
 
-        public void Drive(uint level)
+        public void SetDrive(uint level)
         {
             if (level > 100)
             {
                 return;
             }
 
-            if (DriveValue == level)
+            if (Drive == level)
             {
                 return;
             }
 
-            DriveValue = level;
+            Drive = level;
             OnDrive?.Invoke(this, new UintValueChangedEventArgs(level));
         }
 
-        public uint Drive()
-        {
-            return DriveValue;
-        }
 
-        public void TuneDrive(uint powerOutput)
+        public void SetTuneDrive(uint powerOutput)
         {
             if (powerOutput > 100)
             {
                 return;
             }
 
-            if (TuneDriveValue == powerOutput)
+            if (TuneDrive == powerOutput)
             {
                 return;
             }
 
-            TuneDriveValue = powerOutput;
+            TuneDrive = powerOutput;
             OnDrive?.Invoke(this, new UintValueChangedEventArgs(powerOutput));
-        }
-
-
-        public uint TuneDrive()
-        {
-            return TuneDriveValue;
         }
 
         public bool IqStart(uint transceiverPeriodicNumber)
@@ -692,20 +693,15 @@ namespace ExpertElectronics.Tci
             return true;
         }
 
-        public void IqSampleRate(uint sampleRateInHz)
+        public void SetIqSampleRate(uint sampleRateInHz)
         {
-            if (IqSampleRateValue == sampleRateInHz)
+            if (IqSampleRate == sampleRateInHz)
             {
                 return;
             }
 
-            IqSampleRateValue = sampleRateInHz;
+            IqSampleRate = sampleRateInHz;
             OnIqOutSampleRateChanged?.Invoke(this, new UintValueChangedEventArgs(sampleRateInHz));
-        }
-
-        public uint IqSampleRate()
-        {
-            return IqSampleRateValue;
         }
 
         public void AudioStart(uint transceiverPeriodicNumber)
@@ -742,20 +738,15 @@ namespace ExpertElectronics.Tci
             OnAudioStopChanged?.Invoke(this, new UintValueChangedEventArgs(transceiverPeriodicNumber));
         }
 
-        public void AudioSampleRate(uint sampleRateInHz)
+        public void SetAudioSampleRate(uint sampleRateInHz)
         {
-            if (AudioSampleRateValue == sampleRateInHz)
+            if (AudioSampleRate == sampleRateInHz)
             {
                 return;
             }
 
-            AudioSampleRateValue = sampleRateInHz;
+            AudioSampleRate = sampleRateInHz;
             OnAudioSampleRateChanged?.Invoke(this, new UintValueChangedEventArgs(sampleRateInHz));
-        }
-
-        public uint AudioSampleRate()
-        {
-            return AudioSampleRateValue;
         }
 
         public void Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText)
@@ -773,20 +764,15 @@ namespace ExpertElectronics.Tci
             OnSpotClear?.Invoke(this, new TrxEventArgs(0, true));
         }
 
-        public void Volume(int volumeValueIndB)
+        public void SetVolume(int volumeValueIndB)
         {
-            if (VolumeValue == volumeValueIndB)
+            if (Volume == volumeValueIndB)
             {
                 return;
             }
 
-            VolumeValue = volumeValueIndB;
+            Volume = volumeValueIndB;
             OnVolumeChanged?.Invoke(this, new IntValueChangedEventArgs(volumeValueIndB));
-        }
-
-        public int Volume()
-        {
-            return VolumeValue;
         }
 
         public void SquelchEnable(uint transceiverPeriodicNumber, bool state)
@@ -864,20 +850,15 @@ namespace ExpertElectronics.Tci
         }
 
 
-        public void Mute(bool state)
+        public void SetMute(bool state)
         {
-            if (MuteState == state)
+            if (Mute == state)
             {
                 return;
             }
 
-            MuteState = state;
+            Mute = state;
             OnMute?.Invoke(this, new TrxEventArgs(0, state));
-        }
-
-        public bool Mute()
-        {
-            return MuteState;
         }
 
         public void RxMute(uint receiverPeriodicNumber, bool state)
@@ -952,23 +933,6 @@ namespace ExpertElectronics.Tci
             throw new NotImplementedException();
         }
 
-        public TransceiverConnectionState ConnectionState { get; set; }
-        public bool Ready { get; set; }
-        public int VolumeValue { get; set; }
-
-        public uint AudioSampleRateValue { get; set; }
-
-        public uint IqSampleRateValue { get; set; }
-
-        public uint CwMacroSpeedValue { get; set; }
-
-        public uint CwMacroDelayValue { get; set; }
-
-        public uint DriveValue { get; set; }
-
-        public uint TuneDriveValue { get; set; }
-
-        public bool MuteState { get; set; }
 
         internal void VfoLimits(long bottomFrequencyLimitInHz, long topFrequencyLimitInHz)
         {

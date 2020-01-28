@@ -3,3 +3,19 @@
 ################################################################################
 
 /.vs/TciClient/DesignTimeBuild/.dtbcache
+/.vs/TciClient/v16/Server/sqlite3/db.lock
+/.vs/TciClient/v16/Server/sqlite3/storage.ide-wal
+/.vs/TciClient/v16/Server/sqlite3/storage.ide-shm
+/.vs/TciClient/v16/Server/sqlite3/storage.ide
+/.vs/TciClient/v16/.suo
+/.vs/TCILibrary/v16/.suo
+/.vs/ProjectSettings.json
+/.vs/VSWorkspaceState.json
+/TciClient/bin/Debug/netstandard2.0
+/TciClient/obj/Debug/netstandard2.0
+/TciClient/obj/Release/netstandard2.0
+/TciClient/obj
+/TestApp/bin/Debug/netcoreapp2.1
+/TestApp/obj/Debug/netcoreapp2.1
+/TestApp/obj
+/TciClient.sln.DotSettings.user

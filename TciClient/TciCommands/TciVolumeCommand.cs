@@ -58,7 +58,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.Volume(volume);
+            _transceiverController.SetVolume(volume);
             return true;
         }
 
