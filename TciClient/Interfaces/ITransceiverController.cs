@@ -245,6 +245,8 @@ namespace ExpertElectronics.Tci.Interfaces
 
         event EventHandler<UintValueChangedEventArgs> OnDrive;
 
+        event EventHandler<UintValueChangedEventArgs> OnTuneDrive;
+
         event EventHandler<TrxEventArgs> OnTxEnableChanged;
 
         event EventHandler<TrxStringValueChangedEventArgs> OnCwMacros;

@@ -618,7 +618,7 @@ namespace ExpertElectronics.Tci
             }
 
             TuneDrive = powerOutput;
-            OnDrive?.Invoke(this, new UintValueChangedEventArgs(powerOutput));
+            OnTuneDrive?.Invoke(this, new UintValueChangedEventArgs(powerOutput));
         }
 
         public bool IqStart(uint transceiverPeriodicNumber)
@@ -946,6 +946,7 @@ namespace ExpertElectronics.Tci
         public event EventHandler<RxFilterChangedEventArgs> OnRxFilterChanged;
         public event EventHandler<StringValueChangedEventArgs> OnCwMessageCallSign;
         public event EventHandler<VfoChangeEventArgs> OnVfoChange;
+        public event EventHandler<UintValueChangedEventArgs> OnTuneDrive;
 
         private bool _start;
         private readonly Dictionary<string, ITciCommand> _commands;

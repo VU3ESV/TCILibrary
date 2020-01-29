@@ -31,6 +31,7 @@ namespace TestApp
                 tciClient.TransceiverController.OnVfoChange += TransceiverController_OnVfoChange;
                 tciClient.TransceiverController.OnAudioStartChanged += TransceiverController_OnAudioStartChanged;
                 tciClient.TransceiverController.OnDrive += TransceiverController_OnDrive;
+                tciClient.TransceiverController.OnTuneDrive += TransceiverController_OnTuneDrive; 
                 tciClient.TransceiverController.OnIfFreqChanged += TransceiverController_OnIfFreqChanged;
                 tciClient.TransceiverController.OnIfLimitsChanged += TransceiverController_OnIfLimitsChanged;
                 tciClient.TransceiverController.OnModulationChanged += TransceiverController_OnModulationChanged;
@@ -47,6 +48,9 @@ namespace TestApp
                 tciClient.TransceiverController.OnRxFilterChanged += TransceiverController_OnRxFilterChanged;
                 tciClient.TransceiverController.OnRxMute += TransceiverController_OnRxMute;
                 tciClient.TransceiverController.Start();
+                tciClient.TransceiverController.Vfo(0, 0, 7154400);
+
+
             }
             catch (Exception exception)
             {
@@ -61,6 +65,7 @@ namespace TestApp
                 tciClient.TransceiverController.OnVfoChange -= TransceiverController_OnVfoChange;
                 tciClient.TransceiverController.OnAudioStartChanged -= TransceiverController_OnAudioStartChanged;
                 tciClient.TransceiverController.OnDrive -= TransceiverController_OnDrive;
+                tciClient.TransceiverController.OnTuneDrive -= TransceiverController_OnTuneDrive; 
                 tciClient.TransceiverController.OnIfFreqChanged -= TransceiverController_OnIfFreqChanged;
                 tciClient.TransceiverController.OnIfLimitsChanged -= TransceiverController_OnIfLimitsChanged;
                 tciClient.TransceiverController.OnModulationChanged -= TransceiverController_OnModulationChanged;
@@ -81,6 +86,11 @@ namespace TestApp
             }
             timer.Dispose();
             cancellationTokenSource.Cancel();
+        }
+
+        private static void TransceiverController_OnTuneDrive(object sender, UintValueChangedEventArgs e)
+        {
+            Console.WriteLine($"TuneDrive: {e.Value}");
         }
 
         private static void TransceiverController_OnRxMute(object sender, TrxEventArgs e)

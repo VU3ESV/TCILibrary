@@ -18,6 +18,12 @@ namespace ExpertElectronics.Tci.TciCommands
         private void TransceiverControllerOnDriveChanged(object sender, UintValueChangedEventArgs e)
         {
             var drive = e.Value;
+
+            if(drive == _transceiverController.Drive)
+            {
+                return;
+            }
+
             _transceiverController.TciClient.SendMessageAsync($"{Name}:{drive};");
         }
 

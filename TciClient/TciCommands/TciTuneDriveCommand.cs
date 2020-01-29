@@ -12,13 +12,18 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciTuneDriveCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnDrive += TransceiverControllerOnDriveChanged;
+            _transceiverController.OnTuneDrive += TransceiverController_OnTuneDrive; ;
         }
 
-        private void TransceiverControllerOnDriveChanged(object sender, UintValueChangedEventArgs e)
+        private void TransceiverController_OnTuneDrive(object sender, UintValueChangedEventArgs e)
         {
-            var drive = e.Value;
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{drive};");
+            var tuneDrive = e.Value;
+            if(tuneDrive== _transceiverController.TuneDrive)
+            {
+                return;
+            }
+
+            _transceiverController.TciClient.SendMessageAsync($"{Name}:{tuneDrive};");
         }
 
         public static TciTuneDriveCommand Create(ITransceiverController transceiverController)
@@ -62,7 +67,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnDrive -= TransceiverControllerOnDriveChanged;
+            _transceiverController.OnTuneDrive -= TransceiverController_OnTuneDrive;
             GC.SuppressFinalize(this);
         }
 
