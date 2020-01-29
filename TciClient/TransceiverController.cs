@@ -15,65 +15,27 @@ namespace ExpertElectronics.Tci
         {
             Debug.Assert(messageHandler != null);
             Debug.Assert(tciClient != null);
-            var messageHandler1 = messageHandler;
+
+            _messageHandler = messageHandler;
             TciClient = tciClient;
             _transceivers = new List<Transceiver>();
-            messageHandler1.OnSocketConnected += MessageHandler_OnSocketConnected;
-            messageHandler1.OnSocketMessageReceived += MessageHandler_OnSocketMessageReceived;
+            _messageHandler.OnSocketConnected += MessageHandler_OnSocketConnected;
+            _messageHandler.OnSocketMessageReceived += MessageHandler_OnSocketMessageReceived;
             _commands = new Dictionary<string, ITciCommand>();
             Initialize();
         }
 
         private void Initialize()
         {
-            _commands.Add(TciReadyCommand.Name, TciReadyCommand.Create(this));
-            _commands.Add(TciDeviceCommand.Name, TciDeviceCommand.Create(this));
-            _commands.Add(TciReceiveOnlyCommand.Name, TciReceiveOnlyCommand.Create(this));
-            _commands.Add(TciStartCommand.Name, TciStartCommand.Create(this));
-            _commands.Add(TciTxEnableCommand.Name, TciTxEnableCommand.Create(this));
-            _commands.Add(TciStopCommand.Name, TciStopCommand.Create(this));
-            _commands.Add(TciDdsCommand.Name, TciDdsCommand.Create(this));
-            _commands.Add(TciIfCommand.Name, TciIfCommand.Create(this));
-            _commands.Add(TciTrxCommand.Name, TciTrxCommand.Create(this));
-            _commands.Add(TciTrxCountCommand.Name, TciTrxCountCommand.Create(this));
-            _commands.Add(TciChannelCountCommand.Name, TciChannelCountCommand.Create(this));
-            _commands.Add(TciVfoLimitsCommand.Name, TciVfoLimitsCommand.Create(this));
-            _commands.Add(TciIfLimitsCommand.Name, TciIfLimitsCommand.Create(this));
-            _commands.Add(TciModulationListCommand.Name, TciModulationListCommand.Create(this));
-            _commands.Add(TciRitEnableCommand.Name, TciRitEnableCommand.Create(this));
-            _commands.Add(TciXitEnableCommand.Name, TciXitEnableCommand.Create(this));
-            _commands.Add(TciRxEnableCommand.Name, TciRxEnableCommand.Create(this));
-            _commands.Add(TciSplitEnableCommand.Name, TciSplitEnableCommand.Create(this));
-            _commands.Add(TciRitOffsetCommand.Name, TciRitOffsetCommand.Create(this));
-            _commands.Add(TciXitOffsetCommand.Name, TciXitOffsetCommand.Create(this));
-            _commands.Add(TciRxChannelEnableCommand.Name, TciRxChannelEnableCommand.Create(this));
-            _commands.Add(TciRxFilterBandsCommand.Name, TciRxFilterBandsCommand.Create(this));
-            _commands.Add(TciRxSMeterCommand.Name, TciRxSMeterCommand.Create(this));
-            _commands.Add(TciCwMacrosSpeedCommand.Name, TciCwMacrosSpeedCommand.Create(this));
-            _commands.Add(TciCwMacroSpeedUpCommand.Name, TciCwMacroSpeedUpCommand.Create(this));
-            _commands.Add(TciCwMacroSpeedDownCommand.Name, TciCwMacroSpeedDownCommand.Create(this));
-            _commands.Add(TciCwMacrosDelayCommand.Name, TciCwMacrosDelayCommand.Create(this));
-            _commands.Add(TciTuneCommand.Name, TciTuneCommand.Create(this));
-            _commands.Add(TciDriveCommand.Name, TciDriveCommand.Create(this));
-            _commands.Add(TciTuneDriveCommand.Name, TciTuneDriveCommand.Create(this));
-            _commands.Add(TciIqStartCommand.Name, TciIqStartCommand.Create(this));
-            _commands.Add(TciIqStopCommand.Name, TciIqStopCommand.Create(this));
-            _commands.Add(TciIqSampleRateCommand.Name, TciIqSampleRateCommand.Create(this));
-            _commands.Add(TciAudioStartCommand.Name, TciAudioStartCommand.Create(this));
-            _commands.Add(TciAudioStopCommand.Name, TciAudioStopCommand.Create(this));
-            _commands.Add(TciAudioSampleRateCommand.Name, TciAudioSampleRateCommand.Create(this));
-            _commands.Add(TciSpotCommand.Name, TciSpotCommand.Create(this));
-            _commands.Add(TciSpotDeleteCommand.Name, TciSpotDeleteCommand.Create(this));
-            _commands.Add(TciProtocolCommand.Name, TciProtocolCommand.Create(this));
-            _commands.Add(TciTxPowerCommand.Name, TciTxPowerCommand.Create(this));
-            _commands.Add(TciTxSwrCommand.Name, TciTxSwrCommand.Create(this));
-            _commands.Add(TciVolumeCommand.Name, TciVolumeCommand.Create(this));
-            _commands.Add(TciSqlEnableCommand.Name, TciSqlEnableCommand.Create(this));
-            _commands.Add(TciSqlLevelCommand.Name, TciSqlLevelCommand.Create(this));
-            _commands.Add(TciVfoCommand.Name, TciVfoCommand.Create(this));
-            _commands.Add(TciMuteCommand.Name, TciMuteCommand.Create(this));
-            _commands.Add(TciRxMuteCommand.Name, TciRxMuteCommand.Create(this));
-            _commands.Add(TciModulationCommand.Name, TciModulationCommand.Create(this));
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => typeof(ITciCommand).IsAssignableFrom(p) && !p.IsInterface);
+
+            foreach (var type in types)
+            {
+                _commands.Add((string)type.GetProperty("Name").GetValue(null, null),
+                    (ITciCommand)type.GetMethod("Create").Invoke(this, new object[] { this }));
+            }
         }
 
         private void MessageHandler_OnSocketMessageReceived(object sender, TciMessageReceivedEventArgs e)
@@ -98,6 +60,8 @@ namespace ExpertElectronics.Tci
                 ? TransceiverConnectionState.Connected
                 : TransceiverConnectionState.Disconnected;
         }
+
+        private readonly ITciMessageHandler _messageHandler;
 
         public ITciClient TciClient { get; }
 
@@ -169,7 +133,7 @@ namespace ExpertElectronics.Tci
         {
             foreach (var transceiver in Transceivers)
             {
-               transceiver.AddChannel(channelCount);
+                transceiver.AddChannel(channelCount);
             }
 
             ChannelsCount = channelCount;
@@ -843,7 +807,6 @@ namespace ExpertElectronics.Tci
             var channel = transceiver?.Channels.FirstOrDefault(_ => _.PeriodicNumber == channelPeriodicNumber);
             if (channel == null)
             {
-                Console.WriteLine($"Channel is Null , T {transceiverPeriodicNumber} , C {channelPeriodicNumber}, F :{tuningFrequencyInHz} ");
                 return;
             }
 

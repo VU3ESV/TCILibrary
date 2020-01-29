@@ -3,6 +3,7 @@ using System.Timers;
 using System.Linq;
 using System.Threading;
 using ExpertElectronics.Tci;
+using ExpertElectronics.Tci.Events;
 using Timer = System.Timers.Timer;
 
 namespace TestApp
@@ -20,13 +21,29 @@ namespace TestApp
                 eventArgs.Cancel = true;
                 exitEvent.Set();
             };
-            Timer timer = new Timer(5000);
+            Timer timer = new Timer(60000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
             try
             {
                 tciClient = TciClient.Create("localhost", 40001, cancellationTokenSource.Token);
                 tciClient.ConnectAsync().Wait(cancellationTokenSource.Token);
+                tciClient.TransceiverController.OnVfoChange += TransceiverController_OnVfoChange;
+                tciClient.TransceiverController.OnAudioStartChanged += TransceiverController_OnAudioStartChanged;
+                tciClient.TransceiverController.OnDrive += TransceiverController_OnDrive;
+                tciClient.TransceiverController.OnIfFreqChanged += TransceiverController_OnIfFreqChanged;
+                tciClient.TransceiverController.OnIfLimitsChanged += TransceiverController_OnIfLimitsChanged;
+                tciClient.TransceiverController.OnModulationChanged += TransceiverController_OnModulationChanged;
+                tciClient.TransceiverController.OnSplitEnableChanged += TransceiverController_OnSplitEnableChanged;
+                tciClient.TransceiverController.OnTrx += TransceiverController_OnTrx;
+                tciClient.TransceiverController.OnTune += TransceiverController_OnTune;
+                tciClient.TransceiverController.OnVolumeChanged += TransceiverController_OnVolumeChanged;
+                tciClient.TransceiverController.OnXitEnableChanged += TransceiverController_OnXitEnableChanged;
+                tciClient.TransceiverController.OnXitOffsetChanged += TransceiverController_OnXitOffsetChanged;
+                tciClient.TransceiverController.OnRitEnableChanged += TransceiverController_OnRitEnableChanged;
+                tciClient.TransceiverController.OnRitOffsetChanged += TransceiverController_OnRitOffsetChanged;
+                tciClient.TransceiverController.OnMute += TransceiverController_OnMute;
+                tciClient.TransceiverController.OnChannelSMeterChanged += TransceiverController_OnChannelSMeterChanged;
                 tciClient.TransceiverController.Start();
             }
             catch (Exception exception)
@@ -39,14 +56,111 @@ namespace TestApp
             if (tciClient != null)
             {
                 tciClient.TransceiverController.Stop();
+                tciClient.TransceiverController.OnVfoChange -= TransceiverController_OnVfoChange;
+                tciClient.TransceiverController.OnAudioStartChanged -= TransceiverController_OnAudioStartChanged;
+                tciClient.TransceiverController.OnDrive -= TransceiverController_OnDrive;
+                tciClient.TransceiverController.OnIfFreqChanged -= TransceiverController_OnIfFreqChanged;
+                tciClient.TransceiverController.OnIfLimitsChanged -= TransceiverController_OnIfLimitsChanged;
+                tciClient.TransceiverController.OnModulationChanged -= TransceiverController_OnModulationChanged;
+                tciClient.TransceiverController.OnSplitEnableChanged -= TransceiverController_OnSplitEnableChanged;
+                tciClient.TransceiverController.OnTrx -= TransceiverController_OnTrx;
+                tciClient.TransceiverController.OnTune -= TransceiverController_OnTune;
+                tciClient.TransceiverController.OnVolumeChanged -= TransceiverController_OnVolumeChanged;
+                tciClient.TransceiverController.OnXitEnableChanged -= TransceiverController_OnXitEnableChanged;
+                tciClient.TransceiverController.OnXitOffsetChanged -= TransceiverController_OnXitOffsetChanged;
+                tciClient.TransceiverController.OnRitEnableChanged -= TransceiverController_OnRitEnableChanged;
+                tciClient.TransceiverController.OnRitOffsetChanged -= TransceiverController_OnRitOffsetChanged;
+                tciClient.TransceiverController.OnMute -= TransceiverController_OnMute;
+                tciClient.TransceiverController.OnChannelSMeterChanged -= TransceiverController_OnChannelSMeterChanged;
                 tciClient.DisConnectAsync().Wait(cancellationTokenSource.Token);
             }
             timer.Dispose();
             cancellationTokenSource.Cancel();
         }
 
+        private static void TransceiverController_OnChannelSMeterChanged(object sender, ChannelSMeterChangeEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Channel: {e.Channel}, SMeter : {e.SMeter}");
+        }
+
+        private static void TransceiverController_OnMute(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Mute : {e.State}");
+        }
+
+        private static void TransceiverController_OnRitOffsetChanged(object sender, TrxIntValueChangedEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, RitOffset : {e.Value}");
+        }
+
+        private static void TransceiverController_OnRitEnableChanged(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, RitEnabe : {e.State}");
+        }
+
+        private static void TransceiverController_OnXitOffsetChanged(object sender, TrxIntValueChangedEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, XitOffset : {e.Value}");
+        }
+
+        private static void TransceiverController_OnXitEnableChanged(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, XitEnabe : {e.State}");
+        }
+
+        private static void TransceiverController_OnVolumeChanged(object sender, IntValueChangedEventArgs e)
+        {
+            Console.WriteLine($"Volume: {e.Value}");
+        }
+
+        private static void TransceiverController_OnTune(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Tune : {e.State}");
+        }
+
+        private static void TransceiverController_OnTrx(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Tx : {e.State}");
+        }
+
+        private static void TransceiverController_OnSplitEnableChanged(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Split : {e.State}");
+        }
+
+        private static void TransceiverController_OnModulationChanged(object sender, TrxStringValueChangedEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, Modulation : {e.Value}");
+        }
+
+        private static void TransceiverController_OnIfLimitsChanged(object sender, IfLimitsChangedEventArgs e)
+        {
+            Console.WriteLine($"If Limits Max: {e.Max}, Min: {e.Min}");
+        }
+
+        private static void TransceiverController_OnIfFreqChanged(object sender, IfFrequencyChangedEventArgs e)
+        {
+            Console.WriteLine($"Transceiver :{e.TransceiverPeriodicNumber}, IF Freq : {e.Value}");
+        }
+
+        private static void TransceiverController_OnDrive(object sender, UintValueChangedEventArgs e)
+        {
+            Console.WriteLine($"Drive: {e.Value}");
+        }
+
+        private static void TransceiverController_OnAudioStartChanged(object sender, UintValueChangedEventArgs e)
+        {
+            Console.WriteLine($"AudioStart = {e.Value}");
+        }
+
+        private static void TransceiverController_OnVfoChange(object sender, VfoChangeEventArgs e)
+        {
+            Console.WriteLine($"Transceiver {e.TransceiverPeriodicNumber} : Channel {e.Channel} : Vfo {e.Vfo}");
+        }
+
         private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            
             var transceivers = tciClient?.TransceiverController.Transceivers;
             if(transceivers == null)
             {
@@ -87,8 +201,9 @@ namespace TestApp
 
                 Console.WriteLine("***********************************************************************");
             }
-
+            
             Console.WriteLine("################################################################################");
+               
         }
     }
 }

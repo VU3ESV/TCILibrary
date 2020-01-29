@@ -3,3 +3,13 @@
 ################################################################################
 
 /.vs/TciClient/DesignTimeBuild/.dtbcache
+/.vs/TciClient/v16/Server/sqlite3
+/.vs/TciClient/v16/.suo
+/.vs/TCILibrary/v16/.suo
+/.vs/VSWorkspaceState.json
+/.vs/ProjectSettings.json
+/TciClient/bin/Debug/netstandard2.0
+/TciClient/obj
+/TestApp/bin/Debug/netcoreapp2.1
+/TestApp/obj
+/TciClient.sln.DotSettings.user
