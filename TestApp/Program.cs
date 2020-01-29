@@ -44,6 +44,8 @@ namespace TestApp
                 tciClient.TransceiverController.OnRitOffsetChanged += TransceiverController_OnRitOffsetChanged;
                 tciClient.TransceiverController.OnMute += TransceiverController_OnMute;
                 tciClient.TransceiverController.OnChannelSMeterChanged += TransceiverController_OnChannelSMeterChanged;
+                tciClient.TransceiverController.OnRxFilterChanged += TransceiverController_OnRxFilterChanged;
+                tciClient.TransceiverController.OnRxMute += TransceiverController_OnRxMute;
                 tciClient.TransceiverController.Start();
             }
             catch (Exception exception)
@@ -72,10 +74,23 @@ namespace TestApp
                 tciClient.TransceiverController.OnRitOffsetChanged -= TransceiverController_OnRitOffsetChanged;
                 tciClient.TransceiverController.OnMute -= TransceiverController_OnMute;
                 tciClient.TransceiverController.OnChannelSMeterChanged -= TransceiverController_OnChannelSMeterChanged;
+                tciClient.TransceiverController.OnRxFilterChanged -= TransceiverController_OnRxFilterChanged;
+                tciClient.TransceiverController.OnRxMute -= TransceiverController_OnRxMute;
+
                 tciClient.DisConnectAsync().Wait(cancellationTokenSource.Token);
             }
             timer.Dispose();
             cancellationTokenSource.Cancel();
+        }
+
+        private static void TransceiverController_OnRxMute(object sender, TrxEventArgs e)
+        {
+            Console.WriteLine($"Receiver :{e.TransceiverPeriodicNumber}, Rx Mute: {e.State}");
+        }
+
+        private static void TransceiverController_OnRxFilterChanged(object sender, RxFilterChangedEventArgs e)
+        {
+            Console.WriteLine($"Receiver :{e.TransceiverPeriodicNumber}, Filter Low: {e.Low}, High : {e.High}");
         }
 
         private static void TransceiverController_OnChannelSMeterChanged(object sender, ChannelSMeterChangeEventArgs e)
@@ -160,14 +175,14 @@ namespace TestApp
 
         private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            
+
             var transceivers = tciClient?.TransceiverController.Transceivers;
-            if(transceivers == null)
+            if (transceivers == null)
             {
                 return;
             }
-           
-            foreach (var  transceiver in  transceivers)
+
+            foreach (var transceiver in transceivers)
             {
                 Console.WriteLine($"{nameof(transceiver.PeriodicNumber)}: {transceiver.PeriodicNumber}");
                 Console.WriteLine($"{nameof(transceiver.Modulation)}: {transceiver.Modulation}");
@@ -196,14 +211,14 @@ namespace TestApp
                     Console.WriteLine($"{nameof(channel.ReceiveOnly)}: {channel.ReceiveOnly}");
 
                     Console.WriteLine($"{nameof(channel.RxSMeter)}: {channel.RxSMeter}");
-                    Console.WriteLine($"{nameof(channel.Vfo)}: {channel.Vfo}");                   
+                    Console.WriteLine($"{nameof(channel.Vfo)}: {channel.Vfo}");
                 }
 
                 Console.WriteLine("***********************************************************************");
             }
-            
+
             Console.WriteLine("################################################################################");
-               
+
         }
     }
 }
