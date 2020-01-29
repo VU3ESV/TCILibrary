@@ -49,7 +49,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var mute = Convert.ToBoolean(muteMessageElements[MuteIndex]);
-            _transceiverController.Mute(mute);
+            _transceiverController.SetMute(mute);
             return true;
         }
 

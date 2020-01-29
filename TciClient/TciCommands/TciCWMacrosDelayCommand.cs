@@ -50,7 +50,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var cwDelay = Convert.ToUInt32(cwDelayElements[CwDelayIndex]);
-            _transceiverController.CwMacrosDelay(cwDelay);
+            _transceiverController.SetCwMacrosDelay(cwDelay);
             return true;
         }
 

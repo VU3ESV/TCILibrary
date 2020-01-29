@@ -50,7 +50,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var cwSpeed = Convert.ToUInt32(cwSpeedElements[CwSpeedIndex]);
-            _transceiverController.CwMacroSpeed(cwSpeed);
+            _transceiverController.SetCwMacroSpeed(cwSpeed);
             return true;
         }
 

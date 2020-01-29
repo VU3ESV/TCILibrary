@@ -50,7 +50,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var tuneDrive = Convert.ToUInt32(tuneDriveMessageElements[TuneDriveIndex]);
-            _transceiverController.TuneDrive(tuneDrive);
+            _transceiverController.SetTuneDrive(tuneDrive);
             return true;
         }
 

@@ -50,7 +50,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var drive = Convert.ToUInt32(driveMessageElements[DriveIndex]);
-            _transceiverController.Drive(drive);
+            _transceiverController.SetDrive(drive);
             return true;
         }
 
