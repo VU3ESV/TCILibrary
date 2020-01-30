@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{3D22F62F-7E6A-4D3D-AAF5-B48A22F8D2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TciClientLibrary", "TciClient\TciClientLibrary.csproj", "{2FDAF634-D9D6-43A7-8D81-5C60777DED1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TciClientLibrary", "TciClient\TciClientLibrary.csproj", "{2FDAF634-D9D6-43A7-8D81-5C60777DED1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationMonitor", "StationMonitor\StationMonitor.csproj", "{14975A2C-1C7A-41D0-A5FB-19938BF1B047}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2FDAF634-D9D6-43A7-8D81-5C60777DED1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FDAF634-D9D6-43A7-8D81-5C60777DED1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FDAF634-D9D6-43A7-8D81-5C60777DED1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14975A2C-1C7A-41D0-A5FB-19938BF1B047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14975A2C-1C7A-41D0-A5FB-19938BF1B047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14975A2C-1C7A-41D0-A5FB-19938BF1B047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14975A2C-1C7A-41D0-A5FB-19938BF1B047}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
