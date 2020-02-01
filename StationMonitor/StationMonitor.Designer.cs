@@ -42,16 +42,21 @@
             this.Receiver2VfoA = new System.Windows.Forms.Label();
             this.Tx = new System.Windows.Forms.Label();
             this.Drive = new System.Windows.Forms.Label();
-            this.DriveLevel = new System.Windows.Forms.Label();
-            this.TuneLevel = new System.Windows.Forms.Label();
             this.Tune = new System.Windows.Forms.Label();
             this.Modulation = new System.Windows.Forms.Label();
             this.Tr1ModulationValue = new System.Windows.Forms.Label();
             this.Tr2ModulationValue = new System.Windows.Forms.Label();
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
+            this.Volume = new System.Windows.Forms.Label();
+            this.VolumeControl = new System.Windows.Forms.TrackBar();
+            this.DriveControl = new System.Windows.Forms.TrackBar();
+            this.TuneControl = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).BeginInit();
             this.SuspendLayout();
             // 
             // tciServerIP
@@ -185,38 +190,18 @@
             // 
             this.Drive.AutoSize = true;
             this.Drive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Drive.Location = new System.Drawing.Point(681, 87);
+            this.Drive.Location = new System.Drawing.Point(55, 278);
             this.Drive.Name = "Drive";
             this.Drive.Size = new System.Drawing.Size(45, 16);
             this.Drive.TabIndex = 11;
             this.Drive.Text = "Drive";
-            // 
-            // DriveLevel
-            // 
-            this.DriveLevel.AutoSize = true;
-            this.DriveLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DriveLevel.Location = new System.Drawing.Point(746, 87);
-            this.DriveLevel.Name = "DriveLevel";
-            this.DriveLevel.Size = new System.Drawing.Size(83, 16);
-            this.DriveLevel.TabIndex = 12;
-            this.DriveLevel.Text = "DriveLevel";
-            // 
-            // TuneLevel
-            // 
-            this.TuneLevel.AutoSize = true;
-            this.TuneLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TuneLevel.Location = new System.Drawing.Point(746, 128);
-            this.TuneLevel.Name = "TuneLevel";
-            this.TuneLevel.Size = new System.Drawing.Size(81, 16);
-            this.TuneLevel.TabIndex = 14;
-            this.TuneLevel.Text = "TuneLevel";
             // 
             // Tune
             // 
             this.Tune.AutoSize = true;
             this.Tune.BackColor = System.Drawing.Color.Green;
             this.Tune.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tune.Location = new System.Drawing.Point(681, 128);
+            this.Tune.Location = new System.Drawing.Point(57, 317);
             this.Tune.Name = "Tune";
             this.Tune.Size = new System.Drawing.Size(43, 16);
             this.Tune.TabIndex = 13;
@@ -272,19 +257,59 @@
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
+            // Volume
+            // 
+            this.Volume.AutoSize = true;
+            this.Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Volume.Location = new System.Drawing.Point(54, 226);
+            this.Volume.Name = "Volume";
+            this.Volume.Size = new System.Drawing.Size(69, 20);
+            this.Volume.TabIndex = 20;
+            this.Volume.Text = "Volume";
+            // 
+            // VolumeControl
+            // 
+            this.VolumeControl.Location = new System.Drawing.Point(169, 226);
+            this.VolumeControl.Maximum = 0;
+            this.VolumeControl.Minimum = -60;
+            this.VolumeControl.Name = "VolumeControl";
+            this.VolumeControl.Size = new System.Drawing.Size(184, 45);
+            this.VolumeControl.TabIndex = 21;
+            this.VolumeControl.Scroll += new System.EventHandler(this.VolumeControl_Scroll);
+            // 
+            // DriveControl
+            // 
+            this.DriveControl.Location = new System.Drawing.Point(169, 263);
+            this.DriveControl.Maximum = 100;
+            this.DriveControl.Name = "DriveControl";
+            this.DriveControl.Size = new System.Drawing.Size(184, 45);
+            this.DriveControl.TabIndex = 22;
+            this.DriveControl.Scroll += new System.EventHandler(this.DriveControl_Scroll);
+            // 
+            // TuneControl
+            // 
+            this.TuneControl.Location = new System.Drawing.Point(169, 301);
+            this.TuneControl.Maximum = 100;
+            this.TuneControl.Name = "TuneControl";
+            this.TuneControl.Size = new System.Drawing.Size(184, 45);
+            this.TuneControl.TabIndex = 23;
+            this.TuneControl.Scroll += new System.EventHandler(this.TuneControl_Scroll);
+            // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1091, 614);
+            this.Controls.Add(this.TuneControl);
+            this.Controls.Add(this.DriveControl);
+            this.Controls.Add(this.VolumeControl);
+            this.Controls.Add(this.Volume);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.Tr2ModulationValue);
             this.Controls.Add(this.Tr1ModulationValue);
             this.Controls.Add(this.Modulation);
-            this.Controls.Add(this.TuneLevel);
             this.Controls.Add(this.Tune);
-            this.Controls.Add(this.DriveLevel);
             this.Controls.Add(this.Drive);
             this.Controls.Add(this.Tx);
             this.Controls.Add(this.groupBox2);
@@ -301,6 +326,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,14 +350,16 @@
         private System.Windows.Forms.Label Receiver2VfoA;
         private System.Windows.Forms.Label Tx;
         private System.Windows.Forms.Label Drive;
-        private System.Windows.Forms.Label DriveLevel;
-        private System.Windows.Forms.Label TuneLevel;
         private System.Windows.Forms.Label Tune;
         private System.Windows.Forms.Label Modulation;
         private System.Windows.Forms.Label Tr1ModulationValue;
         private System.Windows.Forms.Label Tr2ModulationValue;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Label Volume;
+        private System.Windows.Forms.TrackBar VolumeControl;
+        private System.Windows.Forms.TrackBar DriveControl;
+        private System.Windows.Forms.TrackBar TuneControl;
     }
 }
 

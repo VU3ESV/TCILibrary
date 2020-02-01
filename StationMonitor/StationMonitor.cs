@@ -54,13 +54,23 @@ namespace StationMonitor
 
             await dispatcher.InvokeAsync(() =>
             {
-                DriveLevel.Text = tciClient.TransceiverController.Drive.ToString();
+                Drive.Text = $"Drive: {tciClient.TransceiverController.Drive.ToString()}";
+                DriveControl.Value = (int)tciClient.TransceiverController.Drive;
             });
 
             await dispatcher.InvokeAsync(() =>
             {
-                TuneLevel.Text = tciClient.TransceiverController.TuneDrive.ToString();
+                Tune.Text = $"Tune: {tciClient.TransceiverController.TuneDrive.ToString()}";
+                TuneControl.Value = (int)tciClient.TransceiverController.TuneDrive;
             });
+
+            await dispatcher.InvokeAsync(() =>
+            {
+                Volume.Text = $"Volume: {tciClient.TransceiverController.Volume.ToString()}";
+                VolumeControl.Value = tciClient.TransceiverController.Volume;
+            });
+
+            tciClient.TransceiverController.OnVolumeChanged += TransceiverController_OnVolumeChanged;
 
             await dispatcher.InvokeAsync(() =>
             {
@@ -80,7 +90,7 @@ namespace StationMonitor
                 }
             });
 
-            if(tciClient.TransceiverController.IsStarted())
+            if (tciClient.TransceiverController.IsStarted())
             {
                 await dispatcher.InvokeAsync(() =>
                 {
@@ -167,6 +177,15 @@ namespace StationMonitor
             }
         }
 
+        private async void TransceiverController_OnVolumeChanged(object sender, IntValueChangedEventArgs e)
+        {
+            await dispatcher.InvokeAsync(() =>
+            {
+                Volume.Text = $"Volume: {tciClient.TransceiverController.Volume.ToString()}";
+                VolumeControl.Value = tciClient.TransceiverController.Volume;
+            });
+        }
+
         private async void TransceiverController_OnStopped(object sender, EventArgs e)
         {
             await dispatcher.InvokeAsync(() =>
@@ -195,7 +214,8 @@ namespace StationMonitor
         {
             await dispatcher.InvokeAsync(() =>
             {
-                TuneLevel.Text = e.Value.ToString();
+                Tune.Text = $"Tune: {e.Value.ToString()}";
+                TuneControl.Value = (int)e.Value;
             });
         }
 
@@ -203,7 +223,8 @@ namespace StationMonitor
         {
             await dispatcher.InvokeAsync(() =>
             {
-                DriveLevel.Text = e.Value.ToString();
+                Drive.Text = $"Drive: {e.Value.ToString()}";
+                DriveControl.Value = (int)e.Value;
             });
         }
 
@@ -334,14 +355,48 @@ namespace StationMonitor
             });
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
+        private async void StartButton_Click(object sender, EventArgs e)
         {
-            tranaceiverController.StartTransceiver();
+            await tranaceiverController.StartTransceiver();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
             tranaceiverController.StopTransceiver();
+        }
+
+        private async void VolumeControl_Scroll(object sender, EventArgs e)
+        {
+            var volumeLevel = VolumeControl.Value;
+            if (volumeLevel < -60 || volumeLevel > 0)
+            {
+                return;
+            }
+
+            await tranaceiverController.SetVolume(volumeLevel);
+        }
+
+        private async void DriveControl_Scroll(object sender, EventArgs e)
+        {
+            var driveLevel = (uint)DriveControl.Value;
+            if (driveLevel < 0 || driveLevel > 100)
+            {
+                return;
+            }
+
+            await tranaceiverController.SetDrive(driveLevel);
+
+        }
+
+        private async void TuneControl_Scroll(object sender, EventArgs e)
+        {
+            var driveLevel = (uint)TuneControl.Value;
+            if (driveLevel < 0 || driveLevel > 100)
+            {
+                return;
+            }
+
+            await tranaceiverController.SetTuneDrive(driveLevel);
         }
     }
 }

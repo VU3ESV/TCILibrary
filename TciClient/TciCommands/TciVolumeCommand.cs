@@ -12,16 +12,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciVolumeCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnVolumeChanged += TransceiverControllerOnVolumeChanged;
-        }
-
-        private void TransceiverControllerOnVolumeChanged(object sender, IntValueChangedEventArgs e)
-        {
-            var volume = e.Value;
-            if (volume >= -60 && volume <= 0)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{volume};");
-            }
         }
 
         public static TciVolumeCommand Create(ITransceiverController transceiverController)
@@ -58,7 +48,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.SetVolume(volume);
+            _transceiverController.Volume = volume;
             return true;
         }
 
@@ -70,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnVolumeChanged -= TransceiverControllerOnVolumeChanged;
             GC.SuppressFinalize(this);
         }
 

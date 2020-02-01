@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using ExpertElectronics.Tci.Events;
 
 namespace ExpertElectronics.Tci.Interfaces
@@ -75,126 +76,126 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool TxFootSwitch(uint transceiverPeriodicNumber);
 
-        void StartTransceiver();
+        Task StartTransceiver();
 
-        void StopTransceiver();
+        Task StopTransceiver();
 
         void CreateTransceivers(uint transceiverCount);
 
-        void SetDdsFrequency(uint transceiverPeriodicNumber, double frequency);
+        Task SetDdsFrequency(uint transceiverPeriodicNumber, double frequency);
 
         double ReadDdsFrequency(uint transceiverPeriodicNumber);
 
-        void IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber, double frequency);
+        Task IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber, double frequency);
 
         double IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber);
 
-        void RitEnable(uint transceiverPeriodicNumber, bool state);
+        Task RitEnable(uint transceiverPeriodicNumber, bool state);
         bool RitEnable(uint transceiverPeriodicNumber);
 
-        void Modulation(uint transceiverPeriodicNumber, string mode);
+        Task Modulation(uint transceiverPeriodicNumber, string mode);
 
         string Modulation(uint transceiverPeriodicNumber);
 
-        void RxEnable(uint receiverPeriodicNumber, bool state);
+        Task RxEnable(uint receiverPeriodicNumber, bool state);
 
         bool RxEnable(uint receiverPeriodicNumber);
 
-        void XitEnable(uint transceiverPeriodicNumber, bool state);
+        Task XitEnable(uint transceiverPeriodicNumber, bool state);
 
         bool XitEnable(uint transceiverPeriodicNumber);
 
-        void SplitEnable(uint transceiverPeriodicNumber, bool state);
+        Task SplitEnable(uint transceiverPeriodicNumber, bool state);
 
         bool SplitEnable(uint transceiverPeriodicNumber);
 
-        void XitOffset(uint transceiverPeriodicNumber, int offsetFrequencyInHz);
+        Task XitOffset(uint transceiverPeriodicNumber, int offsetFrequencyInHz);
 
         int XitOffset(uint transceiverPeriodicNumber);
 
-        void ChannelEnable(uint transceiverPeriodicNumber, uint channel, bool state);
+        Task ChannelEnable(uint transceiverPeriodicNumber, uint channel, bool state);
 
         bool ChannelEnable(uint transceiverPeriodicNumber, uint channel);
 
-        void RxFilter(uint transceiverPeriodicNumber);
+        Task RxFilter(uint transceiverPeriodicNumber);
 
         int RxFilterLowLimit(uint transceiverPeriodicNumber);
 
         int RxFilterHighLimit(uint transceiverPeriodicNumber);
 
-        void ReadRxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
+        Task ReadRxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
         int RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
-        void SetCwMacroSpeed(uint value);
+        Task SetCwMacroSpeed(uint value);
 
-        void CwMacroSpeedUp(uint value);
+        Task CwMacroSpeedUp(uint value);
 
-        void CwMacroSpeedDown(uint value);
+        Task CwMacroSpeedDown(uint value);
 
-        void SetCwMacrosDelay(uint value);
+        Task SetCwMacrosDelay(uint value);
 
-        void Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic");
+        Task Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic");
 
         bool Trx(uint transceiverPeriodicNumber);
 
-        void Tune(uint transceiverPeriodicNumber, bool enable);
+        Task Tune(uint transceiverPeriodicNumber, bool enable);
 
         bool Tune(uint transceiverPeriodicNumber);
 
-        void SetDrive(uint level);
+        Task SetDrive(uint level);
 
-        void SetTuneDrive(uint level);
+        Task SetTuneDrive(uint level);
 
-        bool IqStart(uint transceiverPeriodicNumber);
+        Task IqStart(uint transceiverPeriodicNumber);
 
-        bool IqStop(uint transceiverPeriodicNumber);
+        Task IqStop(uint transceiverPeriodicNumber);
 
-        void SetIqSampleRate(uint sampleRateInHz);
+        Task SetIqSampleRate(uint sampleRateInHz);
 
-        void AudioStart(uint transceiverPeriodicNumber);
+        Task AudioStart(uint transceiverPeriodicNumber);
 
-        void AudioStop(uint transceiverPeriodicNumber);
+        Task AudioStop(uint transceiverPeriodicNumber);
 
-        void SetAudioSampleRate(uint sampleRateInHz);
+        Task SetAudioSampleRate(uint sampleRateInHz);
 
-        void Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText);
+        Task Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText);
 
-        void SpotDelete(string callSign);
+        Task SpotDelete(string callSign);
 
-        void SpotClear();
+        Task SpotClear();
 
-        void SetVolume(int volumeValueIndB);
+        Task SetVolume(int volumeValueIndB);
 
-        void SquelchEnable(uint transceiverPeriodicNumber, bool state);
+        Task SquelchEnable(uint transceiverPeriodicNumber, bool state);
 
         bool SquelchEnable(uint transceiverPeriodicNumber);
 
-        void SquelchLevel(uint transceiverPeriodicNumber, int thresholdIndB);
+        Task SquelchLevel(uint transceiverPeriodicNumber, int thresholdIndB);
 
         int SquelchLevel(uint transceiverPeriodicNumber);
 
-        void Vfo(uint transceiverPeriodicNumber, uint channelNumber, long tuningFrequencyInHz);
+        Task Vfo(uint transceiverPeriodicNumber, uint channelNumber, long tuningFrequencyInHz);
 
         long Vfo(uint transceiverPeriodicNumber, uint channelNumber);
 
-        void SetMute(bool state);
+        Task SetMute(bool state);
 
-        void RxMute(uint receiverPeriodicNumber, bool state);
+        Task RxMute(uint receiverPeriodicNumber, bool state);
 
         bool RxMute(uint receiverPeriodicNumber);
 
         bool IsStarted();
 
-        void SetMacros(uint transceiverPeriodicNumber, string text);
+        Task SetMacros(uint transceiverPeriodicNumber, string text);
 
-        void SetCwMacrosStop();
+        Task SetCwMacrosStop();
 
-        void RitOffset(uint transceiverPeriodicNumber, int value);
+        Task RitOffset(uint transceiverPeriodicNumber, int value);
 
-        void CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after);
+        Task CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after);
 
-        void AddCwMessageCallSign(string callSign);
+        Task AddCwMessageCallSign(string callSign);
         #endregion
         #region Events
 
