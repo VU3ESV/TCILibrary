@@ -234,10 +234,12 @@ namespace StationMonitor
             {
                 if (e.State == true)
                 {
+                    Tx.Text = "Tx";
                     Tx.BackColor = Color.Red;
                 }
                 else
                 {
+                    Tx.Text = "Rx";
                     Tx.BackColor = Color.Green;
                 }
             });

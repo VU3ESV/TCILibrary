@@ -44,19 +44,23 @@
             this.Drive = new System.Windows.Forms.Label();
             this.Tune = new System.Windows.Forms.Label();
             this.Modulation = new System.Windows.Forms.Label();
-            this.Tr1ModulationValue = new System.Windows.Forms.Label();
-            this.Tr2ModulationValue = new System.Windows.Forms.Label();
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.Volume = new System.Windows.Forms.Label();
             this.VolumeControl = new System.Windows.Forms.TrackBar();
             this.DriveControl = new System.Windows.Forms.TrackBar();
             this.TuneControl = new System.Windows.Forms.TrackBar();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.Tr1ModulationValue = new System.Windows.Forms.Label();
+            this.Tr2ModulationValue = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tciServerIP
@@ -182,15 +186,15 @@
             this.Tx.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Tx.Location = new System.Drawing.Point(709, 31);
             this.Tx.Name = "Tx";
-            this.Tx.Size = new System.Drawing.Size(38, 25);
+            this.Tx.Size = new System.Drawing.Size(73, 25);
             this.Tx.TabIndex = 10;
-            this.Tx.Text = "Tx";
+            this.Tx.Text = "Tx/Rx";
             // 
             // Drive
             // 
             this.Drive.AutoSize = true;
             this.Drive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Drive.Location = new System.Drawing.Point(55, 278);
+            this.Drive.Location = new System.Drawing.Point(1, 78);
             this.Drive.Name = "Drive";
             this.Drive.Size = new System.Drawing.Size(45, 16);
             this.Drive.TabIndex = 11;
@@ -201,7 +205,7 @@
             this.Tune.AutoSize = true;
             this.Tune.BackColor = System.Drawing.Color.Green;
             this.Tune.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tune.Location = new System.Drawing.Point(57, 317);
+            this.Tune.Location = new System.Drawing.Point(3, 117);
             this.Tune.Name = "Tune";
             this.Tune.Size = new System.Drawing.Size(43, 16);
             this.Tune.TabIndex = 13;
@@ -211,31 +215,11 @@
             // 
             this.Modulation.AutoSize = true;
             this.Modulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Modulation.Location = new System.Drawing.Point(849, 111);
+            this.Modulation.Location = new System.Drawing.Point(12, 37);
             this.Modulation.Name = "Modulation";
             this.Modulation.Size = new System.Drawing.Size(84, 16);
             this.Modulation.TabIndex = 15;
             this.Modulation.Text = "Modulation";
-            // 
-            // Tr1ModulationValue
-            // 
-            this.Tr1ModulationValue.AutoSize = true;
-            this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr1ModulationValue.Location = new System.Drawing.Point(939, 87);
-            this.Tr1ModulationValue.Name = "Tr1ModulationValue";
-            this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr1ModulationValue.TabIndex = 16;
-            this.Tr1ModulationValue.Text = "ModulationValue";
-            // 
-            // Tr2ModulationValue
-            // 
-            this.Tr2ModulationValue.AutoSize = true;
-            this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr2ModulationValue.Location = new System.Drawing.Point(939, 128);
-            this.Tr2ModulationValue.Name = "Tr2ModulationValue";
-            this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr2ModulationValue.TabIndex = 17;
-            this.Tr2ModulationValue.Text = "ModulationValue";
             // 
             // StartButton
             // 
@@ -261,7 +245,7 @@
             // 
             this.Volume.AutoSize = true;
             this.Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Volume.Location = new System.Drawing.Point(54, 226);
+            this.Volume.Location = new System.Drawing.Point(0, 26);
             this.Volume.Name = "Volume";
             this.Volume.Size = new System.Drawing.Size(69, 20);
             this.Volume.TabIndex = 20;
@@ -295,22 +279,60 @@
             this.TuneControl.TabIndex = 23;
             this.TuneControl.Scroll += new System.EventHandler(this.TuneControl_Scroll);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.Volume);
+            this.groupBox3.Controls.Add(this.Tune);
+            this.groupBox3.Controls.Add(this.Drive);
+            this.groupBox3.Location = new System.Drawing.Point(54, 200);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(298, 160);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            // 
+            // Tr1ModulationValue
+            // 
+            this.Tr1ModulationValue.AutoSize = true;
+            this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tr1ModulationValue.Location = new System.Drawing.Point(120, 18);
+            this.Tr1ModulationValue.Name = "Tr1ModulationValue";
+            this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
+            this.Tr1ModulationValue.TabIndex = 16;
+            this.Tr1ModulationValue.Text = "ModulationValue";
+            // 
+            // Tr2ModulationValue
+            // 
+            this.Tr2ModulationValue.AutoSize = true;
+            this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tr2ModulationValue.Location = new System.Drawing.Point(120, 57);
+            this.Tr2ModulationValue.Name = "Tr2ModulationValue";
+            this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
+            this.Tr2ModulationValue.TabIndex = 17;
+            this.Tr2ModulationValue.Text = "ModulationValue";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.Tr2ModulationValue);
+            this.groupBox4.Controls.Add(this.Tr1ModulationValue);
+            this.groupBox4.Controls.Add(this.Modulation);
+            this.groupBox4.Location = new System.Drawing.Point(659, 69);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(254, 109);
+            this.groupBox4.TabIndex = 25;
+            this.groupBox4.TabStop = false;
+            // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1091, 614);
+            this.ClientSize = new System.Drawing.Size(1091, 456);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.TuneControl);
             this.Controls.Add(this.DriveControl);
             this.Controls.Add(this.VolumeControl);
-            this.Controls.Add(this.Volume);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.Tr2ModulationValue);
-            this.Controls.Add(this.Tr1ModulationValue);
-            this.Controls.Add(this.Modulation);
-            this.Controls.Add(this.Tune);
-            this.Controls.Add(this.Drive);
             this.Controls.Add(this.Tx);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -329,6 +351,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,14 +378,16 @@
         private System.Windows.Forms.Label Drive;
         private System.Windows.Forms.Label Tune;
         private System.Windows.Forms.Label Modulation;
-        private System.Windows.Forms.Label Tr1ModulationValue;
-        private System.Windows.Forms.Label Tr2ModulationValue;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Label Volume;
         private System.Windows.Forms.TrackBar VolumeControl;
         private System.Windows.Forms.TrackBar DriveControl;
         private System.Windows.Forms.TrackBar TuneControl;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label Tr1ModulationValue;
+        private System.Windows.Forms.Label Tr2ModulationValue;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }
 
