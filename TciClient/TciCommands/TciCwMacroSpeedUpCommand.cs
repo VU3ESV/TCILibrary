@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -18,39 +17,47 @@ namespace ExpertElectronics.Tci.TciCommands
         private TciCwMacroSpeedUpCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnCwMacroSpeedUp += TransceiverControllerOnOnCwMacroSpeedUp;
-        }
-
-        private async void TransceiverControllerOnOnCwMacroSpeedUp(object sender, UintValueChangedEventArgs e)
-        {
-            var increment = e.Value;
-            await _transceiverController.TciClient.SendMessageAsync($"{Name}:{increment};");
         }
 
         public static string Name => "cw_macros_speed_up";
 
         public bool ProcessCommandResponses(IEnumerable<string> messages)
         {
-            if (!messages.Any(_ => _.Contains(Name)))
+            var enumerable = messages as string[] ?? messages.ToArray();
+            if (!enumerable.Any(_ => _.Contains(Name)))
             {
                 return false;
             }
 
-            // ToDo:
-            // _transceiverController.CwMacroSpeedUp();
+            var cwMacroSpeedUpMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+            if (string.IsNullOrEmpty(cwMacroSpeedUpMessage))
+            {
+                return false;
+            }
+
+            var cwMacroSpeedUpMessageElements = cwMacroSpeedUpMessage.Split(':', ',', ';');
+            if (cwMacroSpeedUpMessageElements.Length != CommandParameterCount)
+            {
+                return false;
+            }
+
+            var cwMacroSpeed = Convert.ToUInt32(cwMacroSpeedUpMessageElements[CwMacroSpeedIndex]);
+            _transceiverController.CwMacrosSpeedUp = cwMacroSpeed;
             return true;
         }
 
         public void Dispose()
         {
-            if (_transceiverController != null)
+            if (_transceiverController == null)
             {
-                _transceiverController.OnCwMacroSpeedUp -= TransceiverControllerOnOnCwMacroSpeedUp;
+                return;
             }
 
             GC.SuppressFinalize(this);
         }
 
         private readonly ITransceiverController _transceiverController;
+        private const int CwMacroSpeedIndex = 1;
+        private const int CommandParameterCount = 3;
     }
 }

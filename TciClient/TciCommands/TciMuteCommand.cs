@@ -11,13 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciMuteCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnMute += TransceiverController_OnMute;
-        }
-
-        private void TransceiverController_OnMute(object sender, Events.TrxEventArgs e)
-        {
-            var mute = e.State ? "true" : "false";
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{mute};");
         }
 
         public static TciMuteCommand Create(ITransceiverController transceiverController)
@@ -49,7 +42,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var mute = Convert.ToBoolean(muteMessageElements[MuteIndex]);
-            _transceiverController.SetMute(mute);
+            _transceiverController.Mute = mute;
             return true;
         }
 
@@ -60,7 +53,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnMute -= TransceiverController_OnMute;
             GC.SuppressFinalize(this);
         }
 

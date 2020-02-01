@@ -11,16 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         private TciRxFilterBandsCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnRxFilterChanged += TransceiverController_OnRxFilterChanged;
-        }
-
-        private void TransceiverController_OnRxFilterChanged(object sender, Events.RxFilterChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = Convert.ToUInt32(e.TransceiverPeriodicNumber);
-            var low = e.Low;
-            var high = e.High;
-            _transceiverController.RxFilter(transceiverPeriodicNumber, low, high);
-        }
+        }       
 
         public static TciRxFilterBandsCommand Create(ITransceiverController transceiverController)
         {
@@ -53,7 +44,12 @@ namespace ExpertElectronics.Tci.TciCommands
             var receiverPeriodicNumber = Convert.ToUInt32(rxFilterMessageElements[ReceiverIndex]);
             var maxLimit = Convert.ToInt32(rxFilterMessageElements[MaxIndex]);
             var minLimit = Convert.ToInt32(rxFilterMessageElements[MinIndex]);
-            _transceiverController.RxFilter(receiverPeriodicNumber, minLimit, maxLimit);
+            var transceiver = _transceiverController.GeTransceiver(receiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.RxFilterHighLimit = maxLimit;
+                transceiver.RxFilterLowLimit = minLimit;
+            }
             return true;
         }
 
@@ -64,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnRxFilterChanged -= TransceiverController_OnRxFilterChanged;
             GC.SuppressFinalize(this);
         }
 

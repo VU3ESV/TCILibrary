@@ -11,19 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRitEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnRitEnableChanged += TransceiverController_OnRitEnableChanged;
-        }
-
-        private void TransceiverController_OnRitEnableChanged(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var ritEnableState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{ritEnableState};");
-            }
-        }
+        }       
 
         public static TciRitEnableCommand Create(ITransceiverController transceiverController)
         {
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(ritEnableMessageElements[TransceiverIndex]);
             var ritEnable = Convert.ToBoolean(ritEnableMessageElements[RitEnableIndex]);
-            _transceiverController.RitEnable(transceiverPeriodicNumber, ritEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Rit = ritEnable;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnRitEnableChanged -= TransceiverController_OnRitEnableChanged;
             GC.SuppressFinalize(this);
         }
 

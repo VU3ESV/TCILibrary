@@ -11,20 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciXitEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnXitEnableChanged += TransceiverController_OnXitEnableChanged;
-        }
-
-        private void TransceiverController_OnXitEnableChanged(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var xitEnableState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{xitEnableState};");
-            }
-        }
-
+        }       
         public static TciXitEnableCommand Create(ITransceiverController transceiverController)
         {
             Debug.Assert(transceiverController != null);
@@ -55,7 +42,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(xitEnableMessageElements[TransceiverIndex]);
             var xitEnable = Convert.ToBoolean(xitEnableMessageElements[XitEnableIndex]);
-            _transceiverController.XitEnable(transceiverPeriodicNumber, xitEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Xit = xitEnable;
+            }
             return true;
         }
 
@@ -66,7 +57,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnXitEnableChanged -= TransceiverController_OnXitEnableChanged;
             GC.SuppressFinalize(this);
         }
 

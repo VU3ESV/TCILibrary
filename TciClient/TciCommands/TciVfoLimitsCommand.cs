@@ -41,13 +41,11 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            (_transceiverController as TransceiverController)?.VfoLimits(
-                Convert.ToInt64(vfoLimitsMessageElements[MinIndex]),
-                Convert.ToInt64(vfoLimitsMessageElements[MaxIndex]));
-
+            _transceiverController.VfoMax = Convert.ToInt64(vfoLimitsMessageElements[MaxIndex]);
+            _transceiverController.VfoMin = Convert.ToInt64(vfoLimitsMessageElements[MinIndex]);
+            
             return true;
         }
-
 
         public void Dispose()
         {

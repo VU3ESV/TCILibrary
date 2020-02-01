@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -12,20 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciDriveCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnDrive += TransceiverControllerOnDriveChanged;
-        }
-
-        private void TransceiverControllerOnDriveChanged(object sender, UintValueChangedEventArgs e)
-        {
-            var drive = e.Value;
-
-            if(drive == _transceiverController.Drive)
-            {
-                return;
-            }
-
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{drive};");
-        }
+        }      
 
         public static TciDriveCommand Create(ITransceiverController transceiverController)
         {
@@ -56,7 +42,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var drive = Convert.ToUInt32(driveMessageElements[DriveIndex]);
-            _transceiverController.SetDrive(drive);
+            _transceiverController.Drive = drive;
             return true;
         }
 
@@ -68,7 +54,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnDrive -= TransceiverControllerOnDriveChanged;
             GC.SuppressFinalize(this);
         }
 

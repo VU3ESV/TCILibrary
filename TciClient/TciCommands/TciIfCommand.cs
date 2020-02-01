@@ -12,7 +12,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciIfCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnIfFreqChanged += TransceiverController_OnIfFreqChanged;
         }
 
         public static TciIfCommand Create(ITransceiverController transceiverController)
@@ -46,25 +45,13 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(ifMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(ifMessageElements[ChannelIndex]);
             var ifFrequency = Convert.ToInt64(ifMessageElements[IfFrequencyIndex]);
-            _transceiverController.IfFilter(transceiverPeriodicNumber, channelNumber, ifFrequency);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
+            if (channel != null)
+            {
+                channel.IfFilter = ifFrequency;
+            }
             return true;
-        }
-
-        private void TransceiverController_OnIfFreqChanged(object sender, Events.IfFrequencyChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var channel = e.Channel;
-            var ifFrequency = e.Value;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-
-            if (channel < _transceiverController.ChannelsCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{channel},{ifFrequency};");
-            }
         }
 
         public void Dispose()
@@ -74,7 +61,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnIfFreqChanged -= TransceiverController_OnIfFreqChanged;
             GC.SuppressFinalize(this);
         }
 

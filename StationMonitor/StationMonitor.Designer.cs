@@ -48,6 +48,8 @@
             this.Modulation = new System.Windows.Forms.Label();
             this.Tr1ModulationValue = new System.Windows.Forms.Label();
             this.Tr2ModulationValue = new System.Windows.Forms.Label();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -224,7 +226,7 @@
             // 
             this.Modulation.AutoSize = true;
             this.Modulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Modulation.Location = new System.Drawing.Point(854, 87);
+            this.Modulation.Location = new System.Drawing.Point(849, 111);
             this.Modulation.Name = "Modulation";
             this.Modulation.Size = new System.Drawing.Size(84, 16);
             this.Modulation.TabIndex = 15;
@@ -234,7 +236,7 @@
             // 
             this.Tr1ModulationValue.AutoSize = true;
             this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr1ModulationValue.Location = new System.Drawing.Point(944, 63);
+            this.Tr1ModulationValue.Location = new System.Drawing.Point(939, 87);
             this.Tr1ModulationValue.Name = "Tr1ModulationValue";
             this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
             this.Tr1ModulationValue.TabIndex = 16;
@@ -244,17 +246,39 @@
             // 
             this.Tr2ModulationValue.AutoSize = true;
             this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr2ModulationValue.Location = new System.Drawing.Point(944, 104);
+            this.Tr2ModulationValue.Location = new System.Drawing.Point(939, 128);
             this.Tr2ModulationValue.Name = "Tr2ModulationValue";
             this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
             this.Tr2ModulationValue.TabIndex = 17;
             this.Tr2ModulationValue.Text = "ModulationValue";
+            // 
+            // StartButton
+            // 
+            this.StartButton.Location = new System.Drawing.Point(798, 26);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(75, 37);
+            this.StartButton.TabIndex = 18;
+            this.StartButton.Text = "Start";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(900, 26);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 37);
+            this.StopButton.TabIndex = 19;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1091, 614);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.StartButton);
             this.Controls.Add(this.Tr2ModulationValue);
             this.Controls.Add(this.Tr1ModulationValue);
             this.Controls.Add(this.Modulation);
@@ -304,6 +328,8 @@
         private System.Windows.Forms.Label Modulation;
         private System.Windows.Forms.Label Tr1ModulationValue;
         private System.Windows.Forms.Label Tr2ModulationValue;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Button StopButton;
     }
 }
 

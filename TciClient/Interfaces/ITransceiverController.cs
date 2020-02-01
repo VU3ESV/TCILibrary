@@ -11,22 +11,25 @@ namespace ExpertElectronics.Tci.Interfaces
 
         ITciClient TciClient { get; }
 
+        bool Start { get; set; }
+
+        bool Stop { get; set; }
+
         string SoftwareName { get; set; }
 
         string SoftwareVersion { get; set; }
 
-        long VfoMin { get; }
+        long VfoMin { get; set; }
 
-        long VfoMax { get; }
+        long VfoMax { get; set; }
 
+        long IfMin { get; set; }
 
-        long IfMin { get; }
+        long IfMax { get; set; }
 
-        long IfMax { get; }
+        uint TrxCount { get; set; }
 
-        uint TrxCount { get; }
-
-        uint ChannelsCount { get; }
+        uint ChannelsCount { get; set; }
 
         string Device { get; set; }
 
@@ -36,29 +39,31 @@ namespace ExpertElectronics.Tci.Interfaces
 
         float TxSwr { get; set; }
 
-        uint CwMacroSpeed { get; }
+        uint CwMacroSpeed { get; set; }
 
-        uint CwMacrosDelay { get; }
+        uint CwMacrosDelay { get; set; }
 
-        uint Drive { get; }
+        uint Drive { get; set; }
 
-        uint TuneDrive { get; }
+        uint TuneDrive { get; set; }
 
-        int Volume { get; }
+        int Volume { get; set; }
 
-        uint IqSampleRate { get; }
+        uint IqSampleRate { get; set; }
 
-        uint AudioSampleRate { get; }
+        uint AudioSampleRate { get; set; }
 
         bool Ready { get; set; }
 
-        bool Mute { get; }
+        bool Mute { get; set; }
 
-        IEnumerable<string> ModulationsList { get; }
+        IEnumerable<string> ModulationsList { get; set; }
 
         IEnumerable<ITransceiver> Transceivers { get; }
 
         TransceiverConnectionState ConnectionState { get; }
+        uint CwMacrosSpeedDown { get; set; }
+        uint CwMacrosSpeedUp { get; set; }
 
         #endregion
 
@@ -66,13 +71,13 @@ namespace ExpertElectronics.Tci.Interfaces
 
         ITransceiver GeTransceiver(uint transceiverPeriodicNumber);
 
-        bool TxEnable(uint transceiverPeriodicNumber, bool state);
+        bool TxEnable(uint transceiverPeriodicNumber);
 
-        void TxFootSwitch(uint transceiverPeriodicNumber, bool footSwitchState);
+        bool TxFootSwitch(uint transceiverPeriodicNumber);
 
-        void Start();
+        void StartTransceiver();
 
-        void Stop();
+        void StopTransceiver();
 
         void CreateTransceivers(uint transceiverCount);
 
@@ -111,13 +116,13 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool ChannelEnable(uint transceiverPeriodicNumber, uint channel);
 
-        void RxFilter(uint transceiverPeriodicNumber, int bottomFrequencyLimitInHz, int topFrequencyLimitInHz);
+        void RxFilter(uint transceiverPeriodicNumber);
 
         int RxFilterLowLimit(uint transceiverPeriodicNumber);
 
         int RxFilterHighLimit(uint transceiverPeriodicNumber);
 
-        void RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber, int signalLevel);
+        void ReadRxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
         int RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
@@ -139,7 +144,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         void SetDrive(uint level);
 
-        void SetTuneDrive(uint powerOutput);
+        void SetTuneDrive(uint level);
 
         bool IqStart(uint transceiverPeriodicNumber);
 
@@ -197,61 +202,21 @@ namespace ExpertElectronics.Tci.Interfaces
 
         event EventHandler<EventArgs> OnStopped;
 
-        event EventHandler<TrxDoubleValueChangedEventArgs> OnDdsFreqChanged;
-
-        event EventHandler<IfFrequencyChangedEventArgs> OnIfFreqChanged;
-
-        event EventHandler<TrxEventArgs> OnTrx;
-
-        event EventHandler<TrxEventArgs> OnMute;
-
-        event EventHandler<TrxEventArgs> OnRxMute;
+        event EventHandler<StateChangeEventArgs> OnMute;
 
         event EventHandler<VfoLimitsChangedEventArgs> OnVfoLimitsChanged;
 
         event EventHandler<IfLimitsChangedEventArgs> OnIfLimitsChanged;
 
-        event EventHandler<ChannelSMeterChangeEventArgs> OnChannelSMeterChanged;
-
-        event EventHandler<TrxStringValueChangedEventArgs> OnModulationChanged;
-
         event EventHandler<UintValueChangedEventArgs> OnIqOutSampleRateChanged;
-
-        event EventHandler<UintValueChangedEventArgs> OnIqStartChanged;
-
-        event EventHandler<UintValueChangedEventArgs> OnIqStopChanged;
-
-        event EventHandler<UintValueChangedEventArgs> OnAudioStartChanged;
-
-        event EventHandler<UintValueChangedEventArgs> OnAudioStopChanged;
 
         event EventHandler<IntValueChangedEventArgs> OnVolumeChanged;
 
         event EventHandler<UintValueChangedEventArgs> OnAudioSampleRateChanged;
 
-        event EventHandler<TrxIntValueChangedEventArgs> OnSqlLevelChanged;
-
-        event EventHandler<TrxEventArgs> OnRxEnableChanged;
-
-        event EventHandler<TrxEventArgs> OnSqlEnableChanged;
-
-        event EventHandler<TrxEventArgs> OnTune;
-
-        event EventHandler<SpotEventArgs> OnSpot;
-
-        event EventHandler<StringValueChangedEventArgs> OnSpotDelete;
-
-        event EventHandler<TrxEventArgs> OnSpotClear;
-
         event EventHandler<UintValueChangedEventArgs> OnDrive;
 
         event EventHandler<UintValueChangedEventArgs> OnTuneDrive;
-
-        event EventHandler<TrxEventArgs> OnTxEnableChanged;
-
-        event EventHandler<TrxStringValueChangedEventArgs> OnCwMacros;
-
-        event EventHandler<EventArgs> OnCwMacrosStop;
 
         event EventHandler<UintValueChangedEventArgs> OnCwSpeedChanged;
 
@@ -260,24 +225,6 @@ namespace ExpertElectronics.Tci.Interfaces
         event EventHandler<UintValueChangedEventArgs> OnCwMacroSpeedDown;
 
         event EventHandler<UintValueChangedEventArgs> OnCwMacrosDelayChanged;
-
-        event EventHandler<TrxEventArgs> OnRitEnableChanged;
-
-        event EventHandler<TrxEventArgs> OnXitEnableChanged;
-
-        event EventHandler<TrxEventArgs> OnSplitEnableChanged;
-
-        event EventHandler<TrxIntValueChangedEventArgs> OnRitOffsetChanged;
-
-        event EventHandler<TrxIntValueChangedEventArgs> OnXitOffsetChanged;
-
-        event EventHandler<ChannelEnableChangeEventArgs> OnChannelEnableChanged;
-
-        event EventHandler<RxFilterChangedEventArgs> OnRxFilterChanged;
-
-        event EventHandler<StringValueChangedEventArgs> OnCwMessageCallSign;
-
-        event EventHandler<VfoChangeEventArgs> OnVfoChange;
 
         #endregion
     }

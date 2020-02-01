@@ -44,7 +44,11 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(txFootSwitchMessageElements[TransceiverIndex]);
             var footSwitchStatus = Convert.ToBoolean(txFootSwitchMessageElements[FootSwitchIndex]);
 
-            _transceiverController.TxFootSwitch(transceiverPeriodicNumber, footSwitchStatus);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.TxFootSwitch = footSwitchStatus;
+            }
             return true;
         }
 

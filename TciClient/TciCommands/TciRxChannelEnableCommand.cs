@@ -11,24 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRxChannelEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnChannelEnableChanged += TransceiverController_OnRxChannelEnableChanged;
-        }
-
-        private void TransceiverController_OnRxChannelEnableChanged(object sender, Events.ChannelEnableChangeEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var channel = e.Channel;
-            var rxChannelEnable = e.State;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-
-            if (channel < _transceiverController.ChannelsCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{channel},{rxChannelEnable};");
-            }
         }
 
         public static TciRxChannelEnableCommand Create(ITransceiverController transceiverController)
@@ -62,7 +44,12 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(rxEnableMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(rxEnableMessageElements[ChannelIndex]);
             var rxChannelEnable = Convert.ToBoolean(rxEnableMessageElements[RxChannelEnableIndex]);
-            _transceiverController.ChannelEnable(transceiverPeriodicNumber, channelNumber, rxChannelEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
+            if (channel != null)
+            {
+                channel.Enable = rxChannelEnable;
+            }
             return true;
         }
 
@@ -73,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnChannelEnableChanged -= TransceiverController_OnRxChannelEnableChanged;
             GC.SuppressFinalize(this);
         }
 

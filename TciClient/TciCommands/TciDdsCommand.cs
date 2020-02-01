@@ -11,7 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciDdsCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnDdsFreqChanged += TransceiverController_OnDdsFreqChanged;
         }
 
         public static TciDdsCommand Create(ITransceiverController transceiverController)
@@ -44,20 +43,13 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(ddsMessageElements[TransceiverIndex]);
             var ddsFrequency = Convert.ToInt64(ddsMessageElements[DdsFrequencyIndex]);
-            _transceiverController.SetDdsFrequency(transceiverPeriodicNumber, ddsFrequency);
-            return true;
-        }
-
-        private void TransceiverController_OnDdsFreqChanged(object sender, Events.TrxDoubleValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var ddsFrequency = e.Value;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
             {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{ddsFrequency};");
+                transceiver.DdsFrequency = ddsFrequency;
             }
-        }
+            return true;
+        }        
 
         public void Dispose()
         {
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnDdsFreqChanged -= TransceiverController_OnDdsFreqChanged;
             GC.SuppressFinalize(this);
         }
 

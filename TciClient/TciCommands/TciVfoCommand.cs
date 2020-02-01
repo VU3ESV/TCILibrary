@@ -11,26 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciVfoCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnVfoChange += TransceiverController_OnVfoChanged;
         }
-
-        private void TransceiverController_OnVfoChanged(object sender, Events.VfoChangeEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var channel = e.Channel;
-            var vfo = e.Vfo;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-
-            if (channel < _transceiverController.ChannelsCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{channel},{vfo};");
-            }
-        }
-
 
         public static TciVfoCommand Create(ITransceiverController transceiverController)
         {
@@ -43,14 +24,14 @@ namespace ExpertElectronics.Tci.TciCommands
 
         public bool ProcessCommandResponses(IEnumerable<string> messages)
         {
-            
+
             var enumerable = messages as string[] ?? messages.ToArray();
             if (!enumerable.Any(_ => _.Contains(Name)))
             {
                 return false;
             }
 
-            var vfoMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));           
+            var vfoMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
             if (string.IsNullOrEmpty(vfoMessage))
             {
                 return false;
@@ -64,8 +45,13 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(vfoMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(vfoMessageElements[ChannelIndex]);
-            var vfo = Convert.ToInt32(vfoMessageElements[VfoIndex]);            
-            _transceiverController.Vfo(transceiverPeriodicNumber, channelNumber, vfo);
+            var vfo = Convert.ToInt32(vfoMessageElements[VfoIndex]);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
+            if (channel != null)
+            {
+                channel.Vfo = vfo;
+            }
             return true;
         }
 
@@ -76,7 +62,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnVfoChange -= TransceiverController_OnVfoChanged;
             GC.SuppressFinalize(this);
         }
 

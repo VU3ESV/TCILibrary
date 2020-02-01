@@ -43,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(txEnableMessageElements[TransceiverIndex]);
             var txEnable = Convert.ToBoolean(txEnableMessageElements[TxEnableIndex]);
-            _transceiverController.TxEnable(transceiverPeriodicNumber, txEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.TxEnable = txEnable;
+            }
             return true;
         }
 

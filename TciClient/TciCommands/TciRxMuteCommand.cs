@@ -11,18 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRxMuteCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnRxMute += TransceiverController_OnRxMute;
-        }
-
-        private void TransceiverController_OnRxMute(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var rxMute = e.State ? "true" : "false";
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{rxMute};");
-            }
         }
 
         public static TciRxMuteCommand Create(ITransceiverController transceiverController)
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(rxMuteMessageElements[TransceiverIndex]);
             var rxMute = Convert.ToBoolean(rxMuteMessageElements[RxMuteIndex]);
-            _transceiverController.RxMute(transceiverPeriodicNumber, rxMute);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.RxMute = rxMute;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnRxMute -= TransceiverController_OnRxMute;
             GC.SuppressFinalize(this);
         }
 

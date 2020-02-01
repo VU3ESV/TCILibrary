@@ -11,7 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciXitOffsetCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnRitOffsetChanged += TransceiverController_OnXitOffsetChanged;
         }
 
         public static TciXitOffsetCommand Create(ITransceiverController transceiverController)
@@ -44,20 +43,15 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(xitOffsetMessageElements[TransceiverIndex]);
             var xitOffset = Convert.ToInt32(xitOffsetMessageElements[RitOffsetIndex]);
-            _transceiverController.XitOffset(transceiverPeriodicNumber, xitOffset);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.XitOffset = xitOffset;
+            }
             return true;
         }
 
-        private void TransceiverController_OnXitOffsetChanged(object sender, Events.TrxIntValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var xitOffset = e.Value;
 
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{xitOffset};");
-            }
-        }
 
         public void Dispose()
         {
@@ -66,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnRitOffsetChanged -= TransceiverController_OnXitOffsetChanged;
             GC.SuppressFinalize(this);
         }
 

@@ -10,12 +10,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciSpotClearCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnSpotClear += TransceiverController_OnSpotClear;
-        }
-
-        private void TransceiverController_OnSpotClear(object sender, Events.TrxEventArgs e)
-        {
-            _transceiverController.TciClient.SendMessageAsync($"{Name};");
         }
 
         public static TciSpotClearCommand Create(ITransceiverController transceiverController)
@@ -28,7 +22,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
         public bool ProcessCommandResponses(IEnumerable<string> messages)
         {
-            //ToDo
+            //WriteOnlyCommand
             return true;
         }
 
@@ -39,7 +33,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnSpotClear -= TransceiverController_OnSpotClear;
             GC.SuppressFinalize(this);
         }
 

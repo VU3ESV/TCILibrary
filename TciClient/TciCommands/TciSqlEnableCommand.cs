@@ -11,18 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciSqlEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnSqlEnableChanged += TransceiverController_OnsqlEnableChanged;
-        }
-
-        private void TransceiverController_OnsqlEnableChanged(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var sqlEnableState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{sqlEnableState};");
-            }
         }
 
         public static TciSqlEnableCommand Create(ITransceiverController transceiverController)
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(sqlEnableMessageElements[TransceiverIndex]);
             var sqlEnable = Convert.ToBoolean(sqlEnableMessageElements[SqlEnableIndex]);
-            _transceiverController.SquelchEnable(transceiverPeriodicNumber, sqlEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Squelch = sqlEnable;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnSqlEnableChanged -= TransceiverController_OnsqlEnableChanged;
             GC.SuppressFinalize(this);
         }
 

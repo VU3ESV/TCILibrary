@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ExpertElectronics.Tci.Events;
+using System;
+using System.Collections.Generic;
 
 namespace ExpertElectronics.Tci.Interfaces
 {
     public interface ITransceiver
     {
-        uint PeriodicNumber { get; set; }
+        uint PeriodicNumber { get; }
 
         bool TxEnable { get; set; }
 
@@ -24,15 +26,15 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool Xit { get; set; }
 
-        bool Split { get; set; }
-
         int XitOffset { get; set; }
+
+        bool Split { get; set; }
 
         int RxFilterLowLimit { get; set; }
 
         int RxFilterHighLimit { get; set; }
 
-        bool TrxEnable { get; set; }
+        bool Trx { get; set; }
 
         bool Tune { get; set; }
 
@@ -47,5 +49,42 @@ namespace ExpertElectronics.Tci.Interfaces
         bool RxMute { get; set; }
 
         void AddChannel(uint channelNumbers);
+
+        event EventHandler<TrxEventArgs> OnTxEnableChanged;
+
+        event EventHandler<TrxEventArgs> OnTxFootSwitch;
+
+        event EventHandler<TrxDoubleValueChangedEventArgs> OnDdsFreqChanged;
+
+        event EventHandler<TrxEventArgs> OnRitEnableChanged;
+
+        event EventHandler<TrxIntValueChangedEventArgs> OnRitOffsetChanged;
+
+        event EventHandler<TrxStringValueChangedEventArgs> OnModulationChanged;
+
+        event EventHandler<TrxEventArgs> OnRxEnableChanged;
+
+        event EventHandler<TrxEventArgs> OnXitEnableChanged;
+
+        event EventHandler<TrxIntValueChangedEventArgs> OnXitOffsetChanged;
+
+        event EventHandler<TrxEventArgs> OnSplitEnableChanged;
+
+        event EventHandler<RxFilterChangedEventArgs> OnRxFilterChanged;
+
+        event EventHandler<TrxEventArgs> OnTrx;
+
+        event EventHandler<TrxEventArgs> OnTune;
+
+        event EventHandler<TrxEventArgs> OnIqEnableChanged;
+
+        event EventHandler<TrxEventArgs> OnAudioEnableChanged;
+
+        event EventHandler<TrxEventArgs> OnSquelchChanged;
+
+        event EventHandler<TrxIntValueChangedEventArgs> OnSquelchThresholdChanged;
+
+        event EventHandler<TrxEventArgs> OnRxMute;
+
     }
 }

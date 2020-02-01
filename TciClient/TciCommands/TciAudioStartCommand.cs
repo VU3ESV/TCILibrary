@@ -11,18 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciAudioStartCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnAudioStartChanged += TransceiverController_OnAudioStart;
-        }
-
-        private void TransceiverController_OnAudioStart(object sender, Events.UintValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.Value;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber};");
-            }
-        }
+        }       
 
         public static TciAudioStartCommand Create(ITransceiverController transceiverController)
         {
@@ -53,7 +42,11 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var transceiverPeriodicNumber = Convert.ToUInt32(audioStartMessageElements[TransceiverIndex]);
-            _transceiverController.AudioStart(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.AudioEnable = true;
+            }
             return true;
         }
 
@@ -64,7 +57,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnAudioStartChanged -= TransceiverController_OnAudioStart;
             GC.SuppressFinalize(this);
         }
 

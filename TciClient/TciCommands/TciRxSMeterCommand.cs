@@ -10,27 +10,8 @@ namespace ExpertElectronics.Tci.TciCommands
     {
         public TciRxSMeterCommand(ITransceiverController transceiverController)
         {
-            _transceiverController = transceiverController;
-            _transceiverController.OnChannelSMeterChanged += TransceiverController_OnChannelSMeterChanged;
-        }
-
-        private void TransceiverController_OnChannelSMeterChanged(object sender, Events.ChannelSMeterChangeEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var channel = e.Channel;
-            var rxSMeter = e.SMeter;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-
-            if (channel < _transceiverController.ChannelsCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{channel},{rxSMeter};");
-            }
-        }
-
+            _transceiverController = transceiverController;           
+        }       
 
         public static TciRxSMeterCommand Create(ITransceiverController transceiverController)
         {
@@ -38,7 +19,6 @@ namespace ExpertElectronics.Tci.TciCommands
             return new TciRxSMeterCommand(transceiverController);
         }
 
-        // ToDo: Need to check the name
         public static string Name => "rx_smeter";
 
         public bool ProcessCommandResponses(IEnumerable<string> messages)
@@ -64,7 +44,12 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(rxSMeterMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(rxSMeterMessageElements[ChannelIndex]);
             var rxSMeter = Convert.ToInt32(rxSMeterMessageElements[RxChannelEnableIndex]);
-            _transceiverController.RxSMeter(transceiverPeriodicNumber, channelNumber, rxSMeter);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
+            if (channel != null)
+            {
+                channel.RxSMeter = rxSMeter;
+            }
             return true;
         }
 
@@ -75,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnChannelSMeterChanged -= TransceiverController_OnChannelSMeterChanged;
             GC.SuppressFinalize(this);
         }
 

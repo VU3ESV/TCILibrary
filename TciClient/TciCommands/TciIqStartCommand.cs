@@ -11,19 +11,8 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciIqStartCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnIqStartChanged += TransceiverController_OnIqStart;
         }
-
-        private void TransceiverController_OnIqStart(object sender, Events.UintValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.Value;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber};");
-            }
-        }
-
+               
         public static TciIqStartCommand Create(ITransceiverController transceiverController)
         {
             Debug.Assert(transceiverController != null);
@@ -53,8 +42,13 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var transceiverPeriodicNumber = Convert.ToUInt32(iqStartMessageElements[TransceiverIndex]);
-            _transceiverController.IqStart(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.IqEnable = true;
+            }
             return true;
+
         }
 
         public void Dispose()
@@ -64,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnIqStartChanged -= TransceiverController_OnIqStart;
             GC.SuppressFinalize(this);
         }
 

@@ -11,18 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciSplitEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnSplitEnableChanged += TransceiverController_OnSplitEnableChanged;
-        }
-
-        private void TransceiverController_OnSplitEnableChanged(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var splitEnableState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{splitEnableState};");
-            }
         }
 
         public static TciSplitEnableCommand Create(ITransceiverController transceiverController)
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(splitEnableMessageElements[TransceiverIndex]);
             var splitEnable = Convert.ToBoolean(splitEnableMessageElements[SplitEnableIndex]);
-            _transceiverController.SplitEnable(transceiverPeriodicNumber, splitEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Split = splitEnable;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnSplitEnableChanged -= TransceiverController_OnSplitEnableChanged;
             GC.SuppressFinalize(this);
         }
 

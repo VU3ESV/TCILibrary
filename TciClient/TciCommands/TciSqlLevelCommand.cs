@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -12,17 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciSqlLevelCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnSqlLevelChanged += TransceiverControllerOnSqlLevelChanged;
-        }
-
-        private void TransceiverControllerOnSqlLevelChanged(object sender, TrxIntValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var sqlLevel = e.Value;
-            if (sqlLevel >= -140 && sqlLevel <= 0)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{sqlLevel};");
-            }
         }
 
         public static TciSqlLevelCommand Create(ITransceiverController transceiverController)
@@ -60,7 +48,11 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.SquelchLevel(transceiverPeriodicNumber, sqlLevel);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.SquelchThreshold = sqlLevel;
+            }
             return true;
         }
 
@@ -72,7 +64,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnSqlLevelChanged -= TransceiverControllerOnSqlLevelChanged;
             GC.SuppressFinalize(this);
         }
 

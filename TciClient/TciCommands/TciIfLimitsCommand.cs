@@ -41,10 +41,8 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            (_transceiverController as TransceiverController)?.IfLimits(
-                Convert.ToInt64(ifLimitsMessageElements[MinIndex]),
-                Convert.ToInt64(ifLimitsMessageElements[MaxIndex]));
-
+            _transceiverController.IfMax = Convert.ToInt64(ifLimitsMessageElements[MaxIndex]);
+            _transceiverController.IfMin = Convert.ToInt64(ifLimitsMessageElements[MinIndex]);
             return true;
         }
 

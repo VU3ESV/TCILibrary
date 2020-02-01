@@ -17,17 +17,6 @@ namespace ExpertElectronics.Tci.TciCommands
         private TciStartCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnStarted += TransceiverController_OnStarted;
-        }
-
-        private async void TransceiverController_OnStarted(object sender, EventArgs e)
-        {
-            if (_transceiverController.IsStarted())
-            {
-                return;
-            }
-
-            await _transceiverController.TciClient.SendMessageAsync("start;");
         }
 
         public static string Name => "start";
@@ -39,15 +28,16 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.Start();
+            _transceiverController.Start = true;
+            _transceiverController.Stop = false;
             return true;
         }
 
         public void Dispose()
         {
-            if (_transceiverController != null)
+            if (_transceiverController == null)
             {
-                _transceiverController.OnStarted -= TransceiverController_OnStarted;
+                return;
             }
 
             GC.SuppressFinalize(this);

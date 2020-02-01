@@ -11,18 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciTuneCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnTune += TransceiverController_OnTune;
-        }
-
-        private void TransceiverController_OnTune(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var tuneState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{tuneState};");
-            }
         }
 
         public static TciTuneCommand Create(ITransceiverController transceiverController)
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(tuneMessageElements[TransceiverIndex]);
             var tune = Convert.ToBoolean(tuneMessageElements[TuneIndex]);
-            _transceiverController.Tune(transceiverPeriodicNumber, tune);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Tune = tune;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnTune -= TransceiverController_OnTune;
             GC.SuppressFinalize(this);
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -12,13 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciCwMacrosSpeedCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnCwSpeedChanged += TransceiverControllerOnOnCwSpeedChanged;
-        }
-
-        private void TransceiverControllerOnOnCwSpeedChanged(object sender, UintValueChangedEventArgs e)
-        {
-            var cwSpeed = e.Value;
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{cwSpeed};");
         }
 
         public static TciCwMacrosSpeedCommand Create(ITransceiverController transceiverController)
@@ -50,10 +42,9 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var cwSpeed = Convert.ToUInt32(cwSpeedElements[CwSpeedIndex]);
-            _transceiverController.SetCwMacroSpeed(cwSpeed);
+            _transceiverController.CwMacroSpeed = cwSpeed;
             return true;
         }
-
 
         public void Dispose()
         {
@@ -62,7 +53,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnCwSpeedChanged -= TransceiverControllerOnOnCwSpeedChanged;
             GC.SuppressFinalize(this);
         }
 

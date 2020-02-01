@@ -28,11 +28,11 @@ namespace TestApp
             {
                 tciClient = TciClient.Create("localhost", 40001, cancellationTokenSource.Token);
                 tciClient.ConnectAsync().Wait(cancellationTokenSource.Token);
-                tciClient.TransceiverController.OnVfoChange += TransceiverController_OnVfoChange;
+                //tciClient.TransceiverController.OnVfoChange += TransceiverController_OnVfoChange;
                 tciClient.TransceiverController.OnAudioStartChanged += TransceiverController_OnAudioStartChanged;
                 tciClient.TransceiverController.OnDrive += TransceiverController_OnDrive;
                 tciClient.TransceiverController.OnTuneDrive += TransceiverController_OnTuneDrive; 
-                tciClient.TransceiverController.OnIfFreqChanged += TransceiverController_OnIfFreqChanged;
+                //tciClient.TransceiverController.OnIfFreqChanged += TransceiverController_OnIfFreqChanged;
                 tciClient.TransceiverController.OnIfLimitsChanged += TransceiverController_OnIfLimitsChanged;
                 tciClient.TransceiverController.OnModulationChanged += TransceiverController_OnModulationChanged;
                 tciClient.TransceiverController.OnSplitEnableChanged += TransceiverController_OnSplitEnableChanged;
@@ -44,7 +44,7 @@ namespace TestApp
                 tciClient.TransceiverController.OnRitEnableChanged += TransceiverController_OnRitEnableChanged;
                 tciClient.TransceiverController.OnRitOffsetChanged += TransceiverController_OnRitOffsetChanged;
                 tciClient.TransceiverController.OnMute += TransceiverController_OnMute;
-                tciClient.TransceiverController.OnChannelSMeterChanged += TransceiverController_OnChannelSMeterChanged;
+                //tciClient.TransceiverController.OnChannelSMeterChanged += TransceiverController_OnChannelSMeterChanged;
                 tciClient.TransceiverController.OnRxFilterChanged += TransceiverController_OnRxFilterChanged;
                 tciClient.TransceiverController.OnRxMute += TransceiverController_OnRxMute;
                 tciClient.TransceiverController.Start();
@@ -62,11 +62,11 @@ namespace TestApp
             if (tciClient != null)
             {
                 tciClient.TransceiverController.Stop();
-                tciClient.TransceiverController.OnVfoChange -= TransceiverController_OnVfoChange;
+               // tciClient.TransceiverController.OnVfoChange -= TransceiverController_OnVfoChange;
                 tciClient.TransceiverController.OnAudioStartChanged -= TransceiverController_OnAudioStartChanged;
                 tciClient.TransceiverController.OnDrive -= TransceiverController_OnDrive;
                 tciClient.TransceiverController.OnTuneDrive -= TransceiverController_OnTuneDrive; 
-                tciClient.TransceiverController.OnIfFreqChanged -= TransceiverController_OnIfFreqChanged;
+                //tciClient.TransceiverController.OnIfFreqChanged -= TransceiverController_OnIfFreqChanged;
                 tciClient.TransceiverController.OnIfLimitsChanged -= TransceiverController_OnIfLimitsChanged;
                 tciClient.TransceiverController.OnModulationChanged -= TransceiverController_OnModulationChanged;
                 tciClient.TransceiverController.OnSplitEnableChanged -= TransceiverController_OnSplitEnableChanged;
@@ -78,7 +78,7 @@ namespace TestApp
                 tciClient.TransceiverController.OnRitEnableChanged -= TransceiverController_OnRitEnableChanged;
                 tciClient.TransceiverController.OnRitOffsetChanged -= TransceiverController_OnRitOffsetChanged;
                 tciClient.TransceiverController.OnMute -= TransceiverController_OnMute;
-                tciClient.TransceiverController.OnChannelSMeterChanged -= TransceiverController_OnChannelSMeterChanged;
+                //tciClient.TransceiverController.OnChannelSMeterChanged -= TransceiverController_OnChannelSMeterChanged;
                 tciClient.TransceiverController.OnRxFilterChanged -= TransceiverController_OnRxFilterChanged;
                 tciClient.TransceiverController.OnRxMute -= TransceiverController_OnRxMute;
 

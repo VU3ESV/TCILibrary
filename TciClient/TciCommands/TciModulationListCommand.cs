@@ -47,7 +47,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 modulationList.Add(modulationListsMessageElements[i]);
             }
 
-            (_transceiverController as TransceiverController)?.AddModulationList(modulationList);
+            _transceiverController.ModulationsList = modulationList;
             return true;
         }
 

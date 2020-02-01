@@ -11,21 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         private TciTrxCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnTrx += TransceiverController_OnTrx;
-        }
-
-        private void TransceiverController_OnTrx(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var state = e.State;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-
-            var newState = _transceiverController.Trx(transceiverPeriodicNumber);
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{newState};");
         }
 
         public static TciTrxCommand Create(ITransceiverController transceiverController)
@@ -58,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(trxMessageElements[TransceiverIndex]);
             var state = Convert.ToBoolean(trxMessageElements[StateIndex]);
-            _transceiverController.Trx(transceiverPeriodicNumber, state);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Trx = state;
+            }
             return true;
         }
 
@@ -70,7 +59,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnTrx -= TransceiverController_OnTrx;
             GC.SuppressFinalize(this);
         }
 

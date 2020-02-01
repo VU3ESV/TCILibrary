@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -12,16 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciAudioSampleRateCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnAudioSampleRateChanged += TransceiverControllerOnAudioSampleRateChanged;
-        }
-
-        private void TransceiverControllerOnAudioSampleRateChanged(object sender, UintValueChangedEventArgs e)
-        {
-            var audioSampleRate = e.Value;
-            if (audioSampleRate == 8000 || audioSampleRate == 12000 || audioSampleRate == 24000 || audioSampleRate == 48000)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{audioSampleRate};");
-            }
         }
 
         public static TciAudioSampleRateCommand Create(ITransceiverController transceiverController)
@@ -58,7 +47,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.SetIqSampleRate(audioSampleRate);
+            _transceiverController.AudioSampleRate = audioSampleRate;
             return true;
         }
 
@@ -70,7 +59,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnAudioSampleRateChanged -= TransceiverControllerOnAudioSampleRateChanged;
             GC.SuppressFinalize(this);
         }
 

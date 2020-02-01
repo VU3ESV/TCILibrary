@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
@@ -12,16 +11,6 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciIqSampleRateCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnIqOutSampleRateChanged += TransceiverControllerOnIqOutSampleRateChanged;
-        }
-
-        private void TransceiverControllerOnIqOutSampleRateChanged(object sender, UintValueChangedEventArgs e)
-        {
-            var iqSampleRate = e.Value;
-            if (iqSampleRate == 48000 || iqSampleRate == 96000 || iqSampleRate == 192000)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{iqSampleRate};");
-            }
         }
 
         public static TciIqSampleRateCommand Create(ITransceiverController transceiverController)
@@ -58,7 +47,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            _transceiverController.SetIqSampleRate(iqSampleRate);
+            _transceiverController.IqSampleRate = iqSampleRate;
             return true;
         }
 
@@ -70,7 +59,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnIqOutSampleRateChanged -= TransceiverControllerOnIqOutSampleRateChanged;
             GC.SuppressFinalize(this);
         }
 

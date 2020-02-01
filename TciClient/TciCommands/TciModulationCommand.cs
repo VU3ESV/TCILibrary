@@ -11,26 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciModulationCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnModulationChanged += TransceiverController_OnModulationChanged;
         }
-
-        private void TransceiverController_OnModulationChanged(object sender, Events.TrxStringValueChangedEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var modulation = e.Value;
-
-            if (transceiverPeriodicNumber >= _transceiverController.TrxCount)
-            {
-                return;
-            }
-            if (!_transceiverController.ModulationsList.Contains(modulation))
-            {
-                return;
-            }
-
-            _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{modulation};");
-        }
-
 
         public static TciModulationCommand Create(ITransceiverController transceiverController)
         {
@@ -64,7 +45,11 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(modulationMessageElements[TransceiverIndex]);
 
             var modulation = modulationMessageElements[ModulationIndex];
-            _transceiverController.Modulation(transceiverPeriodicNumber, modulation);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.Modulation = modulation;
+            }
             return true;
         }
 
@@ -75,7 +60,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnModulationChanged -= TransceiverController_OnModulationChanged;
             GC.SuppressFinalize(this);
         }
 

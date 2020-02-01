@@ -11,19 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRxEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-            _transceiverController.OnRxEnableChanged += TransceiverController_OnRxEnableChanged;
-        }
-
-        private void TransceiverController_OnRxEnableChanged(object sender, Events.TrxEventArgs e)
-        {
-            var transceiverPeriodicNumber = e.TransceiverPeriodicNumber;
-            var rxEnableState = e.State;
-
-            if (transceiverPeriodicNumber < _transceiverController.TrxCount)
-            {
-                _transceiverController.TciClient.SendMessageAsync($"{Name}:{transceiverPeriodicNumber},{rxEnableState};");
-            }
-        }
+        }       
 
         public static TciRxEnableCommand Create(ITransceiverController transceiverController)
         {
@@ -55,7 +43,11 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(rxEnableMessageElements[TransceiverIndex]);
             var rxEnable = Convert.ToBoolean(rxEnableMessageElements[RxEnableIndex]);
-            _transceiverController.RxEnable(transceiverPeriodicNumber, rxEnable);
+            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            if (transceiver != null)
+            {
+                transceiver.RxEnable = rxEnable;
+            }
             return true;
         }
 
@@ -66,7 +58,6 @@ namespace ExpertElectronics.Tci.TciCommands
                 return;
             }
 
-            _transceiverController.OnRxEnableChanged -= TransceiverController_OnRxEnableChanged;
             GC.SuppressFinalize(this);
         }
 

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using ExpertElectronics.Tci;
@@ -57,18 +51,18 @@ namespace StationMonitor
 
             await tciClient.ConnectAsync();
             tranaceiverController = tciClient.TransceiverController;
-            tranaceiverController.Start();
-            dispatcher.Invoke(() =>
+
+            await dispatcher.InvokeAsync(() =>
             {
                 DriveLevel.Text = tciClient.TransceiverController.Drive.ToString();
             });
 
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 TuneLevel.Text = tciClient.TransceiverController.TuneDrive.ToString();
             });
 
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 foreach (var transceiver in tciClient.TransceiverController.Transceivers)
                 {
@@ -86,13 +80,27 @@ namespace StationMonitor
                 }
             });
 
-            tciClient.TransceiverController.OnVfoChange += TransceiverController_OnVfoChange;
-            tciClient.TransceiverController.OnTrx += TransceiverController_OnTrx;
+            if(tciClient.TransceiverController.IsStarted())
+            {
+                await dispatcher.InvokeAsync(() =>
+                {
+                    StartButton.BackColor = Color.Green;
+                    StopButton.BackColor = Color.Red;
+                });
+            }
+            else
+            {
+                await dispatcher.InvokeAsync(() =>
+                {
+                    StartButton.BackColor = Color.Red;
+                    StopButton.BackColor = Color.Green;
+                });
+            }
+
             tciClient.TransceiverController.OnDrive += TransceiverController_OnDrive;
             tciClient.TransceiverController.OnTuneDrive += TransceiverController_OnTuneDrive;
-            tciClient.TransceiverController.OnTune += TransceiverController_OnTune;
-            tciClient.TransceiverController.OnModulationChanged += TransceiverController_OnModulationChanged;
-
+            tciClient.TransceiverController.OnStarted += TransceiverController_OnStarted;
+            tciClient.TransceiverController.OnStopped += TransceiverController_OnStopped;
             var transceivers = tciClient?.TransceiverController.Transceivers;
             if (transceivers == null)
             {
@@ -101,22 +109,26 @@ namespace StationMonitor
 
             foreach (var transceiver in transceivers)
             {
+                transceiver.OnTrx += TransceiverController_OnTrx;
+                transceiver.OnTune += TransceiverController_OnTune;
+                transceiver.OnModulationChanged += TransceiverController_OnModulationChanged;
                 var channels = transceiver.Channels;
                 switch (transceiver.PeriodicNumber)
                 {
                     case 0:
                         foreach (var channel in channels)
                         {
+                            channel.OnVfoChange += TransceiverController_OnVfoChange;
                             switch (channel.PeriodicNumber)
                             {
                                 case 0:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver1VfoA.Text = channel.Vfo.ToString();
                                     });
                                     break;
                                 case 1:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver1VfoB.Text = channel.Vfo.ToString();
                                     });
@@ -129,6 +141,7 @@ namespace StationMonitor
                     case 1:
                         foreach (var channel in channels)
                         {
+                            channel.OnVfoChange += TransceiverController_OnVfoChange;
                             switch (channel.PeriodicNumber)
                             {
                                 case 0:
@@ -154,9 +167,18 @@ namespace StationMonitor
             }
         }
 
-        private void TransceiverController_OnTune(object sender, TrxEventArgs e)
+        private async void TransceiverController_OnStopped(object sender, EventArgs e)
         {
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
+            {
+                StartButton.BackColor = Color.Green;
+                StopButton.BackColor = Color.Red;
+            });
+        }
+
+        private async void TransceiverController_OnTune(object sender, TrxEventArgs e)
+        {
+            await dispatcher.InvokeAsync(() =>
             {
                 if (e.State == true)
                 {
@@ -169,25 +191,25 @@ namespace StationMonitor
             });
         }
 
-        private void TransceiverController_OnTuneDrive(object sender, UintValueChangedEventArgs e)
+        private async void TransceiverController_OnTuneDrive(object sender, UintValueChangedEventArgs e)
         {
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 TuneLevel.Text = e.Value.ToString();
             });
         }
 
-        private void TransceiverController_OnDrive(object sender, UintValueChangedEventArgs e)
+        private async void TransceiverController_OnDrive(object sender, UintValueChangedEventArgs e)
         {
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 DriveLevel.Text = e.Value.ToString();
             });
         }
 
-        private void TransceiverController_OnTrx(object sender, TrxEventArgs e)
+        private async void TransceiverController_OnTrx(object sender, TrxEventArgs e)
         {
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 if (e.State == true)
                 {
@@ -200,9 +222,9 @@ namespace StationMonitor
             });
         }
 
-        private void TransceiverController_OnModulationChanged(object sender, TrxStringValueChangedEventArgs e)
+        private async void TransceiverController_OnModulationChanged(object sender, TrxStringValueChangedEventArgs e)
         {
-            dispatcher.Invoke(() =>
+            await dispatcher.InvokeAsync(() =>
             {
                 switch (e.TransceiverPeriodicNumber)
                 {
@@ -218,7 +240,7 @@ namespace StationMonitor
             });
         }
 
-        private void TransceiverController_OnVfoChange(object sender, VfoChangeEventArgs e)
+        private async void TransceiverController_OnVfoChange(object sender, VfoChangeEventArgs e)
         {
             try
             {
@@ -229,13 +251,13 @@ namespace StationMonitor
                             switch (e.Channel)
                             {
                                 case 0:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver1VfoA.Text = e.Vfo.ToString();
                                     });
                                     break;
                                 case 1:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver1VfoB.Text = e.Vfo.ToString();
                                     });
@@ -250,13 +272,13 @@ namespace StationMonitor
                             switch (e.Channel)
                             {
                                 case 0:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver2VfoA.Text = e.Vfo.ToString();
                                     });
                                     break;
                                 case 1:
-                                    dispatcher.Invoke(() =>
+                                    await dispatcher.InvokeAsync(() =>
                                     {
                                         Receiver2VfoB.Text = e.Vfo.ToString();
                                     });
@@ -289,14 +311,37 @@ namespace StationMonitor
                 return;
             }
 
-            tciClient.TransceiverController.OnVfoChange -= TransceiverController_OnVfoChange;
-            tciClient.TransceiverController.OnTrx -= TransceiverController_OnTrx;
+            foreach (var transceiver in tranaceiverController.Transceivers)
+            {
+                transceiver.OnTrx -= TransceiverController_OnTrx;
+                transceiver.OnTune -= TransceiverController_OnTune;
+                transceiver.OnModulationChanged -= TransceiverController_OnModulationChanged;
+            }
+
             tciClient.TransceiverController.OnDrive -= TransceiverController_OnDrive;
             tciClient.TransceiverController.OnTuneDrive -= TransceiverController_OnTuneDrive;
-            tciClient.TransceiverController.OnTune -= TransceiverController_OnTune;
-            tciClient.TransceiverController.OnModulationChanged -= TransceiverController_OnModulationChanged;
-
+            tciClient.TransceiverController.OnStarted -= TransceiverController_OnStarted;
+            tciClient.TransceiverController.OnStopped += TransceiverController_OnStopped;
             tciClient = null;
+        }
+
+        private async void TransceiverController_OnStarted(object sender, EventArgs e)
+        {
+            await dispatcher.InvokeAsync(() =>
+            {
+                StartButton.BackColor = Color.Red;
+                StopButton.BackColor = Color.Green;
+            });
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            tranaceiverController.StartTransceiver();
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            tranaceiverController.StopTransceiver();
         }
     }
 }
