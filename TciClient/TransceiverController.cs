@@ -950,28 +950,24 @@ namespace ExpertElectronics.Tci
             await TciClient.SendMessageAsync($"{TciRitOffsetCommand.Name}:{transceiverPeriodicNumber},{value};");
         }
 
-        public Task CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after)
+        public async Task CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after)
         {
-            // ToDo
-            return Task.CompletedTask;
+            await TciClient.SendMessageAsync($"cw_msg:{transceiverPeriodicNumber},{before},{callSign},{after};");
         }
 
-        public Task AddCwMessageCallSign(string callSign)
+        public async Task AddCwMessageCallSign(string callSign)
         {
-            // ToDo
-            return Task.CompletedTask;
+            await TciClient.SendMessageAsync($"callsign_send:{callSign};");
         }
 
-        public Task SetMacros(uint transceiverPeriodicNumber, string text)
+        public async Task SetMacros(uint transceiverPeriodicNumber, string text)
         {
-            // ToDo
-            return Task.CompletedTask;
+            await TciClient.SendMessageAsync($"cw_macros: {transceiverPeriodicNumber},{text};");
         }
 
-        public Task SetCwMacrosStop()
+        public async Task SetCwMacrosStop()
         {
-            // ToDo
-            return Task.CompletedTask;           
+            await TciClient.SendMessageAsync($"cw_macros_stop;");
         }
 
         public void Dispose()
