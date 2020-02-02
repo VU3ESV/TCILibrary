@@ -13,7 +13,7 @@ namespace ExpertElectronics.Tci
         {
             Debug.Assert(!string.IsNullOrEmpty(serverIpAddress));
             Debug.Assert(serverPort != 0);
-            if (!IPAddress.TryParse(serverIpAddress, out var _))
+            if (serverIpAddress!= "localhost" && !IPAddress.TryParse(serverIpAddress, out var _))
             {
                 throw new ArgumentException($"Invalid Format. Parameter- '{serverIpAddress}'");
             }
