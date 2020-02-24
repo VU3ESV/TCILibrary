@@ -10,7 +10,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
 
-        event EventHandler<TciConnectedEventArgs> OnSocketConnected;
+        event EventHandler<TciConnectedEventArgs> OnSocketConnectionChanged;
     }
 
     public class TciMessageReceivedEventArgs : EventArgs

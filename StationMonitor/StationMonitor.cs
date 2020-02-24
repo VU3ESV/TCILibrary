@@ -22,6 +22,7 @@ namespace StationMonitor
         public StationMonitor()
         {
             InitializeComponent();
+            ConnectionStatus.Text = "N";
         }
 
         private async void ConnectButton_Click(object sender, EventArgs e)
@@ -43,6 +44,8 @@ namespace StationMonitor
             if (tciClient == null)
             {
                 tciClient = TciClient.Create(serverIp, serverPort, _cancellationTokenSource.Token);
+                tciClient.OnConnect += TciClient_OnConnect;
+                tciClient.OnDisconnect += TciClient_OnDisconnect;
             }
             else
             {
@@ -175,6 +178,24 @@ namespace StationMonitor
                         break;
                 }
             }
+        }
+
+        private async void TciClient_OnDisconnect(object sender, TciConnectedEventArgs e)
+        {
+            await dispatcher.InvokeAsync(() =>
+            {
+                ConnectionStatus.Text = "D";
+                ConnectionStatus.BackColor = Color.Red;
+            });
+        }
+
+        private async void TciClient_OnConnect(object sender, TciConnectedEventArgs e)
+        {
+            await dispatcher.InvokeAsync(() =>
+            {
+                ConnectionStatus.Text = "C";
+                ConnectionStatus.BackColor = Color.Green;
+            });
         }
 
         private async void TransceiverController_OnVolumeChanged(object sender, IntValueChangedEventArgs e)

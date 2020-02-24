@@ -20,7 +20,7 @@ namespace ExpertElectronics.Tci
             _messageHandler = messageHandler;
             TciClient = tciClient;
             _transceivers = new List<Transceiver>();
-            _messageHandler.OnSocketConnected += MessageHandler_OnSocketConnected;
+            _messageHandler.OnSocketConnectionChanged += MessageHandler_OnSocketConnected;
             _messageHandler.OnSocketMessageReceived += MessageHandler_OnSocketMessageReceived;
             _commands = new Dictionary<string, ITciCommand>();
             Initialize();

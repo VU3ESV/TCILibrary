@@ -8,7 +8,7 @@ namespace ExpertElectronics.Tci
         public void OnConnect(TciWebSocketClient tciWebSocketClient)
         {
             _tciWebSocketClient = tciWebSocketClient;
-             OnSocketConnected?.Invoke(this, new TciConnectedEventArgs(true));
+             OnSocketConnectionChanged?.Invoke(this, new TciConnectedEventArgs(true));
         }
 
         public void OnDisConnect(TciWebSocketClient tciWebSocketClient)
@@ -17,7 +17,7 @@ namespace ExpertElectronics.Tci
             {
                 return;
             }
-            OnSocketConnected?.Invoke(this, new TciConnectedEventArgs(false));
+            OnSocketConnectionChanged?.Invoke(this, new TciConnectedEventArgs(false));
         }
 
         public void OnMessage(string message, TciWebSocketClient tciWebSocketClient)
@@ -30,7 +30,7 @@ namespace ExpertElectronics.Tci
         }
 
         public event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
-        public event EventHandler<TciConnectedEventArgs> OnSocketConnected;
+        public event EventHandler<TciConnectedEventArgs> OnSocketConnectionChanged;
 
         private TciWebSocketClient _tciWebSocketClient;        
     }
