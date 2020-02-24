@@ -1,6 +1,7 @@
 ﻿using ExpertElectronics.Tci.Events;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ExpertElectronics.Tci.Interfaces
 {
@@ -48,7 +49,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool RxMute { get; set; }
 
-        void AddChannel(uint channelNumbers);
+        void AddChannel(uint channelNumbers);        
 
         event EventHandler<TrxEventArgs> OnTxEnableChanged;
 
@@ -85,6 +86,5 @@ namespace ExpertElectronics.Tci.Interfaces
         event EventHandler<TrxIntValueChangedEventArgs> OnSquelchThresholdChanged;
 
         event EventHandler<TrxEventArgs> OnRxMute;
-
     }
 }

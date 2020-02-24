@@ -179,6 +179,10 @@ namespace ExpertElectronics.Tci.Interfaces
 
         long Vfo(uint transceiverPeriodicNumber, uint channelNumber);
 
+        Task VfoAToB(uint transceiverPeriodicNumber);
+
+        Task VfoBToA(uint transceiverPeriodicNumber);
+
         Task SetMute(bool state);
 
         Task RxMute(uint receiverPeriodicNumber, bool state);

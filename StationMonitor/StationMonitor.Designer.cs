@@ -13,12 +13,12 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override async void Dispose(bool disposing)
         {
-            if (tciClient.ConnectionStatus == ExpertElectronics.Tci.Interfaces.ConnectionStatus.Connected)
+            if (tciClient?.ConnectionStatus == ExpertElectronics.Tci.Interfaces.ConnectionStatus.Connected)
             {
-                await tciClient.DisConnectAsync();
+                await tciClient?.DisConnectAsync();
             }
 
-            tciClient.Dispose();
+            tciClient?.Dispose();
 
             if (disposing && (components != null))
             {
@@ -45,13 +45,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.R1BtoA = new System.Windows.Forms.Button();
+            this.R1AtoB = new System.Windows.Forms.Button();
+            this.Tr1ModulationValue = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.R2BtoA = new System.Windows.Forms.Button();
+            this.Tr2ModulationValue = new System.Windows.Forms.Label();
+            this.R2AtoB = new System.Windows.Forms.Button();
             this.Receiver2VfoB = new System.Windows.Forms.Label();
             this.Receiver2VfoA = new System.Windows.Forms.Label();
             this.Tx = new System.Windows.Forms.Label();
             this.Drive = new System.Windows.Forms.Label();
             this.Tune = new System.Windows.Forms.Label();
-            this.Modulation = new System.Windows.Forms.Label();
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.Volume = new System.Windows.Forms.Label();
@@ -59,17 +64,15 @@
             this.DriveControl = new System.Windows.Forms.TrackBar();
             this.TuneControl = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.Tr1ModulationValue = new System.Windows.Forms.Label();
-            this.Tr2ModulationValue = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ConnectionStatus = new System.Windows.Forms.Label();
+            this.TuneButton = new System.Windows.Forms.Button();
+            this.MuteButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).BeginInit();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tciServerIP
@@ -114,9 +117,9 @@
             this.Receiver1VfoA.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Receiver1VfoA.Location = new System.Drawing.Point(15, 15);
             this.Receiver1VfoA.Name = "Receiver1VfoA";
-            this.Receiver1VfoA.Size = new System.Drawing.Size(198, 25);
+            this.Receiver1VfoA.Size = new System.Drawing.Size(128, 25);
             this.Receiver1VfoA.TabIndex = 4;
-            this.Receiver1VfoA.Text = "Receiver- 1 Vfo-A";
+            this.Receiver1VfoA.Text = "R - 1 Vfo-A";
             // 
             // Receiver1VfoB
             // 
@@ -124,9 +127,9 @@
             this.Receiver1VfoB.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Receiver1VfoB.Location = new System.Drawing.Point(17, 74);
             this.Receiver1VfoB.Name = "Receiver1VfoB";
-            this.Receiver1VfoB.Size = new System.Drawing.Size(198, 25);
+            this.Receiver1VfoB.Size = new System.Drawing.Size(128, 25);
             this.Receiver1VfoB.TabIndex = 5;
-            this.Receiver1VfoB.Text = "Receiver- 1 Vfo-B";
+            this.Receiver1VfoB.Text = "R - 1 Vfo-B";
             // 
             // label1
             // 
@@ -148,25 +151,91 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.R1BtoA);
+            this.groupBox1.Controls.Add(this.R1AtoB);
             this.groupBox1.Controls.Add(this.Receiver1VfoB);
+            this.groupBox1.Controls.Add(this.Tr1ModulationValue);
             this.groupBox1.Controls.Add(this.Receiver1VfoA);
             this.groupBox1.Location = new System.Drawing.Point(58, 63);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(284, 125);
+            this.groupBox1.Size = new System.Drawing.Size(289, 516);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Transceiver -1";
             // 
+            // R1BtoA
+            // 
+            this.R1BtoA.Location = new System.Drawing.Point(89, 161);
+            this.R1BtoA.Name = "R1BtoA";
+            this.R1BtoA.Size = new System.Drawing.Size(65, 31);
+            this.R1BtoA.TabIndex = 18;
+            this.R1BtoA.Text = "B > A";
+            this.R1BtoA.UseVisualStyleBackColor = true;
+            this.R1BtoA.Click += new System.EventHandler(this.R1BtoA_Click);
+            // 
+            // R1AtoB
+            // 
+            this.R1AtoB.Location = new System.Drawing.Point(22, 161);
+            this.R1AtoB.Name = "R1AtoB";
+            this.R1AtoB.Size = new System.Drawing.Size(61, 31);
+            this.R1AtoB.TabIndex = 17;
+            this.R1AtoB.Text = "A > B";
+            this.R1AtoB.UseVisualStyleBackColor = true;
+            this.R1AtoB.Click += new System.EventHandler(this.R1AtoB_Click);
+            // 
+            // Tr1ModulationValue
+            // 
+            this.Tr1ModulationValue.AutoSize = true;
+            this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tr1ModulationValue.Location = new System.Drawing.Point(17, 117);
+            this.Tr1ModulationValue.Name = "Tr1ModulationValue";
+            this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
+            this.Tr1ModulationValue.TabIndex = 16;
+            this.Tr1ModulationValue.Text = "ModulationValue";
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.R2BtoA);
+            this.groupBox2.Controls.Add(this.Tr2ModulationValue);
+            this.groupBox2.Controls.Add(this.R2AtoB);
             this.groupBox2.Controls.Add(this.Receiver2VfoB);
             this.groupBox2.Controls.Add(this.Receiver2VfoA);
             this.groupBox2.Location = new System.Drawing.Point(368, 63);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(284, 125);
+            this.groupBox2.Size = new System.Drawing.Size(284, 516);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Transceiver -2";
+            // 
+            // R2BtoA
+            // 
+            this.R2BtoA.Location = new System.Drawing.Point(73, 161);
+            this.R2BtoA.Name = "R2BtoA";
+            this.R2BtoA.Size = new System.Drawing.Size(58, 31);
+            this.R2BtoA.TabIndex = 20;
+            this.R2BtoA.Text = "B > A";
+            this.R2BtoA.UseVisualStyleBackColor = true;
+            this.R2BtoA.Click += new System.EventHandler(this.R2BtoA_Click);
+            // 
+            // Tr2ModulationValue
+            // 
+            this.Tr2ModulationValue.AutoSize = true;
+            this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tr2ModulationValue.Location = new System.Drawing.Point(6, 108);
+            this.Tr2ModulationValue.Name = "Tr2ModulationValue";
+            this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
+            this.Tr2ModulationValue.TabIndex = 17;
+            this.Tr2ModulationValue.Text = "ModulationValue";
+            // 
+            // R2AtoB
+            // 
+            this.R2AtoB.Location = new System.Drawing.Point(9, 161);
+            this.R2AtoB.Name = "R2AtoB";
+            this.R2AtoB.Size = new System.Drawing.Size(58, 31);
+            this.R2AtoB.TabIndex = 19;
+            this.R2AtoB.Text = "A > B";
+            this.R2AtoB.UseVisualStyleBackColor = true;
+            this.R2AtoB.Click += new System.EventHandler(this.R2AtoB_Click);
             // 
             // Receiver2VfoB
             // 
@@ -174,9 +243,9 @@
             this.Receiver2VfoB.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Receiver2VfoB.Location = new System.Drawing.Point(15, 74);
             this.Receiver2VfoB.Name = "Receiver2VfoB";
-            this.Receiver2VfoB.Size = new System.Drawing.Size(198, 25);
+            this.Receiver2VfoB.Size = new System.Drawing.Size(128, 25);
             this.Receiver2VfoB.TabIndex = 5;
-            this.Receiver2VfoB.Text = "Receiver- 2 Vfo-B";
+            this.Receiver2VfoB.Text = "R - 2 Vfo-B";
             // 
             // Receiver2VfoA
             // 
@@ -184,16 +253,16 @@
             this.Receiver2VfoA.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Receiver2VfoA.Location = new System.Drawing.Point(15, 15);
             this.Receiver2VfoA.Name = "Receiver2VfoA";
-            this.Receiver2VfoA.Size = new System.Drawing.Size(198, 25);
+            this.Receiver2VfoA.Size = new System.Drawing.Size(128, 25);
             this.Receiver2VfoA.TabIndex = 4;
-            this.Receiver2VfoA.Text = "Receiver- 2 Vfo-A";
+            this.Receiver2VfoA.Text = "R - 2 Vfo-A";
             // 
             // Tx
             // 
             this.Tx.AutoSize = true;
             this.Tx.BackColor = System.Drawing.Color.Green;
             this.Tx.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tx.Location = new System.Drawing.Point(709, 31);
+            this.Tx.Location = new System.Drawing.Point(669, 29);
             this.Tx.Name = "Tx";
             this.Tx.Size = new System.Drawing.Size(73, 25);
             this.Tx.TabIndex = 10;
@@ -220,19 +289,9 @@
             this.Tune.TabIndex = 13;
             this.Tune.Text = "Tune";
             // 
-            // Modulation
-            // 
-            this.Modulation.AutoSize = true;
-            this.Modulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Modulation.Location = new System.Drawing.Point(12, 37);
-            this.Modulation.Name = "Modulation";
-            this.Modulation.Size = new System.Drawing.Size(84, 16);
-            this.Modulation.TabIndex = 15;
-            this.Modulation.Text = "Modulation";
-            // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(798, 26);
+            this.StartButton.Location = new System.Drawing.Point(764, 26);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(75, 37);
             this.StartButton.TabIndex = 18;
@@ -242,7 +301,7 @@
             // 
             // StopButton
             // 
-            this.StopButton.Location = new System.Drawing.Point(900, 26);
+            this.StopButton.Location = new System.Drawing.Point(845, 27);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(75, 37);
             this.StopButton.TabIndex = 19;
@@ -262,7 +321,7 @@
             // 
             // VolumeControl
             // 
-            this.VolumeControl.Location = new System.Drawing.Point(169, 226);
+            this.VolumeControl.Location = new System.Drawing.Point(845, 105);
             this.VolumeControl.Maximum = 0;
             this.VolumeControl.Minimum = -60;
             this.VolumeControl.Name = "VolumeControl";
@@ -272,7 +331,7 @@
             // 
             // DriveControl
             // 
-            this.DriveControl.Location = new System.Drawing.Point(169, 263);
+            this.DriveControl.Location = new System.Drawing.Point(845, 142);
             this.DriveControl.Maximum = 100;
             this.DriveControl.Name = "DriveControl";
             this.DriveControl.Size = new System.Drawing.Size(184, 45);
@@ -281,7 +340,7 @@
             // 
             // TuneControl
             // 
-            this.TuneControl.Location = new System.Drawing.Point(169, 301);
+            this.TuneControl.Location = new System.Drawing.Point(845, 180);
             this.TuneControl.Maximum = 100;
             this.TuneControl.Name = "TuneControl";
             this.TuneControl.Size = new System.Drawing.Size(184, 45);
@@ -293,42 +352,11 @@
             this.groupBox3.Controls.Add(this.Volume);
             this.groupBox3.Controls.Add(this.Tune);
             this.groupBox3.Controls.Add(this.Drive);
-            this.groupBox3.Location = new System.Drawing.Point(54, 200);
+            this.groupBox3.Location = new System.Drawing.Point(730, 79);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(298, 160);
             this.groupBox3.TabIndex = 24;
             this.groupBox3.TabStop = false;
-            // 
-            // Tr1ModulationValue
-            // 
-            this.Tr1ModulationValue.AutoSize = true;
-            this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr1ModulationValue.Location = new System.Drawing.Point(120, 18);
-            this.Tr1ModulationValue.Name = "Tr1ModulationValue";
-            this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr1ModulationValue.TabIndex = 16;
-            this.Tr1ModulationValue.Text = "ModulationValue";
-            // 
-            // Tr2ModulationValue
-            // 
-            this.Tr2ModulationValue.AutoSize = true;
-            this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr2ModulationValue.Location = new System.Drawing.Point(120, 57);
-            this.Tr2ModulationValue.Name = "Tr2ModulationValue";
-            this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr2ModulationValue.TabIndex = 17;
-            this.Tr2ModulationValue.Text = "ModulationValue";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.Tr2ModulationValue);
-            this.groupBox4.Controls.Add(this.Tr1ModulationValue);
-            this.groupBox4.Controls.Add(this.Modulation);
-            this.groupBox4.Location = new System.Drawing.Point(659, 69);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(254, 109);
-            this.groupBox4.TabIndex = 25;
-            this.groupBox4.TabStop = false;
             // 
             // ConnectionStatus
             // 
@@ -339,13 +367,34 @@
             this.ConnectionStatus.TabIndex = 26;
             this.ConnectionStatus.Text = "C/D";
             // 
+            // TuneButton
+            // 
+            this.TuneButton.Location = new System.Drawing.Point(1049, 190);
+            this.TuneButton.Name = "TuneButton";
+            this.TuneButton.Size = new System.Drawing.Size(66, 34);
+            this.TuneButton.TabIndex = 27;
+            this.TuneButton.Text = "Tune";
+            this.TuneButton.UseVisualStyleBackColor = true;
+            this.TuneButton.Click += new System.EventHandler(this.TuneButton_Click);
+            // 
+            // MuteButton
+            // 
+            this.MuteButton.Location = new System.Drawing.Point(1049, 91);
+            this.MuteButton.Name = "MuteButton";
+            this.MuteButton.Size = new System.Drawing.Size(66, 34);
+            this.MuteButton.TabIndex = 28;
+            this.MuteButton.Text = "Mute";
+            this.MuteButton.UseVisualStyleBackColor = true;
+            this.MuteButton.Click += new System.EventHandler(this.MuteButton_Click);
+            // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1091, 456);
+            this.ClientSize = new System.Drawing.Size(1126, 684);
+            this.Controls.Add(this.MuteButton);
+            this.Controls.Add(this.TuneButton);
             this.Controls.Add(this.ConnectionStatus);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.TuneControl);
             this.Controls.Add(this.DriveControl);
             this.Controls.Add(this.VolumeControl);
@@ -372,8 +421,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -396,7 +443,6 @@
         private System.Windows.Forms.Label Tx;
         private System.Windows.Forms.Label Drive;
         private System.Windows.Forms.Label Tune;
-        private System.Windows.Forms.Label Modulation;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Label Volume;
@@ -406,8 +452,13 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label Tr1ModulationValue;
         private System.Windows.Forms.Label Tr2ModulationValue;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label ConnectionStatus;
+        private System.Windows.Forms.Button R1BtoA;
+        private System.Windows.Forms.Button R1AtoB;
+        private System.Windows.Forms.Button R2BtoA;
+        private System.Windows.Forms.Button R2AtoB;
+        private System.Windows.Forms.Button TuneButton;
+        private System.Windows.Forms.Button MuteButton;
     }
 }
 

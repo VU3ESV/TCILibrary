@@ -3,22 +3,21 @@ using System.Drawing;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-
+using System.Windows.Threading;
 using ExpertElectronics.Tci;
 using ExpertElectronics.Tci.Interfaces;
 using ExpertElectronics.Tci.Events;
-using System.Windows.Threading;
 
 namespace StationMonitor
 {
     public partial class StationMonitor : Form
     {
         private ITciClient tciClient;
-        private ITransceiverController tranaceiverController;
+        private ITransceiverController tranceiverController;
 
-        private Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
+        private readonly Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
 
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         public StationMonitor()
         {
             InitializeComponent();
@@ -31,6 +30,14 @@ namespace StationMonitor
             StopButton.Enabled = false;
             tciServerIP.Enabled = true;
             tciServerPort.Enabled = true;
+            R1AtoB.Enabled = false;
+            R2AtoB.Enabled = false;
+            R1BtoA.Enabled = false;
+            R2BtoA.Enabled = false;
+            TuneButton.Enabled = false;
+            TuneButton.BackColor = Color.Green;
+            MuteButton.Enabled = false;
+            MuteButton.BackColor = Color.Green;
         }
 
         private async void ConnectButton_Click(object sender, EventArgs e)
@@ -61,7 +68,7 @@ namespace StationMonitor
             }
 
             await tciClient.ConnectAsync();
-            tranaceiverController = tciClient.TransceiverController;
+            tranceiverController = tciClient.TransceiverController;
 
             await dispatcher.InvokeAsync(() =>
             {
@@ -90,10 +97,10 @@ namespace StationMonitor
                     switch (transceiver.PeriodicNumber)
                     {
                         case 0:
-                            Tr1ModulationValue.Text = transceiver.Modulation;
+                            Tr1ModulationValue.Text = transceiver.Modulation.ToUpperInvariant();
                             break;
                         case 1:
-                            Tr2ModulationValue.Text = transceiver.Modulation;
+                            Tr2ModulationValue.Text = transceiver.Modulation.ToUpperInvariant();
                             break;
                         default:
                             break;
@@ -201,6 +208,12 @@ namespace StationMonitor
                 StopButton.Enabled = false;
                 tciServerIP.Enabled = true;
                 tciServerPort.Enabled = true;
+                R1AtoB.Enabled = false;
+                R2AtoB.Enabled = false;
+                R1BtoA.Enabled = false;
+                R2BtoA.Enabled = false;
+                TuneButton.Enabled = false;
+                MuteButton.Enabled = false;
             });
         }
 
@@ -217,6 +230,12 @@ namespace StationMonitor
                 StopButton.Enabled = true;
                 tciServerIP.Enabled = false;
                 tciServerPort.Enabled = false;
+                R1AtoB.Enabled = true;
+                R2AtoB.Enabled = true;
+                R1BtoA.Enabled = true;
+                R2BtoA.Enabled = true;
+                TuneButton.Enabled = true;
+                MuteButton.Enabled = true;
             });
         }
 
@@ -377,7 +396,7 @@ namespace StationMonitor
                 return;
             }
 
-            foreach (var transceiver in tranaceiverController.Transceivers)
+            foreach (var transceiver in tranceiverController.Transceivers)
             {
                 transceiver.OnTrx -= TransceiverController_OnTrx;
                 transceiver.OnTune -= TransceiverController_OnTune;
@@ -402,12 +421,12 @@ namespace StationMonitor
 
         private async void StartButton_Click(object sender, EventArgs e)
         {
-            await tranaceiverController?.StartTransceiver();
+            await tranceiverController?.StartTransceiver();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            tranaceiverController?.StopTransceiver();
+            tranceiverController?.StopTransceiver();
         }
 
         private async void VolumeControl_Scroll(object sender, EventArgs e)
@@ -418,7 +437,7 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController?.SetVolume(volumeLevel);
+            await tranceiverController?.SetVolume(volumeLevel);
         }
 
         private async void DriveControl_Scroll(object sender, EventArgs e)
@@ -429,7 +448,7 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController?.SetDrive(driveLevel);
+            await tranceiverController?.SetDrive(driveLevel);
 
         }
 
@@ -441,7 +460,47 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController?.SetTuneDrive(driveLevel);
+            await tranceiverController?.SetTuneDrive(driveLevel);
+        }
+
+        private async void R1AtoB_Click(object sender, EventArgs e)
+        {
+            await tranceiverController?.VfoAToB(0);
+        }
+
+        private async void R1BtoA_Click(object sender, EventArgs e)
+        {
+            await tranceiverController?.VfoBToA(0);
+        }
+
+        private async void R2AtoB_Click(object sender, EventArgs e)
+        {
+            await tranceiverController?.VfoAToB(1);
+        }
+
+        private async void R2BtoA_Click(object sender, EventArgs e)
+        {
+            await tranceiverController?.VfoBToA(1);
+        }
+
+        private async void TuneButton_Click(object sender, EventArgs e)
+        {
+            var tuneState = tranceiverController?.Tune(transceiverPeriodicNumber: 0);
+            if (tuneState.HasValue)
+            {
+                TuneButton.BackColor = tuneState.Value == true ? Color.Green : Color.Red;
+                await tranceiverController?.Tune(transceiverPeriodicNumber: 0, !tuneState.Value);
+            }
+        }
+
+        private async void MuteButton_Click(object sender, EventArgs e)
+        {
+            var muteState = tranceiverController?.RxMute(receiverPeriodicNumber: 0);
+            if (muteState.HasValue)
+            {
+                MuteButton.BackColor = muteState.Value == true ? Color.Green : Color.Red;
+                await tranceiverController.RxMute(receiverPeriodicNumber: 0, !muteState.Value);
+            }
         }
     }
 }
