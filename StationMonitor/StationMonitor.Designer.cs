@@ -11,10 +11,18 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        protected override async void Dispose(bool disposing)
         {
+            if (tciClient.ConnectionStatus == ExpertElectronics.Tci.Interfaces.ConnectionStatus.Connected)
+            {
+                await tciClient.DisConnectAsync();
+            }
+
+            tciClient.Dispose();
+
             if (disposing && (components != null))
             {
+               
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -338,7 +346,6 @@
             this.ClientSize = new System.Drawing.Size(1091, 456);
             this.Controls.Add(this.ConnectionStatus);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.TuneControl);
             this.Controls.Add(this.DriveControl);
             this.Controls.Add(this.VolumeControl);
@@ -353,6 +360,7 @@
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.tciServerPort);
             this.Controls.Add(this.tciServerIP);
+            this.Controls.Add(this.groupBox3);
             this.Name = "StationMonitor";
             this.Text = "StationMonitor";
             this.groupBox1.ResumeLayout(false);

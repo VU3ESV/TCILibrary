@@ -23,6 +23,14 @@ namespace StationMonitor
         {
             InitializeComponent();
             ConnectionStatus.Text = "N";
+            ConnectionStatus.BackColor = Color.Gray;
+            VolumeControl.Enabled = false;
+            DriveControl.Enabled = false;
+            TuneControl.Enabled = false;
+            StartButton.Enabled = false;
+            StopButton.Enabled = false;
+            tciServerIP.Enabled = true;
+            tciServerPort.Enabled = true;
         }
 
         private async void ConnectButton_Click(object sender, EventArgs e)
@@ -186,6 +194,13 @@ namespace StationMonitor
             {
                 ConnectionStatus.Text = "D";
                 ConnectionStatus.BackColor = Color.Red;
+                VolumeControl.Enabled = false;
+                DriveControl.Enabled = false;
+                TuneControl.Enabled = false;
+                StartButton.Enabled = false;
+                StopButton.Enabled = false;
+                tciServerIP.Enabled = true;
+                tciServerPort.Enabled = true;
             });
         }
 
@@ -195,6 +210,13 @@ namespace StationMonitor
             {
                 ConnectionStatus.Text = "C";
                 ConnectionStatus.BackColor = Color.Green;
+                VolumeControl.Enabled = true;
+                DriveControl.Enabled = true;
+                TuneControl.Enabled = true;
+                StartButton.Enabled = true;
+                StopButton.Enabled = true;
+                tciServerIP.Enabled = false;
+                tciServerPort.Enabled = false;
             });
         }
 
@@ -380,12 +402,12 @@ namespace StationMonitor
 
         private async void StartButton_Click(object sender, EventArgs e)
         {
-            await tranaceiverController.StartTransceiver();
+            await tranaceiverController?.StartTransceiver();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            tranaceiverController.StopTransceiver();
+            tranaceiverController?.StopTransceiver();
         }
 
         private async void VolumeControl_Scroll(object sender, EventArgs e)
@@ -396,7 +418,7 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController.SetVolume(volumeLevel);
+            await tranaceiverController?.SetVolume(volumeLevel);
         }
 
         private async void DriveControl_Scroll(object sender, EventArgs e)
@@ -407,7 +429,7 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController.SetDrive(driveLevel);
+            await tranaceiverController?.SetDrive(driveLevel);
 
         }
 
@@ -419,7 +441,7 @@ namespace StationMonitor
                 return;
             }
 
-            await tranaceiverController.SetTuneDrive(driveLevel);
+            await tranaceiverController?.SetTuneDrive(driveLevel);
         }
     }
 }
