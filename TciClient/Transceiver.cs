@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExpertElectronics.Tci.Events;
 using ExpertElectronics.Tci.Interfaces;
 
@@ -222,7 +223,7 @@ namespace ExpertElectronics.Tci
             {
                 _channels.Add(new Channel(i, this));
             }
-        }
+        }       
 
         public event EventHandler<TrxEventArgs> OnTxEnableChanged;
         public event EventHandler<TrxEventArgs> OnTxFootSwitch;

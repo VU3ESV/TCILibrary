@@ -884,7 +884,7 @@ namespace ExpertElectronics.Tci
                 return;
             }
 
-            await TciClient.SendMessageAsync($"{TciVfoCommand.Name}:{transceiverPeriodicNumber},{channel},{channel.Vfo};");
+            await TciClient.SendMessageAsync($"{TciVfoCommand.Name}:{transceiverPeriodicNumber},{channelPeriodicNumber},{tuningFrequencyInHz};");
         }
 
         public long Vfo(uint transceiverPeriodicNumber, uint channelPeriodicNumber)
@@ -1024,6 +1024,19 @@ namespace ExpertElectronics.Tci
             ConnectionState = e.TciConnection
                 ? TransceiverConnectionState.Connected
                 : TransceiverConnectionState.Disconnected;
+        }
+
+        public async Task VfoAToB(uint transceiverPeriodicNumber)
+        {
+            var vfoA = Vfo(transceiverPeriodicNumber, 0);
+
+            await Vfo(transceiverPeriodicNumber, 1, vfoA);
+        }
+
+        public async Task VfoBToA(uint transceiverPeriodicNumber)
+        {
+            var vfoB = Vfo(transceiverPeriodicNumber, 1);
+            await Vfo(transceiverPeriodicNumber, 0, vfoB);
         }
 
         private readonly ITciMessageHandler _messageHandler;
