@@ -11,10 +11,18 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        protected override async void Dispose(bool disposing)
         {
+            if (tciClient.ConnectionStatus == ExpertElectronics.Tci.Interfaces.ConnectionStatus.Connected)
+            {
+                await tciClient.DisConnectAsync();
+            }
+
+            tciClient.Dispose();
+
             if (disposing && (components != null))
             {
+               
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -54,6 +62,7 @@
             this.Tr1ModulationValue = new System.Windows.Forms.Label();
             this.Tr2ModulationValue = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ConnectionStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
@@ -81,9 +90,9 @@
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(498, 30);
+            this.ConnectButton.Location = new System.Drawing.Point(459, 29);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(88, 25);
+            this.ConnectButton.Size = new System.Drawing.Size(78, 25);
             this.ConnectButton.TabIndex = 2;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
@@ -91,9 +100,9 @@
             // 
             // DisconnectButton
             // 
-            this.DisconnectButton.Location = new System.Drawing.Point(599, 31);
+            this.DisconnectButton.Location = new System.Drawing.Point(543, 29);
             this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(85, 23);
+            this.DisconnectButton.Size = new System.Drawing.Size(71, 23);
             this.DisconnectButton.TabIndex = 3;
             this.DisconnectButton.Text = "Disconnect";
             this.DisconnectButton.UseVisualStyleBackColor = true;
@@ -321,13 +330,22 @@
             this.groupBox4.TabIndex = 25;
             this.groupBox4.TabStop = false;
             // 
+            // ConnectionStatus
+            // 
+            this.ConnectionStatus.AutoSize = true;
+            this.ConnectionStatus.Location = new System.Drawing.Point(625, 34);
+            this.ConnectionStatus.Name = "ConnectionStatus";
+            this.ConnectionStatus.Size = new System.Drawing.Size(27, 13);
+            this.ConnectionStatus.TabIndex = 26;
+            this.ConnectionStatus.Text = "C/D";
+            // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1091, 456);
+            this.Controls.Add(this.ConnectionStatus);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.TuneControl);
             this.Controls.Add(this.DriveControl);
             this.Controls.Add(this.VolumeControl);
@@ -342,6 +360,7 @@
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.tciServerPort);
             this.Controls.Add(this.tciServerIP);
+            this.Controls.Add(this.groupBox3);
             this.Name = "StationMonitor";
             this.Text = "StationMonitor";
             this.groupBox1.ResumeLayout(false);
@@ -388,6 +407,7 @@
         private System.Windows.Forms.Label Tr1ModulationValue;
         private System.Windows.Forms.Label Tr2ModulationValue;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label ConnectionStatus;
     }
 }
 

@@ -13,7 +13,7 @@ namespace ExpertElectronics.Tci
         {
             Debug.Assert(!string.IsNullOrEmpty(serverIpAddress));
             Debug.Assert(serverPort != 0);
-            if (serverIpAddress!= "localhost" && !IPAddress.TryParse(serverIpAddress, out var _))
+            if (serverIpAddress != "localhost" && !IPAddress.TryParse(serverIpAddress, out var _))
             {
                 throw new ArgumentException($"Invalid Format. Parameter- '{serverIpAddress}'");
             }
@@ -24,9 +24,28 @@ namespace ExpertElectronics.Tci
         private TciClient(string serverIpAddress, uint serverPort, CancellationToken cancellationToken)
         {
             _messageHandler = new TciMessageHandler();
+            _messageHandler.OnSocketConnectionChanged += MessageHandler_OnSocketConnectionChanged;
             TransceiverController = new TransceiverController(_messageHandler, this);
             _tciWebSocketClient = TciWebSocketClient.CreateAsync(serverIpAddress, serverPort, cancellationToken).Result;
             Initialize();
+        }
+
+        private void MessageHandler_OnSocketConnectionChanged(object sender, TciConnectedEventArgs e)
+        {
+            if (e.TciConnection == true)
+            {
+                ConnectionStatus = ConnectionStatus.Connected;
+                OnConnect?.Invoke(this, new TciConnectedEventArgs(true));
+            }
+            else if (e.TciConnection == false)
+            {
+                ConnectionStatus = ConnectionStatus.Disconnected;
+                OnDisconnect?.Invoke(this, new TciConnectedEventArgs(false));
+            }
+            else
+            {
+                ConnectionStatus = ConnectionStatus.None;
+            }
         }
 
         public async Task ConnectAsync()
@@ -41,6 +60,10 @@ namespace ExpertElectronics.Tci
 
         public ITransceiverController TransceiverController { get; }
 
+        public ConnectionStatus ConnectionStatus
+        {
+            get; private set;
+        }
 
         public async Task SendMessageAsync(string message)
         {
@@ -54,7 +77,26 @@ namespace ExpertElectronics.Tci
             _tciWebSocketClient.OnMessage(_messageHandler.OnMessage);
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                return;
+            }
+
+            _messageHandler.OnSocketConnectionChanged -= MessageHandler_OnSocketConnectionChanged;
+        }
+
         private readonly TciWebSocketClient _tciWebSocketClient;
         private readonly ITciMessageHandler _messageHandler;
+
+        public event EventHandler<TciConnectedEventArgs> OnConnect;
+        public event EventHandler<TciConnectedEventArgs> OnDisconnect;
     }
 }

@@ -21,3 +21,5 @@
 /TciClient.sln.DotSettings.user
 /StationMonitor/bin/Debug
 /StationMonitor/obj/Debug
+/.vs/slnx.sqlite-journal
+/StationMonitor/obj/Release/StationMonitor.csproj.CoreCompileInputs.cache
