@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using ExpertElectronics.Tci;
 using ExpertElectronics.Tci.Interfaces;
 using ExpertElectronics.Tci.Events;
+using ExpertElectronics.Tci.TciCommands;
 
 namespace StationMonitor
 {
@@ -38,6 +39,10 @@ namespace StationMonitor
             TuneButton.BackColor = Color.Green;
             MuteButton.Enabled = false;
             MuteButton.BackColor = Color.Green;
+            R1Split.Enabled = false;
+            R1Split.BackColor = Color.Green;
+            R2Split.Enabled = false;
+            R2Split.BackColor = Color.Green;
         }
 
         private async void ConnectButton_Click(object sender, EventArgs e)
@@ -214,6 +219,8 @@ namespace StationMonitor
                 R2BtoA.Enabled = false;
                 TuneButton.Enabled = false;
                 MuteButton.Enabled = false;
+                R1Split.Enabled = false;
+                R2Split.Enabled = false;
             });
         }
 
@@ -236,6 +243,9 @@ namespace StationMonitor
                 R2BtoA.Enabled = true;
                 TuneButton.Enabled = true;
                 MuteButton.Enabled = true;
+                R1Split.Enabled = true;
+                R2Split.Enabled = true;
+                Device.Text = tciClient.TransceiverController.Device;
             });
         }
 
@@ -502,5 +512,25 @@ namespace StationMonitor
                 await tranceiverController.RxMute(receiverPeriodicNumber: 0, !muteState.Value);
             }
         }
+
+        private async void R1Split_Click(object sender, EventArgs e)
+        {
+            var splitState = tranceiverController?.SplitEnable(transceiverPeriodicNumber: 0);
+            if (splitState.HasValue)
+            {
+                R1Split.BackColor = splitState.Value == true ? Color.Green : Color.Red;
+                await tranceiverController.SplitEnable(transceiverPeriodicNumber: 0, !splitState.Value);
+            }
+        }
+
+        private async void R2Split_Click(object sender, EventArgs e)
+        {
+            var splitState = tranceiverController?.SplitEnable(transceiverPeriodicNumber: 1);
+            if (splitState.HasValue)
+            {
+                R2Split.BackColor = splitState.Value == true ? Color.Green : Color.Red;
+                await tranceiverController.SplitEnable(transceiverPeriodicNumber: 1, !splitState.Value);
+            }
+        }       
     }
 }
