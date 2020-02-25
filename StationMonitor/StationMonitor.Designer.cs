@@ -67,6 +67,9 @@
             this.ConnectionStatus = new System.Windows.Forms.Label();
             this.TuneButton = new System.Windows.Forms.Button();
             this.MuteButton = new System.Windows.Forms.Button();
+            this.R1Split = new System.Windows.Forms.Button();
+            this.R2Split = new System.Windows.Forms.Button();
+            this.Device = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
@@ -151,6 +154,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.R1Split);
             this.groupBox1.Controls.Add(this.R1BtoA);
             this.groupBox1.Controls.Add(this.R1AtoB);
             this.groupBox1.Controls.Add(this.Receiver1VfoB);
@@ -165,9 +169,9 @@
             // 
             // R1BtoA
             // 
-            this.R1BtoA.Location = new System.Drawing.Point(89, 161);
+            this.R1BtoA.Location = new System.Drawing.Point(91, 161);
             this.R1BtoA.Name = "R1BtoA";
-            this.R1BtoA.Size = new System.Drawing.Size(65, 31);
+            this.R1BtoA.Size = new System.Drawing.Size(61, 31);
             this.R1BtoA.TabIndex = 18;
             this.R1BtoA.Text = "B > A";
             this.R1BtoA.UseVisualStyleBackColor = true;
@@ -195,6 +199,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.R2Split);
             this.groupBox2.Controls.Add(this.R2BtoA);
             this.groupBox2.Controls.Add(this.Tr2ModulationValue);
             this.groupBox2.Controls.Add(this.R2AtoB);
@@ -387,11 +392,42 @@
             this.MuteButton.UseVisualStyleBackColor = true;
             this.MuteButton.Click += new System.EventHandler(this.MuteButton_Click);
             // 
+            // R1Split
+            // 
+            this.R1Split.Location = new System.Drawing.Point(160, 161);
+            this.R1Split.Name = "R1Split";
+            this.R1Split.Size = new System.Drawing.Size(61, 31);
+            this.R1Split.TabIndex = 19;
+            this.R1Split.Text = "Split";
+            this.R1Split.UseVisualStyleBackColor = true;
+            this.R1Split.Click += new System.EventHandler(this.R1Split_Click);
+            // 
+            // R2Split
+            // 
+            this.R2Split.Location = new System.Drawing.Point(137, 161);
+            this.R2Split.Name = "R2Split";
+            this.R2Split.Size = new System.Drawing.Size(58, 31);
+            this.R2Split.TabIndex = 21;
+            this.R2Split.Text = "Split";
+            this.R2Split.UseVisualStyleBackColor = true;
+            this.R2Split.Click += new System.EventHandler(this.R2Split_Click);
+            // 
+            // Device
+            // 
+            this.Device.AutoSize = true;
+            this.Device.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Device.Location = new System.Drawing.Point(952, 41);
+            this.Device.Name = "Device";
+            this.Device.Size = new System.Drawing.Size(0, 16);
+            this.Device.TabIndex = 29;
+            // 
             // StationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(1126, 684);
+            this.Controls.Add(this.Device);
             this.Controls.Add(this.MuteButton);
             this.Controls.Add(this.TuneButton);
             this.Controls.Add(this.ConnectionStatus);
@@ -459,6 +495,9 @@
         private System.Windows.Forms.Button R2AtoB;
         private System.Windows.Forms.Button TuneButton;
         private System.Windows.Forms.Button MuteButton;
+        private System.Windows.Forms.Button R1Split;
+        private System.Windows.Forms.Button R2Split;
+        private System.Windows.Forms.Label Device;
     }
 }
 
