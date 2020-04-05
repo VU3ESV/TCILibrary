@@ -7,7 +7,8 @@ using System.Windows.Threading;
 using ExpertElectronics.Tci;
 using ExpertElectronics.Tci.Interfaces;
 using ExpertElectronics.Tci.Events;
-using ExpertElectronics.Tci.TciCommands;
+using USBRelay.RelayLib;
+using System.Linq;
 
 namespace StationMonitor
 {
@@ -19,6 +20,11 @@ namespace StationMonitor
         private readonly Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        private readonly RelaysEnumerator _relaysEnumerator = new RelaysEnumerator();
+        private Relay _selectedRelay = null;
+
+
         public StationMonitor()
         {
             InitializeComponent();
@@ -43,6 +49,57 @@ namespace StationMonitor
             R1Split.BackColor = Color.Green;
             R2Split.Enabled = false;
             R2Split.BackColor = Color.Green;
+
+            InitializeLPFRelay();
+        }
+
+        private void InitializeLPFRelay()
+        {
+            var items = _relaysEnumerator.CollectInfo()
+               .Select(x => new RelayItem(x))?
+               .ToArray();
+            if (items?.Count() > 0)
+            {
+                _selectedRelay = items
+                    .OfType<RelayItem>()
+                    .Select(x => new Relay(x.RelayInfo))
+                    .FirstOrDefault();
+            }
+
+            if (_selectedRelay == null)
+            {
+                return;
+            }
+
+            if (!_selectedRelay.IsOpened)
+            {
+                _selectedRelay.Open();
+            }
+        }
+
+        public static void ActivateRelayChannel(Relay relay, int channelNumber)
+        {
+            if (channelNumber >= 0)
+            {
+                relay?.WriteChannel(channelNumber + 1, true);
+            }
+        }
+
+        public static void ActivateRelayChannels(Relay relay)
+        {
+            relay?.WriteChannels(true);
+        }
+
+        public static void DeActivateRelayChannel(Relay relay, int channelNumber)
+        {
+            if (channelNumber >= 0)
+            {
+                relay?.WriteChannel(channelNumber + 1, false);
+            }
+        }
+        public static void DeActivateRelayChannels(Relay relay)
+        {
+            relay?.WriteChannels(false);
         }
 
         private async void ConnectButton_Click(object sender, EventArgs e)
@@ -308,11 +365,19 @@ namespace StationMonitor
                 {
                     Tx.Text = "Tx";
                     Tx.BackColor = Color.Red;
+                    if (_selectedRelay != null)
+                    {
+                        ActivateRelayChannel(_selectedRelay, 0);
+                    }
                 }
                 else
                 {
                     Tx.Text = "Rx";
                     Tx.BackColor = Color.Green;
+                    if (_selectedRelay != null)
+                    {
+                        DeActivateRelayChannel(_selectedRelay, 0);
+                    }
                 }
             });
         }
@@ -531,6 +596,6 @@ namespace StationMonitor
                 R2Split.BackColor = splitState.Value == true ? Color.Green : Color.Red;
                 await tranceiverController.SplitEnable(transceiverPeriodicNumber: 1, !splitState.Value);
             }
-        }       
+        }
     }
 }

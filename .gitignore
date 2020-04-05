@@ -23,3 +23,5 @@
 /StationMonitor/obj/Debug
 /.vs/slnx.sqlite-journal
 /StationMonitor/obj/Release/StationMonitor.csproj.CoreCompileInputs.cache
+/USBRelay/bin/Debug/netstandard2.0
+/USBRelay/obj

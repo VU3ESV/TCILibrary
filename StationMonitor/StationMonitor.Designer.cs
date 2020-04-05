@@ -13,6 +13,16 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override async void Dispose(bool disposing)
         {
+            if (_selectedRelay != null)
+            {
+                DeActivateRelayChannels(_selectedRelay);
+            }
+
+            if (_selectedRelay.IsOpened)
+            {
+                _selectedRelay.Close();
+            }
+
             if (tciClient?.ConnectionStatus == ExpertElectronics.Tci.Interfaces.ConnectionStatus.Connected)
             {
                 await tciClient?.DisConnectAsync();
@@ -22,7 +32,6 @@
 
             if (disposing && (components != null))
             {
-               
                 components.Dispose();
             }
             base.Dispose(disposing);

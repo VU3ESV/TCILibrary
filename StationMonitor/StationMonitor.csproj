@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RelayItem.cs" />
     <Compile Include="StationMonitor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\TciClient\TciClientLibrary.csproj">
       <Project>{2fdaf634-d9d6-43a7-8d81-5c60777ded1d}</Project>
       <Name>TciClientLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USBRelay\USBRelay.csproj">
+      <Project>{2CF805C7-4E1E-4057-B8D7-3F64CA8DB534}</Project>
+      <Name>USBRelay</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
