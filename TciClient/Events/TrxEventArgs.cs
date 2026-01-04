@@ -2,20 +2,17 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-using System;
+namespace ExpertElectronics.Tci.Events;
 
-namespace ExpertElectronics.Tci.Events
+public class TrxEventArgs : EventArgs
 {
-    public class TrxEventArgs : EventArgs
+    public TrxEventArgs(uint transceiverPeriodicNumber, bool state)
     {
-        public TrxEventArgs(uint transceiverPeriodicNumber, bool state)
-        {
-            TransceiverPeriodicNumber = transceiverPeriodicNumber;
-            State = state;
-        }
-
-        public uint TransceiverPeriodicNumber { get; }
-
-        public bool State { get; }
+        TransceiverPeriodicNumber = transceiverPeriodicNumber;
+        State = state;
     }
+
+    public uint TransceiverPeriodicNumber { get; }
+
+    public bool State { get; }
 }

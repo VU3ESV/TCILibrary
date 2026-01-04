@@ -1,25 +1,24 @@
-﻿namespace ExpertElectronics.Tci
+﻿namespace ExpertElectronics.Tci;
+
+internal enum StreamType
 {
-    internal enum StreamType
-    {
-        /// <summary>
-        /// Receiver's IQ Signal Stream
-        /// </summary>
-        IqStream = 0,
+    /// <summary>
+    /// Receiver's IQ Signal Stream
+    /// </summary>
+    IqStream = 0,
 
-        /// <summary>
-        /// Receiver's Audio Signal Stream
-        /// </summary>
-        RxAudioStream,
+    /// <summary>
+    /// Receiver's Audio Signal Stream
+    /// </summary>
+    RxAudioStream,
 
-        /// <summary>
-        /// Transceiver's Audio Signal Stream
-        /// </summary>
-        TxAudioStream,
+    /// <summary>
+    /// Transceiver's Audio Signal Stream
+    /// </summary>
+    TxAudioStream,
 
-        /// <summary>
-        /// Stream of temporary Markers to transmit audio signal
-        /// </summary>
-        TxChrono,
-    }
+    /// <summary>
+    /// Stream of temporary Markers to transmit audio signal
+    /// </summary>
+    TxChrono,
 }

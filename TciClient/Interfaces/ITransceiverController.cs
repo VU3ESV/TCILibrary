@@ -1,236 +1,229 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
-using ExpertElectronics.Tci.Events;
+﻿namespace ExpertElectronics.Tci.Interfaces;
 
-namespace ExpertElectronics.Tci.Interfaces
+public interface ITransceiverController
 {
-    public interface ITransceiverController
-    {
-        #region Properties
+    #region Properties
 
-        ITciClient TciClient { get; }
+    ITciClient TciClient { get; }
 
-        bool Start { get; set; }
+    bool Start { get; set; }
 
-        bool Stop { get; set; }
+    bool Stop { get; set; }
 
-        string SoftwareName { get; set; }
+    string SoftwareName { get; set; }
 
-        string SoftwareVersion { get; set; }
+    string SoftwareVersion { get; set; }
 
-        long VfoMin { get; set; }
+    long VfoMin { get; set; }
 
-        long VfoMax { get; set; }
+    long VfoMax { get; set; }
 
-        long IfMin { get; set; }
+    long IfMin { get; set; }
 
-        long IfMax { get; set; }
+    long IfMax { get; set; }
 
-        uint TrxCount { get; set; }
+    uint TrxCount { get; set; }
 
-        uint ChannelsCount { get; set; }
+    uint ChannelsCount { get; set; }
 
-        string Device { get; set; }
+    string Device { get; set; }
 
-        bool ReceiveOnly { get; set; }
+    bool ReceiveOnly { get; set; }
 
-        float TxPower { get; set; }
+    float TxPower { get; set; }
 
-        float TxSwr { get; set; }
+    float TxSwr { get; set; }
 
-        uint CwMacroSpeed { get; set; }
+    uint CwMacroSpeed { get; set; }
 
-        uint CwMacrosDelay { get; set; }
+    uint CwMacrosDelay { get; set; }
 
-        uint Drive { get; set; }
+    uint Drive { get; set; }
 
-        uint TuneDrive { get; set; }
+    uint TuneDrive { get; set; }
 
-        int Volume { get; set; }
+    int Volume { get; set; }
 
-        uint IqSampleRate { get; set; }
+    uint IqSampleRate { get; set; }
 
-        uint AudioSampleRate { get; set; }
+    uint AudioSampleRate { get; set; }
 
-        bool Ready { get; set; }
+    bool Ready { get; set; }
 
-        bool Mute { get; set; }
+    bool Mute { get; set; }
 
-        IEnumerable<string> ModulationsList { get; set; }
+    IEnumerable<string> ModulationsList { get; set; }
 
-        IEnumerable<ITransceiver> Transceivers { get; }
+    IEnumerable<ITransceiver> Transceivers { get; }
 
-        TransceiverConnectionState ConnectionState { get; }
-        uint CwMacrosSpeedDown { get; set; }
-        uint CwMacrosSpeedUp { get; set; }
+    TransceiverConnectionState ConnectionState { get; }
+    uint CwMacrosSpeedDown { get; set; }
+    uint CwMacrosSpeedUp { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Methods      
+    #region Methods      
 
-        ITransceiver GetTransceiver(uint transceiverPeriodicNumber);
+    ITransceiver GetTransceiver(uint transceiverPeriodicNumber);
 
-        bool TxEnable(uint transceiverPeriodicNumber);
+    bool TxEnable(uint transceiverPeriodicNumber);
 
-        bool TxFootSwitch(uint transceiverPeriodicNumber);
+    bool TxFootSwitch(uint transceiverPeriodicNumber);
 
-        Task StartTransceiver();
+    Task StartTransceiver();
 
-        Task StopTransceiver();
+    Task StopTransceiver();
 
-        void CreateTransceivers(uint transceiverCount);
+    void CreateTransceivers(uint transceiverCount);
 
-        Task SetDdsFrequency(uint transceiverPeriodicNumber, double frequency);
+    Task SetDdsFrequency(uint transceiverPeriodicNumber, double frequency);
 
-        double ReadDdsFrequency(uint transceiverPeriodicNumber);
+    double ReadDdsFrequency(uint transceiverPeriodicNumber);
 
-        Task IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber, double frequency);
+    Task IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber, double frequency);
 
-        double IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber);
+    double IfFilter(uint receiverPeriodicNumber, uint channelPeriodicNumber);
 
-        Task RitEnable(uint transceiverPeriodicNumber, bool state);
-        bool RitEnable(uint transceiverPeriodicNumber);
+    Task RitEnable(uint transceiverPeriodicNumber, bool state);
+    bool RitEnable(uint transceiverPeriodicNumber);
 
-        Task Modulation(uint transceiverPeriodicNumber, string mode);
+    Task Modulation(uint transceiverPeriodicNumber, string mode);
 
-        string Modulation(uint transceiverPeriodicNumber);
+    string Modulation(uint transceiverPeriodicNumber);
 
-        Task RxEnable(uint receiverPeriodicNumber, bool state);
+    Task RxEnable(uint receiverPeriodicNumber, bool state);
 
-        bool RxEnable(uint receiverPeriodicNumber);
+    bool RxEnable(uint receiverPeriodicNumber);
 
-        Task XitEnable(uint transceiverPeriodicNumber, bool state);
+    Task XitEnable(uint transceiverPeriodicNumber, bool state);
 
-        bool XitEnable(uint transceiverPeriodicNumber);
+    bool XitEnable(uint transceiverPeriodicNumber);
 
-        Task SplitEnable(uint transceiverPeriodicNumber, bool state);
+    Task SplitEnable(uint transceiverPeriodicNumber, bool state);
 
-        bool SplitEnable(uint transceiverPeriodicNumber);
+    bool SplitEnable(uint transceiverPeriodicNumber);
 
-        Task XitOffset(uint transceiverPeriodicNumber, int offsetFrequencyInHz);
+    Task XitOffset(uint transceiverPeriodicNumber, int offsetFrequencyInHz);
 
-        int XitOffset(uint transceiverPeriodicNumber);
+    int XitOffset(uint transceiverPeriodicNumber);
 
-        Task ChannelEnable(uint transceiverPeriodicNumber, uint channel, bool state);
+    Task ChannelEnable(uint transceiverPeriodicNumber, uint channel, bool state);
 
-        bool ChannelEnable(uint transceiverPeriodicNumber, uint channel);
+    bool ChannelEnable(uint transceiverPeriodicNumber, uint channel);
 
-        Task RxFilter(uint transceiverPeriodicNumber);
+    Task RxFilter(uint transceiverPeriodicNumber);
 
-        int RxFilterLowLimit(uint transceiverPeriodicNumber);
+    int RxFilterLowLimit(uint transceiverPeriodicNumber);
 
-        int RxFilterHighLimit(uint transceiverPeriodicNumber);
+    int RxFilterHighLimit(uint transceiverPeriodicNumber);
 
-        Task ReadRxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
+    Task ReadRxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
-        int RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
+    int RxSMeter(uint transceiverPeriodicNumber, uint channelPeriodicNumber);
 
-        Task SetCwMacroSpeed(uint value);
+    Task SetCwMacroSpeed(uint value);
 
-        Task CwMacroSpeedUp(uint value);
+    Task CwMacroSpeedUp(uint value);
 
-        Task CwMacroSpeedDown(uint value);
+    Task CwMacroSpeedDown(uint value);
 
-        Task SetCwMacrosDelay(uint value);
+    Task SetCwMacrosDelay(uint value);
 
-        Task Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic");
+    Task Trx(uint transceiverPeriodicNumber, bool enable, string signalSource = "mic");
 
-        bool Trx(uint transceiverPeriodicNumber);
+    bool Trx(uint transceiverPeriodicNumber);
 
-        Task Tune(uint transceiverPeriodicNumber, bool enable);
+    Task Tune(uint transceiverPeriodicNumber, bool enable);
 
-        bool Tune(uint transceiverPeriodicNumber);
+    bool Tune(uint transceiverPeriodicNumber);
 
-        Task SetDrive(uint level);
+    Task SetDrive(uint level);
 
-        Task SetTuneDrive(uint level);
+    Task SetTuneDrive(uint level);
 
-        Task IqStart(uint transceiverPeriodicNumber);
+    Task IqStart(uint transceiverPeriodicNumber);
 
-        Task IqStop(uint transceiverPeriodicNumber);
+    Task IqStop(uint transceiverPeriodicNumber);
 
-        Task SetIqSampleRate(uint sampleRateInHz);
+    Task SetIqSampleRate(uint sampleRateInHz);
 
-        Task AudioStart(uint transceiverPeriodicNumber);
+    Task AudioStart(uint transceiverPeriodicNumber);
 
-        Task AudioStop(uint transceiverPeriodicNumber);
+    Task AudioStop(uint transceiverPeriodicNumber);
 
-        Task SetAudioSampleRate(uint sampleRateInHz);
+    Task SetAudioSampleRate(uint sampleRateInHz);
 
-        Task Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText);
+    Task Spot(string callSign, string mode, long frequencyInHz, Color color, string additionalText);
 
-        Task SpotDelete(string callSign);
+    Task SpotDelete(string callSign);
 
-        Task SpotClear();
+    Task SpotClear();
 
-        Task SetVolume(int volumeValueIndB);
+    Task SetVolume(int volumeValueIndB);
 
-        Task SquelchEnable(uint transceiverPeriodicNumber, bool state);
+    Task SquelchEnable(uint transceiverPeriodicNumber, bool state);
 
-        bool SquelchEnable(uint transceiverPeriodicNumber);
+    bool SquelchEnable(uint transceiverPeriodicNumber);
 
-        Task SquelchLevel(uint transceiverPeriodicNumber, int thresholdIndB);
+    Task SquelchLevel(uint transceiverPeriodicNumber, int thresholdIndB);
 
-        int SquelchLevel(uint transceiverPeriodicNumber);
+    int SquelchLevel(uint transceiverPeriodicNumber);
 
-        Task Vfo(uint transceiverPeriodicNumber, uint channelNumber, long tuningFrequencyInHz);
+    Task Vfo(uint transceiverPeriodicNumber, uint channelNumber, long tuningFrequencyInHz);
 
-        long Vfo(uint transceiverPeriodicNumber, uint channelNumber);
+    long Vfo(uint transceiverPeriodicNumber, uint channelNumber);
 
-        Task VfoAToB(uint transceiverPeriodicNumber);
+    Task VfoAToB(uint transceiverPeriodicNumber);
 
-        Task VfoBToA(uint transceiverPeriodicNumber);
+    Task VfoBToA(uint transceiverPeriodicNumber);
 
-        Task SetMute(bool state);
+    Task SetMute(bool state);
 
-        Task RxMute(uint receiverPeriodicNumber, bool state);
+    Task RxMute(uint receiverPeriodicNumber, bool state);
 
-        bool RxMute(uint receiverPeriodicNumber);
+    bool RxMute(uint receiverPeriodicNumber);
 
-        bool IsStarted();
+    bool IsStarted();
 
-        Task SetMacros(uint transceiverPeriodicNumber, string text);
+    Task SetMacros(uint transceiverPeriodicNumber, string text);
 
-        Task SetCwMacrosStop();
+    Task SetCwMacrosStop();
 
-        Task RitOffset(uint transceiverPeriodicNumber, int value);
+    Task RitOffset(uint transceiverPeriodicNumber, int value);
 
-        Task CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after);
+    Task CwMessage(uint transceiverPeriodicNumber, string before, string callSign, string after);
 
-        Task AddCwMessageCallSign(string callSign);
-        #endregion
-        #region Events
+    Task AddCwMessageCallSign(string callSign);
+    #endregion
+    #region Events
 
-        event EventHandler<EventArgs> OnStarted;
+    event EventHandler<EventArgs> OnStarted;
 
-        event EventHandler<EventArgs> OnStopped;
+    event EventHandler<EventArgs> OnStopped;
 
-        event EventHandler<StateChangeEventArgs> OnMute;
+    event EventHandler<StateChangeEventArgs> OnMute;
 
-        event EventHandler<VfoLimitsChangedEventArgs> OnVfoLimitsChanged;
+    event EventHandler<VfoLimitsChangedEventArgs> OnVfoLimitsChanged;
 
-        event EventHandler<IfLimitsChangedEventArgs> OnIfLimitsChanged;
+    event EventHandler<IfLimitsChangedEventArgs> OnIfLimitsChanged;
 
-        event EventHandler<UintValueChangedEventArgs> OnIqOutSampleRateChanged;
+    event EventHandler<UintValueChangedEventArgs> OnIqOutSampleRateChanged;
 
-        event EventHandler<IntValueChangedEventArgs> OnVolumeChanged;
+    event EventHandler<IntValueChangedEventArgs> OnVolumeChanged;
 
-        event EventHandler<UintValueChangedEventArgs> OnAudioSampleRateChanged;
+    event EventHandler<UintValueChangedEventArgs> OnAudioSampleRateChanged;
 
-        event EventHandler<UintValueChangedEventArgs> OnDrive;
+    event EventHandler<UintValueChangedEventArgs> OnDrive;
 
-        event EventHandler<UintValueChangedEventArgs> OnTuneDrive;
+    event EventHandler<UintValueChangedEventArgs> OnTuneDrive;
 
-        event EventHandler<UintValueChangedEventArgs> OnCwSpeedChanged;
+    event EventHandler<UintValueChangedEventArgs> OnCwSpeedChanged;
 
-        event EventHandler<UintValueChangedEventArgs> OnCwMacroSpeedUp;
+    event EventHandler<UintValueChangedEventArgs> OnCwMacroSpeedUp;
 
-        event EventHandler<UintValueChangedEventArgs> OnCwMacroSpeedDown;
+    event EventHandler<UintValueChangedEventArgs> OnCwMacroSpeedDown;
 
-        event EventHandler<UintValueChangedEventArgs> OnCwMacrosDelayChanged;
+    event EventHandler<UintValueChangedEventArgs> OnCwMacrosDelayChanged;
 
-        #endregion
-    }
+    #endregion
 }

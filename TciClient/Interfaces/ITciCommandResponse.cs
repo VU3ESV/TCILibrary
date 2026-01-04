@@ -1,6 +1,5 @@
-﻿namespace ExpertElectronics.Tci.Interfaces
+﻿namespace ExpertElectronics.Tci.Interfaces;
+
+public interface ITciCommandResponse
 {
-    public interface ITciCommandResponse
-    {
-    }
 }

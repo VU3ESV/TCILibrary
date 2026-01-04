@@ -2,17 +2,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-using System;
+namespace ExpertElectronics.Tci.Events;
 
-namespace ExpertElectronics.Tci.Events
+public class UintValueChangedEventArgs : EventArgs
 {
-    public class UintValueChangedEventArgs : EventArgs
-    {
-        public UintValueChangedEventArgs(uint value)
-        {
-            Value = value;
-        }
+    public UintValueChangedEventArgs(uint value) => Value = value;
 
-        public uint Value { get; }
-    }
+    public uint Value { get; }
 }

@@ -2,23 +2,20 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-using System;
+namespace ExpertElectronics.Tci.Events;
 
-namespace ExpertElectronics.Tci.Events
+public class VfoChangeEventArgs : EventArgs
 {
-    public class VfoChangeEventArgs : EventArgs
+    public VfoChangeEventArgs(uint transceiverPeriodicNumber, uint channel, long vfo)
     {
-        public VfoChangeEventArgs(uint transceiverPeriodicNumber, uint channel, long vfo)
-        {
-            TransceiverPeriodicNumber = transceiverPeriodicNumber;
-            Channel = channel;
-            Vfo = vfo;
-        }
-
-        public uint TransceiverPeriodicNumber { get; }
-
-        public uint Channel { get; }
-
-        public long Vfo { get; }
+        TransceiverPeriodicNumber = transceiverPeriodicNumber;
+        Channel = channel;
+        Vfo = vfo;
     }
+
+    public uint TransceiverPeriodicNumber { get; }
+
+    public uint Channel { get; }
+
+    public long Vfo { get; }
 }

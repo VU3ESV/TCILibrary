@@ -1,29 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace ExpertElectronics.Tci.Interfaces;
 
-namespace ExpertElectronics.Tci.Interfaces
+public interface ITciClient : IDisposable
 {
-    public interface ITciClient : IDisposable
-    {
-        Task ConnectAsync();
+    Task ConnectAsync();
 
-        Task DisConnectAsync();
+    Task DisConnectAsync();
 
-        ITransceiverController TransceiverController { get; }
+    ITransceiverController TransceiverController { get; }
 
-        Task SendMessageAsync(string message);
+    Task SendMessageAsync(string message);
 
-        event EventHandler<TciConnectedEventArgs> OnConnect;
+    event EventHandler<TciConnectedEventArgs> OnConnect;
 
-        event EventHandler<TciConnectedEventArgs> OnDisconnect;
+    event EventHandler<TciConnectedEventArgs> OnDisconnect;
 
-        ConnectionStatus ConnectionStatus { get; }
-    }
+    ConnectionStatus ConnectionStatus { get; }
+}
 
-    public enum ConnectionStatus
-    {
-        None = 0,
-        Connected = 1,
-        Disconnected = 2,
-    }
+public enum ConnectionStatus
+{
+    None = 0,
+    Connected = 1,
+    Disconnected = 2,
 }

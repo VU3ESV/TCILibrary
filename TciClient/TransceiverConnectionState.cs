@@ -1,11 +1,10 @@
-﻿namespace ExpertElectronics.Tci
+﻿namespace ExpertElectronics.Tci;
+
+/// <summary>
+/// Connection states used by the transceiver controller.
+/// </summary>
+public enum TransceiverConnectionState
 {
-    /// <summary>
-    /// Connection states used by the transceiver controller.
-    /// </summary>
-    public enum TransceiverConnectionState
-    {
-        Connected = 1,
-        Disconnected = 2
-    }
+    Connected = 1,
+    Disconnected = 2
 }

@@ -1,19 +1,18 @@
 ﻿using System.Runtime.Versioning;
 
-namespace StationMonitor
+namespace StationMonitor;
+
+static class Program
 {
-    static class Program
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    [SupportedOSPlatform("windows")]
+    static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [SupportedOSPlatform("windows")]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StationMonitor());
-        }
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new StationMonitor());
     }
 }

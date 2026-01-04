@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-using ExpertElectronics.Tci.Events;
-using ExpertElectronics.Tci.Interfaces;
-using ExpertElectronics.Tci.TciCommands;
+﻿using ExpertElectronics.Tci.TciCommands.Audio;
 
 namespace ExpertElectronics.Tci;
 
@@ -1251,11 +1243,12 @@ public class TransceiverController : ITransceiverController, IDisposable
     private void MessageHandler_OnSocketMessageReceived(object sender, TciMessageReceivedEventArgs e)
     {
         var message = e.Message;
+        Debug.WriteLine($"Received Message: {message}");
         var commandId = message.Split(':', ',', ';')[0];
-        if (_commands.Keys.Contains(commandId))
+        if (_commands.ContainsKey(commandId))
         {
             var command = _commands[commandId];
-            command.ProcessCommandResponses(new List<string> { message });
+            command.ProcessCommandResponses([message]);
         }
         else
         {

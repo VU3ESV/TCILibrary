@@ -1,35 +1,26 @@
-﻿using System;
+﻿namespace ExpertElectronics.Tci.Interfaces;
 
-namespace ExpertElectronics.Tci.Interfaces
+public interface ITciMessageHandler
 {
-    public interface ITciMessageHandler
-    {
-        void OnConnect(TciWebSocketClient tciWebSocketClient);
-        void OnDisConnect(TciWebSocketClient tciWebSocketClient);
-        void OnMessage(string message, TciWebSocketClient tciWebSocketClient);
+    void OnConnect(TciWebSocketClient tciWebSocketClient);
+    void OnDisConnect(TciWebSocketClient tciWebSocketClient);
+    void OnMessage(string message, TciWebSocketClient tciWebSocketClient);
 
-        event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
+    event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
 
-        event EventHandler<TciConnectedEventArgs> OnSocketConnectionChanged;
-    }
+    event EventHandler<TciConnectedEventArgs> OnSocketConnectionChanged;
+}
 
-    public class TciMessageReceivedEventArgs : EventArgs
-    {
-        public TciMessageReceivedEventArgs(string message)
-        {
-            Message = message;
-        }
+public class TciMessageReceivedEventArgs : EventArgs
+{
+    public TciMessageReceivedEventArgs(string message) => Message = message;
 
-        public string Message { get; }
-    }
+    public string Message { get; }
+}
 
-    public class TciConnectedEventArgs : EventArgs
-    {
-        public TciConnectedEventArgs(bool connection)
-        {
-            TciConnection = connection;
-        }
+public class TciConnectedEventArgs : EventArgs
+{
+    public TciConnectedEventArgs(bool connection) => TciConnection = connection;
 
-        public bool TciConnection { get; }
-    }
+    public bool TciConnection { get; }
 }

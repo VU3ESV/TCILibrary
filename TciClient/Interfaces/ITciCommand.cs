@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace ExpertElectronics.Tci.Interfaces;
 
-namespace ExpertElectronics.Tci.Interfaces
+public interface ITciCommand
 {
-    public interface ITciCommand
-    {
-        bool ProcessCommandResponses(IEnumerable<string> messages);
-    }
+    bool ProcessCommandResponses(IEnumerable<string> messages);
 }

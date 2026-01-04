@@ -2,20 +2,17 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-using System;
+namespace ExpertElectronics.Tci.Events;
 
-namespace ExpertElectronics.Tci.Events
+public class IfLimitsChangedEventArgs : EventArgs
 {
-    public class IfLimitsChangedEventArgs : EventArgs
+    public IfLimitsChangedEventArgs(long min, long max)
     {
-        public IfLimitsChangedEventArgs(long min, long max)
-        {
-            Min = min;
-            Max = max;
-        }
-
-        public long Min { get; }
-
-        public long Max { get; }
+        Min = min;
+        Max = max;
     }
+
+    public long Min { get; }
+
+    public long Max { get; }
 }

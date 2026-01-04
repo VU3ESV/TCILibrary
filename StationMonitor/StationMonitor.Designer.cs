@@ -36,429 +36,467 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tciServerIP = new System.Windows.Forms.TextBox();
-            this.tciServerPort = new System.Windows.Forms.TextBox();
-            this.ConnectButton = new System.Windows.Forms.Button();
-            this.DisconnectButton = new System.Windows.Forms.Button();
-            this.Receiver1VfoA = new System.Windows.Forms.Label();
-            this.Receiver1VfoB = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.R1BtoA = new System.Windows.Forms.Button();
-            this.R1AtoB = new System.Windows.Forms.Button();
-            this.Tr1ModulationValue = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.R2BtoA = new System.Windows.Forms.Button();
-            this.Tr2ModulationValue = new System.Windows.Forms.Label();
-            this.R2AtoB = new System.Windows.Forms.Button();
-            this.Receiver2VfoB = new System.Windows.Forms.Label();
-            this.Receiver2VfoA = new System.Windows.Forms.Label();
-            this.Tx = new System.Windows.Forms.Label();
-            this.Drive = new System.Windows.Forms.Label();
-            this.Tune = new System.Windows.Forms.Label();
-            this.StartButton = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
-            this.Volume = new System.Windows.Forms.Label();
-            this.VolumeControl = new System.Windows.Forms.TrackBar();
-            this.DriveControl = new System.Windows.Forms.TrackBar();
-            this.TuneControl = new System.Windows.Forms.TrackBar();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.ConnectionStatus = new System.Windows.Forms.Label();
-            this.TuneButton = new System.Windows.Forms.Button();
-            this.MuteButton = new System.Windows.Forms.Button();
-            this.R1Split = new System.Windows.Forms.Button();
-            this.R2Split = new System.Windows.Forms.Button();
-            this.Device = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.SuspendLayout();
+            tciServerIP = new TextBox();
+            tciServerPort = new TextBox();
+            ConnectButton = new Button();
+            DisconnectButton = new Button();
+            Receiver1VfoA = new Label();
+            Receiver1VfoB = new Label();
+            label1 = new Label();
+            label2 = new Label();
+            groupBox1 = new GroupBox();
+            R1Split = new Button();
+            R1BtoA = new Button();
+            R1AtoB = new Button();
+            Tr1ModulationValue = new Label();
+            groupBox2 = new GroupBox();
+            R2Split = new Button();
+            R2BtoA = new Button();
+            Tr2ModulationValue = new Label();
+            R2AtoB = new Button();
+            Receiver2VfoB = new Label();
+            Receiver2VfoA = new Label();
+            Tx = new Label();
+            Drive = new Label();
+            Tune = new Label();
+            StartButton = new Button();
+            StopButton = new Button();
+            Volume = new Label();
+            VolumeControl = new TrackBar();
+            DriveControl = new TrackBar();
+            TuneControl = new TrackBar();
+            groupBox3 = new GroupBox();
+            ConnectionStatus = new Label();
+            TuneButton = new Button();
+            MuteButton = new Button();
+            Device = new Label();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)VolumeControl).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DriveControl).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)TuneControl).BeginInit();
+            groupBox3.SuspendLayout();
+            SuspendLayout();
             // 
             // tciServerIP
             // 
-            this.tciServerIP.Location = new System.Drawing.Point(70, 27);
-            this.tciServerIP.Name = "tciServerIP";
-            this.tciServerIP.Size = new System.Drawing.Size(229, 20);
-            this.tciServerIP.TabIndex = 0;
-            this.tciServerIP.Text = "localhost";
+            tciServerIP.Location = new Point(82, 31);
+            tciServerIP.Margin = new Padding(4, 3, 4, 3);
+            tciServerIP.Name = "tciServerIP";
+            tciServerIP.Size = new Size(266, 23);
+            tciServerIP.TabIndex = 0;
+            tciServerIP.Text = "192.168.86.26";
             // 
             // tciServerPort
             // 
-            this.tciServerPort.Location = new System.Drawing.Point(323, 29);
-            this.tciServerPort.Name = "tciServerPort";
-            this.tciServerPort.Size = new System.Drawing.Size(130, 20);
-            this.tciServerPort.TabIndex = 1;
-            this.tciServerPort.Text = "40001";
+            tciServerPort.Location = new Point(377, 33);
+            tciServerPort.Margin = new Padding(4, 3, 4, 3);
+            tciServerPort.Name = "tciServerPort";
+            tciServerPort.Size = new Size(151, 23);
+            tciServerPort.TabIndex = 1;
+            tciServerPort.Text = "50001";
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(459, 29);
-            this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(78, 25);
-            this.ConnectButton.TabIndex = 2;
-            this.ConnectButton.Text = "Connect";
-            this.ConnectButton.UseVisualStyleBackColor = true;
-            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            ConnectButton.Location = new Point(536, 33);
+            ConnectButton.Margin = new Padding(4, 3, 4, 3);
+            ConnectButton.Name = "ConnectButton";
+            ConnectButton.Size = new Size(91, 29);
+            ConnectButton.TabIndex = 2;
+            ConnectButton.Text = "Connect";
+            ConnectButton.UseVisualStyleBackColor = true;
+            ConnectButton.Click += ConnectButton_Click;
             // 
             // DisconnectButton
             // 
-            this.DisconnectButton.Location = new System.Drawing.Point(543, 29);
-            this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(71, 23);
-            this.DisconnectButton.TabIndex = 3;
-            this.DisconnectButton.Text = "Disconnect";
-            this.DisconnectButton.UseVisualStyleBackColor = true;
-            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+            DisconnectButton.Location = new Point(634, 33);
+            DisconnectButton.Margin = new Padding(4, 3, 4, 3);
+            DisconnectButton.Name = "DisconnectButton";
+            DisconnectButton.Size = new Size(83, 27);
+            DisconnectButton.TabIndex = 3;
+            DisconnectButton.Text = "Disconnect";
+            DisconnectButton.UseVisualStyleBackColor = true;
+            DisconnectButton.Click += DisconnectButton_Click;
             // 
             // Receiver1VfoA
             // 
-            this.Receiver1VfoA.AutoSize = true;
-            this.Receiver1VfoA.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Receiver1VfoA.Location = new System.Drawing.Point(15, 15);
-            this.Receiver1VfoA.Name = "Receiver1VfoA";
-            this.Receiver1VfoA.Size = new System.Drawing.Size(128, 25);
-            this.Receiver1VfoA.TabIndex = 4;
-            this.Receiver1VfoA.Text = "R - 1 Vfo-A";
+            Receiver1VfoA.AutoSize = true;
+            Receiver1VfoA.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Receiver1VfoA.Location = new Point(20, 23);
+            Receiver1VfoA.Margin = new Padding(4, 0, 4, 0);
+            Receiver1VfoA.Name = "Receiver1VfoA";
+            Receiver1VfoA.Size = new Size(128, 25);
+            Receiver1VfoA.TabIndex = 4;
+            Receiver1VfoA.Text = "R - 1 Vfo-A";
             // 
             // Receiver1VfoB
             // 
-            this.Receiver1VfoB.AutoSize = true;
-            this.Receiver1VfoB.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Receiver1VfoB.Location = new System.Drawing.Point(17, 74);
-            this.Receiver1VfoB.Name = "Receiver1VfoB";
-            this.Receiver1VfoB.Size = new System.Drawing.Size(128, 25);
-            this.Receiver1VfoB.TabIndex = 5;
-            this.Receiver1VfoB.Text = "R - 1 Vfo-B";
+            Receiver1VfoB.AutoSize = true;
+            Receiver1VfoB.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Receiver1VfoB.Location = new Point(20, 85);
+            Receiver1VfoB.Margin = new Padding(4, 0, 4, 0);
+            Receiver1VfoB.Name = "Receiver1VfoB";
+            Receiver1VfoB.Size = new Size(128, 25);
+            Receiver1VfoB.TabIndex = 5;
+            Receiver1VfoB.Text = "R - 1 Vfo-B";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(516, 78);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Receiver- 2 Vfo-B";
+            label1.AutoSize = true;
+            label1.Location = new Point(602, 90);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(98, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Receiver- 2 Vfo-B";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(365, 78);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Receiver- 2 Vfo-A";
+            label2.AutoSize = true;
+            label2.Location = new Point(426, 90);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(99, 15);
+            label2.TabIndex = 6;
+            label2.Text = "Receiver- 2 Vfo-A";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.R1Split);
-            this.groupBox1.Controls.Add(this.R1BtoA);
-            this.groupBox1.Controls.Add(this.R1AtoB);
-            this.groupBox1.Controls.Add(this.Receiver1VfoB);
-            this.groupBox1.Controls.Add(this.Tr1ModulationValue);
-            this.groupBox1.Controls.Add(this.Receiver1VfoA);
-            this.groupBox1.Location = new System.Drawing.Point(58, 63);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(289, 516);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Transceiver -1";
-            // 
-            // R1BtoA
-            // 
-            this.R1BtoA.Location = new System.Drawing.Point(91, 161);
-            this.R1BtoA.Name = "R1BtoA";
-            this.R1BtoA.Size = new System.Drawing.Size(61, 31);
-            this.R1BtoA.TabIndex = 18;
-            this.R1BtoA.Text = "B > A";
-            this.R1BtoA.UseVisualStyleBackColor = true;
-            this.R1BtoA.Click += new System.EventHandler(this.R1BtoA_Click);
-            // 
-            // R1AtoB
-            // 
-            this.R1AtoB.Location = new System.Drawing.Point(22, 161);
-            this.R1AtoB.Name = "R1AtoB";
-            this.R1AtoB.Size = new System.Drawing.Size(61, 31);
-            this.R1AtoB.TabIndex = 17;
-            this.R1AtoB.Text = "A > B";
-            this.R1AtoB.UseVisualStyleBackColor = true;
-            this.R1AtoB.Click += new System.EventHandler(this.R1AtoB_Click);
-            // 
-            // Tr1ModulationValue
-            // 
-            this.Tr1ModulationValue.AutoSize = true;
-            this.Tr1ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr1ModulationValue.Location = new System.Drawing.Point(17, 117);
-            this.Tr1ModulationValue.Name = "Tr1ModulationValue";
-            this.Tr1ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr1ModulationValue.TabIndex = 16;
-            this.Tr1ModulationValue.Text = "ModulationValue";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.R2Split);
-            this.groupBox2.Controls.Add(this.R2BtoA);
-            this.groupBox2.Controls.Add(this.Tr2ModulationValue);
-            this.groupBox2.Controls.Add(this.R2AtoB);
-            this.groupBox2.Controls.Add(this.Receiver2VfoB);
-            this.groupBox2.Controls.Add(this.Receiver2VfoA);
-            this.groupBox2.Location = new System.Drawing.Point(368, 63);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(284, 516);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Transceiver -2";
-            // 
-            // R2BtoA
-            // 
-            this.R2BtoA.Location = new System.Drawing.Point(73, 161);
-            this.R2BtoA.Name = "R2BtoA";
-            this.R2BtoA.Size = new System.Drawing.Size(58, 31);
-            this.R2BtoA.TabIndex = 20;
-            this.R2BtoA.Text = "B > A";
-            this.R2BtoA.UseVisualStyleBackColor = true;
-            this.R2BtoA.Click += new System.EventHandler(this.R2BtoA_Click);
-            // 
-            // Tr2ModulationValue
-            // 
-            this.Tr2ModulationValue.AutoSize = true;
-            this.Tr2ModulationValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tr2ModulationValue.Location = new System.Drawing.Point(6, 108);
-            this.Tr2ModulationValue.Name = "Tr2ModulationValue";
-            this.Tr2ModulationValue.Size = new System.Drawing.Size(124, 16);
-            this.Tr2ModulationValue.TabIndex = 17;
-            this.Tr2ModulationValue.Text = "ModulationValue";
-            // 
-            // R2AtoB
-            // 
-            this.R2AtoB.Location = new System.Drawing.Point(9, 161);
-            this.R2AtoB.Name = "R2AtoB";
-            this.R2AtoB.Size = new System.Drawing.Size(58, 31);
-            this.R2AtoB.TabIndex = 19;
-            this.R2AtoB.Text = "A > B";
-            this.R2AtoB.UseVisualStyleBackColor = true;
-            this.R2AtoB.Click += new System.EventHandler(this.R2AtoB_Click);
-            // 
-            // Receiver2VfoB
-            // 
-            this.Receiver2VfoB.AutoSize = true;
-            this.Receiver2VfoB.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Receiver2VfoB.Location = new System.Drawing.Point(15, 74);
-            this.Receiver2VfoB.Name = "Receiver2VfoB";
-            this.Receiver2VfoB.Size = new System.Drawing.Size(128, 25);
-            this.Receiver2VfoB.TabIndex = 5;
-            this.Receiver2VfoB.Text = "R - 2 Vfo-B";
-            // 
-            // Receiver2VfoA
-            // 
-            this.Receiver2VfoA.AutoSize = true;
-            this.Receiver2VfoA.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Receiver2VfoA.Location = new System.Drawing.Point(15, 15);
-            this.Receiver2VfoA.Name = "Receiver2VfoA";
-            this.Receiver2VfoA.Size = new System.Drawing.Size(128, 25);
-            this.Receiver2VfoA.TabIndex = 4;
-            this.Receiver2VfoA.Text = "R - 2 Vfo-A";
-            // 
-            // Tx
-            // 
-            this.Tx.AutoSize = true;
-            this.Tx.BackColor = System.Drawing.Color.Green;
-            this.Tx.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tx.Location = new System.Drawing.Point(669, 29);
-            this.Tx.Name = "Tx";
-            this.Tx.Size = new System.Drawing.Size(73, 25);
-            this.Tx.TabIndex = 10;
-            this.Tx.Text = "Tx/Rx";
-            // 
-            // Drive
-            // 
-            this.Drive.AutoSize = true;
-            this.Drive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Drive.Location = new System.Drawing.Point(1, 78);
-            this.Drive.Name = "Drive";
-            this.Drive.Size = new System.Drawing.Size(45, 16);
-            this.Drive.TabIndex = 11;
-            this.Drive.Text = "Drive";
-            // 
-            // Tune
-            // 
-            this.Tune.AutoSize = true;
-            this.Tune.BackColor = System.Drawing.Color.Green;
-            this.Tune.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tune.Location = new System.Drawing.Point(3, 117);
-            this.Tune.Name = "Tune";
-            this.Tune.Size = new System.Drawing.Size(43, 16);
-            this.Tune.TabIndex = 13;
-            this.Tune.Text = "Tune";
-            // 
-            // StartButton
-            // 
-            this.StartButton.Location = new System.Drawing.Point(764, 26);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(75, 37);
-            this.StartButton.TabIndex = 18;
-            this.StartButton.Text = "Start";
-            this.StartButton.UseVisualStyleBackColor = true;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
-            // 
-            // StopButton
-            // 
-            this.StopButton.Location = new System.Drawing.Point(845, 27);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(75, 37);
-            this.StopButton.TabIndex = 19;
-            this.StopButton.Text = "Stop";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
-            // Volume
-            // 
-            this.Volume.AutoSize = true;
-            this.Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Volume.Location = new System.Drawing.Point(0, 26);
-            this.Volume.Name = "Volume";
-            this.Volume.Size = new System.Drawing.Size(69, 20);
-            this.Volume.TabIndex = 20;
-            this.Volume.Text = "Volume";
-            // 
-            // VolumeControl
-            // 
-            this.VolumeControl.Location = new System.Drawing.Point(845, 105);
-            this.VolumeControl.Maximum = 0;
-            this.VolumeControl.Minimum = -60;
-            this.VolumeControl.Name = "VolumeControl";
-            this.VolumeControl.Size = new System.Drawing.Size(184, 45);
-            this.VolumeControl.TabIndex = 21;
-            this.VolumeControl.Scroll += new System.EventHandler(this.VolumeControl_Scroll);
-            // 
-            // DriveControl
-            // 
-            this.DriveControl.Location = new System.Drawing.Point(845, 142);
-            this.DriveControl.Maximum = 100;
-            this.DriveControl.Name = "DriveControl";
-            this.DriveControl.Size = new System.Drawing.Size(184, 45);
-            this.DriveControl.TabIndex = 22;
-            this.DriveControl.Scroll += new System.EventHandler(this.DriveControl_Scroll);
-            // 
-            // TuneControl
-            // 
-            this.TuneControl.Location = new System.Drawing.Point(845, 180);
-            this.TuneControl.Maximum = 100;
-            this.TuneControl.Name = "TuneControl";
-            this.TuneControl.Size = new System.Drawing.Size(184, 45);
-            this.TuneControl.TabIndex = 23;
-            this.TuneControl.Scroll += new System.EventHandler(this.TuneControl_Scroll);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.Volume);
-            this.groupBox3.Controls.Add(this.Tune);
-            this.groupBox3.Controls.Add(this.Drive);
-            this.groupBox3.Location = new System.Drawing.Point(730, 79);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(298, 160);
-            this.groupBox3.TabIndex = 24;
-            this.groupBox3.TabStop = false;
-            // 
-            // ConnectionStatus
-            // 
-            this.ConnectionStatus.AutoSize = true;
-            this.ConnectionStatus.Location = new System.Drawing.Point(625, 34);
-            this.ConnectionStatus.Name = "ConnectionStatus";
-            this.ConnectionStatus.Size = new System.Drawing.Size(27, 13);
-            this.ConnectionStatus.TabIndex = 26;
-            this.ConnectionStatus.Text = "C/D";
-            // 
-            // TuneButton
-            // 
-            this.TuneButton.Location = new System.Drawing.Point(1049, 190);
-            this.TuneButton.Name = "TuneButton";
-            this.TuneButton.Size = new System.Drawing.Size(66, 34);
-            this.TuneButton.TabIndex = 27;
-            this.TuneButton.Text = "Tune";
-            this.TuneButton.UseVisualStyleBackColor = true;
-            this.TuneButton.Click += new System.EventHandler(this.TuneButton_Click);
-            // 
-            // MuteButton
-            // 
-            this.MuteButton.Location = new System.Drawing.Point(1049, 91);
-            this.MuteButton.Name = "MuteButton";
-            this.MuteButton.Size = new System.Drawing.Size(66, 34);
-            this.MuteButton.TabIndex = 28;
-            this.MuteButton.Text = "Mute";
-            this.MuteButton.UseVisualStyleBackColor = true;
-            this.MuteButton.Click += new System.EventHandler(this.MuteButton_Click);
+            groupBox1.Controls.Add(R1Split);
+            groupBox1.Controls.Add(R1BtoA);
+            groupBox1.Controls.Add(R1AtoB);
+            groupBox1.Controls.Add(Receiver1VfoB);
+            groupBox1.Controls.Add(Tr1ModulationValue);
+            groupBox1.Controls.Add(Receiver1VfoA);
+            groupBox1.Location = new Point(68, 73);
+            groupBox1.Margin = new Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new Padding(4, 3, 4, 3);
+            groupBox1.Size = new Size(337, 595);
+            groupBox1.TabIndex = 8;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Transceiver -1";
             // 
             // R1Split
             // 
-            this.R1Split.Location = new System.Drawing.Point(160, 161);
-            this.R1Split.Name = "R1Split";
-            this.R1Split.Size = new System.Drawing.Size(61, 31);
-            this.R1Split.TabIndex = 19;
-            this.R1Split.Text = "Split";
-            this.R1Split.UseVisualStyleBackColor = true;
-            this.R1Split.Click += new System.EventHandler(this.R1Split_Click);
+            R1Split.Location = new Point(187, 186);
+            R1Split.Margin = new Padding(4, 3, 4, 3);
+            R1Split.Name = "R1Split";
+            R1Split.Size = new Size(71, 36);
+            R1Split.TabIndex = 19;
+            R1Split.Text = "Split";
+            R1Split.UseVisualStyleBackColor = true;
+            R1Split.Click += R1Split_Click;
+            // 
+            // R1BtoA
+            // 
+            R1BtoA.Location = new Point(106, 186);
+            R1BtoA.Margin = new Padding(4, 3, 4, 3);
+            R1BtoA.Name = "R1BtoA";
+            R1BtoA.Size = new Size(71, 36);
+            R1BtoA.TabIndex = 18;
+            R1BtoA.Text = "B > A";
+            R1BtoA.UseVisualStyleBackColor = true;
+            R1BtoA.Click += R1BtoA_Click;
+            // 
+            // R1AtoB
+            // 
+            R1AtoB.Location = new Point(26, 186);
+            R1AtoB.Margin = new Padding(4, 3, 4, 3);
+            R1AtoB.Name = "R1AtoB";
+            R1AtoB.Size = new Size(71, 36);
+            R1AtoB.TabIndex = 17;
+            R1AtoB.Text = "A > B";
+            R1AtoB.UseVisualStyleBackColor = true;
+            R1AtoB.Click += R1AtoB_Click;
+            // 
+            // Tr1ModulationValue
+            // 
+            Tr1ModulationValue.AutoSize = true;
+            Tr1ModulationValue.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Tr1ModulationValue.Location = new Point(20, 135);
+            Tr1ModulationValue.Margin = new Padding(4, 0, 4, 0);
+            Tr1ModulationValue.Name = "Tr1ModulationValue";
+            Tr1ModulationValue.Size = new Size(123, 16);
+            Tr1ModulationValue.TabIndex = 16;
+            Tr1ModulationValue.Text = "ModulationValue";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(R2Split);
+            groupBox2.Controls.Add(R2BtoA);
+            groupBox2.Controls.Add(Tr2ModulationValue);
+            groupBox2.Controls.Add(R2AtoB);
+            groupBox2.Controls.Add(Receiver2VfoB);
+            groupBox2.Controls.Add(Receiver2VfoA);
+            groupBox2.Location = new Point(429, 73);
+            groupBox2.Margin = new Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new Padding(4, 3, 4, 3);
+            groupBox2.Size = new Size(331, 595);
+            groupBox2.TabIndex = 9;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Transceiver -2";
             // 
             // R2Split
             // 
-            this.R2Split.Location = new System.Drawing.Point(137, 161);
-            this.R2Split.Name = "R2Split";
-            this.R2Split.Size = new System.Drawing.Size(58, 31);
-            this.R2Split.TabIndex = 21;
-            this.R2Split.Text = "Split";
-            this.R2Split.UseVisualStyleBackColor = true;
-            this.R2Split.Click += new System.EventHandler(this.R2Split_Click);
+            R2Split.Location = new Point(160, 186);
+            R2Split.Margin = new Padding(4, 3, 4, 3);
+            R2Split.Name = "R2Split";
+            R2Split.Size = new Size(68, 36);
+            R2Split.TabIndex = 21;
+            R2Split.Text = "Split";
+            R2Split.UseVisualStyleBackColor = true;
+            R2Split.Click += R2Split_Click;
+            // 
+            // R2BtoA
+            // 
+            R2BtoA.Location = new Point(85, 186);
+            R2BtoA.Margin = new Padding(4, 3, 4, 3);
+            R2BtoA.Name = "R2BtoA";
+            R2BtoA.Size = new Size(68, 36);
+            R2BtoA.TabIndex = 20;
+            R2BtoA.Text = "B > A";
+            R2BtoA.UseVisualStyleBackColor = true;
+            R2BtoA.Click += R2BtoA_Click;
+            // 
+            // Tr2ModulationValue
+            // 
+            Tr2ModulationValue.AutoSize = true;
+            Tr2ModulationValue.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Tr2ModulationValue.Location = new Point(7, 125);
+            Tr2ModulationValue.Margin = new Padding(4, 0, 4, 0);
+            Tr2ModulationValue.Name = "Tr2ModulationValue";
+            Tr2ModulationValue.Size = new Size(123, 16);
+            Tr2ModulationValue.TabIndex = 17;
+            Tr2ModulationValue.Text = "ModulationValue";
+            // 
+            // R2AtoB
+            // 
+            R2AtoB.Location = new Point(10, 186);
+            R2AtoB.Margin = new Padding(4, 3, 4, 3);
+            R2AtoB.Name = "R2AtoB";
+            R2AtoB.Size = new Size(68, 36);
+            R2AtoB.TabIndex = 19;
+            R2AtoB.Text = "A > B";
+            R2AtoB.UseVisualStyleBackColor = true;
+            R2AtoB.Click += R2AtoB_Click;
+            // 
+            // Receiver2VfoB
+            // 
+            Receiver2VfoB.AutoSize = true;
+            Receiver2VfoB.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Receiver2VfoB.Location = new Point(18, 85);
+            Receiver2VfoB.Margin = new Padding(4, 0, 4, 0);
+            Receiver2VfoB.Name = "Receiver2VfoB";
+            Receiver2VfoB.Size = new Size(128, 25);
+            Receiver2VfoB.TabIndex = 5;
+            Receiver2VfoB.Text = "R - 2 Vfo-B";
+            // 
+            // Receiver2VfoA
+            // 
+            Receiver2VfoA.AutoSize = true;
+            Receiver2VfoA.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Receiver2VfoA.Location = new Point(18, 17);
+            Receiver2VfoA.Margin = new Padding(4, 0, 4, 0);
+            Receiver2VfoA.Name = "Receiver2VfoA";
+            Receiver2VfoA.Size = new Size(128, 25);
+            Receiver2VfoA.TabIndex = 4;
+            Receiver2VfoA.Text = "R - 2 Vfo-A";
+            // 
+            // Tx
+            // 
+            Tx.AutoSize = true;
+            Tx.BackColor = Color.Green;
+            Tx.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Tx.Location = new Point(780, 33);
+            Tx.Margin = new Padding(4, 0, 4, 0);
+            Tx.Name = "Tx";
+            Tx.Size = new Size(73, 25);
+            Tx.TabIndex = 10;
+            Tx.Text = "Tx/Rx";
+            // 
+            // Drive
+            // 
+            Drive.AutoSize = true;
+            Drive.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Drive.Location = new Point(1, 90);
+            Drive.Margin = new Padding(4, 0, 4, 0);
+            Drive.Name = "Drive";
+            Drive.Size = new Size(44, 16);
+            Drive.TabIndex = 11;
+            Drive.Text = "Drive";
+            // 
+            // Tune
+            // 
+            Tune.AutoSize = true;
+            Tune.BackColor = Color.Green;
+            Tune.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Tune.Location = new Point(4, 135);
+            Tune.Margin = new Padding(4, 0, 4, 0);
+            Tune.Name = "Tune";
+            Tune.Size = new Size(42, 16);
+            Tune.TabIndex = 13;
+            Tune.Text = "Tune";
+            // 
+            // StartButton
+            // 
+            StartButton.Location = new Point(891, 30);
+            StartButton.Margin = new Padding(4, 3, 4, 3);
+            StartButton.Name = "StartButton";
+            StartButton.Size = new Size(88, 43);
+            StartButton.TabIndex = 18;
+            StartButton.Text = "Start";
+            StartButton.UseVisualStyleBackColor = true;
+            StartButton.Click += StartButton_Click;
+            // 
+            // StopButton
+            // 
+            StopButton.Location = new Point(986, 31);
+            StopButton.Margin = new Padding(4, 3, 4, 3);
+            StopButton.Name = "StopButton";
+            StopButton.Size = new Size(88, 43);
+            StopButton.TabIndex = 19;
+            StopButton.Text = "Stop";
+            StopButton.UseVisualStyleBackColor = true;
+            StopButton.Click += StopButton_Click;
+            // 
+            // Volume
+            // 
+            Volume.AutoSize = true;
+            Volume.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Volume.Location = new Point(0, 30);
+            Volume.Margin = new Padding(4, 0, 4, 0);
+            Volume.Name = "Volume";
+            Volume.Size = new Size(69, 20);
+            Volume.TabIndex = 20;
+            Volume.Text = "Volume";
+            // 
+            // VolumeControl
+            // 
+            VolumeControl.Location = new Point(986, 121);
+            VolumeControl.Margin = new Padding(4, 3, 4, 3);
+            VolumeControl.Maximum = 0;
+            VolumeControl.Minimum = -60;
+            VolumeControl.Name = "VolumeControl";
+            VolumeControl.Size = new Size(215, 45);
+            VolumeControl.TabIndex = 21;
+            VolumeControl.Scroll += VolumeControl_Scroll;
+            // 
+            // DriveControl
+            // 
+            DriveControl.Location = new Point(986, 164);
+            DriveControl.Margin = new Padding(4, 3, 4, 3);
+            DriveControl.Maximum = 100;
+            DriveControl.Name = "DriveControl";
+            DriveControl.Size = new Size(215, 45);
+            DriveControl.TabIndex = 22;
+            DriveControl.Scroll += DriveControl_Scroll;
+            // 
+            // TuneControl
+            // 
+            TuneControl.Location = new Point(986, 208);
+            TuneControl.Margin = new Padding(4, 3, 4, 3);
+            TuneControl.Maximum = 100;
+            TuneControl.Name = "TuneControl";
+            TuneControl.Size = new Size(215, 45);
+            TuneControl.TabIndex = 23;
+            TuneControl.Scroll += TuneControl_Scroll;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(Volume);
+            groupBox3.Controls.Add(Tune);
+            groupBox3.Controls.Add(Drive);
+            groupBox3.Location = new Point(852, 91);
+            groupBox3.Margin = new Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new Padding(4, 3, 4, 3);
+            groupBox3.Size = new Size(348, 185);
+            groupBox3.TabIndex = 24;
+            groupBox3.TabStop = false;
+            // 
+            // ConnectionStatus
+            // 
+            ConnectionStatus.AutoSize = true;
+            ConnectionStatus.Location = new Point(729, 39);
+            ConnectionStatus.Margin = new Padding(4, 0, 4, 0);
+            ConnectionStatus.Name = "ConnectionStatus";
+            ConnectionStatus.Size = new Size(28, 15);
+            ConnectionStatus.TabIndex = 26;
+            ConnectionStatus.Text = "C/D";
+            // 
+            // TuneButton
+            // 
+            TuneButton.Location = new Point(1224, 219);
+            TuneButton.Margin = new Padding(4, 3, 4, 3);
+            TuneButton.Name = "TuneButton";
+            TuneButton.Size = new Size(77, 39);
+            TuneButton.TabIndex = 27;
+            TuneButton.Text = "Tune";
+            TuneButton.UseVisualStyleBackColor = true;
+            TuneButton.Click += TuneButton_Click;
+            // 
+            // MuteButton
+            // 
+            MuteButton.Location = new Point(1224, 105);
+            MuteButton.Margin = new Padding(4, 3, 4, 3);
+            MuteButton.Name = "MuteButton";
+            MuteButton.Size = new Size(77, 39);
+            MuteButton.TabIndex = 28;
+            MuteButton.Text = "Mute";
+            MuteButton.UseVisualStyleBackColor = true;
+            MuteButton.Click += MuteButton_Click;
             // 
             // Device
             // 
-            this.Device.AutoSize = true;
-            this.Device.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Device.Location = new System.Drawing.Point(952, 41);
-            this.Device.Name = "Device";
-            this.Device.Size = new System.Drawing.Size(0, 16);
-            this.Device.TabIndex = 29;
+            Device.AutoSize = true;
+            Device.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Device.Location = new Point(1111, 47);
+            Device.Margin = new Padding(4, 0, 4, 0);
+            Device.Name = "Device";
+            Device.Size = new Size(0, 16);
+            Device.TabIndex = 29;
             // 
             // StationMonitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(1126, 684);
-            this.Controls.Add(this.Device);
-            this.Controls.Add(this.MuteButton);
-            this.Controls.Add(this.TuneButton);
-            this.Controls.Add(this.ConnectionStatus);
-            this.Controls.Add(this.TuneControl);
-            this.Controls.Add(this.DriveControl);
-            this.Controls.Add(this.VolumeControl);
-            this.Controls.Add(this.StopButton);
-            this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.Tx);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.DisconnectButton);
-            this.Controls.Add(this.ConnectButton);
-            this.Controls.Add(this.tciServerPort);
-            this.Controls.Add(this.tciServerIP);
-            this.Controls.Add(this.groupBox3);
-            this.Name = "StationMonitor";
-            this.Text = "StationMonitor";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.VolumeControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DriveControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TuneControl)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.GradientInactiveCaption;
+            ClientSize = new Size(1314, 789);
+            Controls.Add(Device);
+            Controls.Add(MuteButton);
+            Controls.Add(TuneButton);
+            Controls.Add(ConnectionStatus);
+            Controls.Add(TuneControl);
+            Controls.Add(DriveControl);
+            Controls.Add(VolumeControl);
+            Controls.Add(StopButton);
+            Controls.Add(StartButton);
+            Controls.Add(Tx);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(label1);
+            Controls.Add(label2);
+            Controls.Add(DisconnectButton);
+            Controls.Add(ConnectButton);
+            Controls.Add(tciServerPort);
+            Controls.Add(tciServerIP);
+            Controls.Add(groupBox3);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "StationMonitor";
+            Text = "StationMonitor";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)VolumeControl).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DriveControl).EndInit();
+            ((System.ComponentModel.ISupportInitialize)TuneControl).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

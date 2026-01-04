@@ -101,6 +101,7 @@ public partial class StationMonitor : Form
         }
 
         await tciClient.ConnectAsync();
+        await Task.Delay(500);
         tranceiverController = tciClient.TransceiverController;
 
         var ctrl = tranceiverController;
@@ -108,7 +109,7 @@ public partial class StationMonitor : Form
         {
             await InvokeOnUiThreadAsync(() =>
             {
-                Drive.Text = $"Drive: {ctrl.Drive.ToString()}";
+                Drive.Text = $"Drive: {ctrl.Drive}";
                 DriveControl.Value = (int)ctrl.Drive;
             });
         }
@@ -117,7 +118,7 @@ public partial class StationMonitor : Form
         {
             await InvokeOnUiThreadAsync(() =>
             {
-                Tune.Text = $"Tune: {ctrl.TuneDrive.ToString()}";
+                Tune.Text = $"Tune: {ctrl.TuneDrive}";
                 TuneControl.Value = (int)ctrl.TuneDrive;
             });
         }
@@ -126,7 +127,7 @@ public partial class StationMonitor : Form
         {
             await InvokeOnUiThreadAsync(() =>
             {
-                Volume.Text = $"Volume: {ctrl.Volume.ToString()}";
+                Volume.Text = $"Volume: {ctrl.Volume}dB";
                 VolumeControl.Value = ctrl.Volume;
             });
         }
@@ -306,7 +307,7 @@ public partial class StationMonitor : Form
 
         await InvokeOnUiThreadAsync(() =>
         {
-            Volume.Text = $"Volume: {ctrl.Volume.ToString()}";
+            Volume.Text = $"Volume: {ctrl.Volume}dB";
             VolumeControl.Value = ctrl.Volume;
         });
     }
@@ -339,7 +340,7 @@ public partial class StationMonitor : Form
     {
         await InvokeOnUiThreadAsync(() =>
         {
-            Tune.Text = $"Tune: {e.Value.ToString()}";
+            Tune.Text = $"Tune: {e.Value}";
             TuneControl.Value = (int)e.Value;
         });
     }
@@ -348,7 +349,7 @@ public partial class StationMonitor : Form
     {
         await InvokeOnUiThreadAsync(() =>
         {
-            Drive.Text = $"Drive: {e.Value.ToString()}";
+            Drive.Text = $"Drive: {e.Value}";
             DriveControl.Value = (int)e.Value;
         });
     }
@@ -631,4 +632,5 @@ public partial class StationMonitor : Form
             await ctrl4.SplitEnable(transceiverPeriodicNumber: 1, !splitState);
         }
     }
+
 }
