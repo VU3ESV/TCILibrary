@@ -85,7 +85,7 @@
             tciServerIP.Name = "tciServerIP";
             tciServerIP.Size = new Size(266, 23);
             tciServerIP.TabIndex = 0;
-            tciServerIP.Text = "192.168.86.26";
+            tciServerIP.Text = "localhost";
             // 
             // tciServerPort
             // 
