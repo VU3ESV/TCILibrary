@@ -49,7 +49,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         bool RxMute { get; set; }
 
-        void AddChannel(uint channelNumbers);        
+        void AddChannel(uint channelNumbers);
 
         event EventHandler<TrxEventArgs> OnTxEnableChanged;
 

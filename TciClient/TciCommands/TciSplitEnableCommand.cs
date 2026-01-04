@@ -43,7 +43,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(splitEnableMessageElements[TransceiverIndex]);
             var splitEnable = Convert.ToBoolean(splitEnableMessageElements[SplitEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.Split = splitEnable;

@@ -11,7 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         private TciRxFilterBandsCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }       
+        }
 
         public static TciRxFilterBandsCommand Create(ITransceiverController transceiverController)
         {
@@ -44,7 +44,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var receiverPeriodicNumber = Convert.ToUInt32(rxFilterMessageElements[ReceiverIndex]);
             var maxLimit = Convert.ToInt32(rxFilterMessageElements[MaxIndex]);
             var minLimit = Convert.ToInt32(rxFilterMessageElements[MinIndex]);
-            var transceiver = _transceiverController.GeTransceiver(receiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(receiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.RxFilterHighLimit = maxLimit;

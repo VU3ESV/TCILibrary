@@ -11,7 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciXitEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }       
+        }
         public static TciXitEnableCommand Create(ITransceiverController transceiverController)
         {
             Debug.Assert(transceiverController != null);
@@ -42,7 +42,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(xitEnableMessageElements[TransceiverIndex]);
             var xitEnable = Convert.ToBoolean(xitEnableMessageElements[XitEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.Xit = xitEnable;

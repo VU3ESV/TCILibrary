@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a modulation list command for the TCI device.
+    /// </summary>
     public class TciModulationListCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciModulationListCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to populate modulation options.</param>
         private TciModulationListCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
@@ -41,7 +48,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            var modulationList = new List<string>();
+            List<string> modulationList = new();
             for (var i = 1; i < modulationListsMessageElements.Length - 1; i++)
             {
                 modulationList.Add(modulationListsMessageElements[i]);

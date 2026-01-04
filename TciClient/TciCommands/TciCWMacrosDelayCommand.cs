@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a CWMacros delay command for the TCI device.
+    /// </summary>
     public class TciCwMacrosDelayCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciCwMacrosDelayCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to update CW macros delay.</param>
         public TciCwMacrosDelayCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;

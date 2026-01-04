@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a CWMacros speed command for the TCI device.
+    /// </summary>
     public class TciCwMacrosSpeedCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciCwMacrosSpeedCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to update CW macro speed.</param>
         public TciCwMacrosSpeedCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;

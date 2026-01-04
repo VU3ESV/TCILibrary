@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ExpertElectronics.Tci.Interfaces
 {
-    public interface ITciClient: IDisposable
+    public interface ITciClient : IDisposable
     {
         Task ConnectAsync();
 

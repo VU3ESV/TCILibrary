@@ -8,11 +8,16 @@ namespace ExpertElectronics.Tci
 {
     public class TciWebSocketClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciWebSocketClient"/> class.
+        /// </summary>
+        /// <param name="uri">The websocket URI to connect to, for example "ws://host:port".</param>
+        /// <param name="cancellationToken">Cancellation token used for the connection and listening loop.</param>
         protected TciWebSocketClient(string uri, CancellationToken cancellationToken)
         {
-            _clientWebSocket = new ClientWebSocket();
+            _clientWebSocket = new();
             _clientWebSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
-            _uri = new Uri(uri);
+            _uri = new(uri);
             _cancellationToken = cancellationToken;
         }
 
@@ -20,8 +25,8 @@ namespace ExpertElectronics.Tci
         /// Creates a new instance.
         /// </summary>
         /// <param name="uri">The URI of the WebSocket server.</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">Cancellation token used by the created client.</param>
+        /// <returns>A task that returns a new <see cref="TciWebSocketClient"/> instance.</returns>
         public static Task<TciWebSocketClient> CreateAsync(string uri, CancellationToken cancellationToken)
         {
             return Task.FromResult(new TciWebSocketClient(uri, cancellationToken));
@@ -32,8 +37,8 @@ namespace ExpertElectronics.Tci
         /// </summary>
         /// <param name="ipAddress">IP Address of the TCI Socket Server</param>
         /// <param name="port"> TCI Port</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">Cancellation token used by the created client.</param>
+        /// <returns>A task that returns a new <see cref="TciWebSocketClient"/> instance connected to the specified endpoint.</returns>
         public static async Task<TciWebSocketClient> CreateAsync(string ipAddress, uint port, CancellationToken cancellationToken)
         {
             var uri = $"ws://{ipAddress}:{port}";
@@ -42,9 +47,9 @@ namespace ExpertElectronics.Tci
 
 
         /// <summary>
-        /// Connects to the WebSocket server.
+        /// Connects to the WebSocket server and starts the receive loop.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A task that returns the connected <see cref="TciWebSocketClient"/> instance.</returns>
         public async Task<TciWebSocketClient> Connect()
         {
             await _clientWebSocket.ConnectAsync(_uri, _cancellationToken);
@@ -53,6 +58,10 @@ namespace ExpertElectronics.Tci
             return this;
         }
 
+        /// <summary>
+        /// Disconnects from the WebSocket server if currently connected.
+        /// </summary>
+        /// <returns>A task that completes when the disconnect has finished.</returns>
         public async Task Disconnect()
         {
             if (_clientWebSocket.State == WebSocketState.Open)
@@ -64,10 +73,10 @@ namespace ExpertElectronics.Tci
         }
 
         /// <summary>
-        /// Set the Action to call when the connection has been established.
+        /// Registers an action to be called after the client has connected.
         /// </summary>
-        /// <param name="onConnect">The Action to call.</param>
-        /// <returns></returns>
+        /// <param name="onConnect">The action to call with the connected client instance.</param>
+        /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
         public TciWebSocketClient OnConnect(Action<TciWebSocketClient> onConnect)
         {
             _onConnected = onConnect;
@@ -75,10 +84,10 @@ namespace ExpertElectronics.Tci
         }
 
         /// <summary>
-        /// Set the Action to call when the connection has been terminated.
+        /// Registers an action to be called when the client disconnects.
         /// </summary>
-        /// <param name="onDisconnect">The Action to call</param>
-        /// <returns></returns>
+        /// <param name="onDisconnect">The action to call with the disconnected client instance.</param>
+        /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
         public TciWebSocketClient OnDisconnect(Action<TciWebSocketClient> onDisconnect)
         {
             _onDisconnected = onDisconnect;
@@ -86,10 +95,10 @@ namespace ExpertElectronics.Tci
         }
 
         /// <summary>
-        /// Set the Action to call when a messages has been received.
+        /// Registers an action to be called when a text message is received.
         /// </summary>
-        /// <param name="onMessage">The Action to call.</param>
-        /// <returns></returns>
+        /// <param name="onMessage">The action to call with the message text and the client instance.</param>
+        /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
         public TciWebSocketClient OnMessage(Action<string, TciWebSocketClient> onMessage)
         {
             _onMessage = onMessage;
@@ -97,9 +106,10 @@ namespace ExpertElectronics.Tci
         }
 
         /// <summary>
-        /// Send a message to the WebSocket server.
+        /// Sends a text message to the WebSocket server.
         /// </summary>
-        /// <param name="message">The message to send</param>
+        /// <param name="message">The message to send.</param>
+        /// <returns>A task that completes when the message has been transmitted.</returns>
         public async Task SendMessage(string message)
         {
             if (_clientWebSocket.State != WebSocketState.Open)
@@ -197,7 +207,7 @@ namespace ExpertElectronics.Tci
 
         private readonly ClientWebSocket _clientWebSocket;
         private readonly Uri _uri;
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly CancellationToken _cancellationToken;
 
         private Action<TciWebSocketClient> _onConnected;

@@ -6,6 +6,9 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a protocol command for the TCI device.
+    /// </summary>
     public class TciProtocolCommand : ITciCommand, IDisposable
     {
         public static TciProtocolCommand Create(ITransceiverController transceiverController)
@@ -14,6 +17,10 @@ namespace ExpertElectronics.Tci.TciCommands
             return new TciProtocolCommand(transceiverController);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciProtocolCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to set protocol/revision info.</param>
         private TciProtocolCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;

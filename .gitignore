@@ -1,7 +1,8 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
+.vs/*.*
+.vs/*
 /.vs/TciClient/DesignTimeBuild/.dtbcache
 /.vs/TciClient/v16/Server/sqlite3/db.lock
 /.vs/TciClient/v16/Server/sqlite3/storage.ide-wal
@@ -23,3 +24,7 @@
 /StationMonitor/obj/Debug
 /.vs/slnx.sqlite-journal
 /StationMonitor/obj/Release/StationMonitor.csproj.CoreCompileInputs.cache
+/StationMonitor/.vs
+/TciClient/bin/Debug/netstandard2.1
+/StationMonitor/obj/Release
+/.vs/slnx.sqlite

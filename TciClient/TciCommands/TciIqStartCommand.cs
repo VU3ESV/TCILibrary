@@ -6,13 +6,20 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an IQ start command for the TCI device.
+    /// </summary>
     public class TciIqStartCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciIqStartCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to start/stop IQ streaming.</param>
         public TciIqStartCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
         }
-               
+
         public static TciIqStartCommand Create(ITransceiverController transceiverController)
         {
             Debug.Assert(transceiverController != null);
@@ -42,7 +49,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var transceiverPeriodicNumber = Convert.ToUInt32(iqStartMessageElements[TransceiverIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.IqEnable = true;

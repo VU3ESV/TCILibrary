@@ -11,7 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRitEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }       
+        }
 
         public static TciRitEnableCommand Create(ITransceiverController transceiverController)
         {
@@ -43,7 +43,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(ritEnableMessageElements[TransceiverIndex]);
             var ritEnable = Convert.ToBoolean(ritEnableMessageElements[RitEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.Rit = ritEnable;

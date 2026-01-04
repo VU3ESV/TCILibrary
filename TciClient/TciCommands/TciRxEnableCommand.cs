@@ -11,7 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciRxEnableCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }       
+        }
 
         public static TciRxEnableCommand Create(ITransceiverController transceiverController)
         {
@@ -43,7 +43,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(rxEnableMessageElements[TransceiverIndex]);
             var rxEnable = Convert.ToBoolean(rxEnableMessageElements[RxEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.RxEnable = rxEnable;

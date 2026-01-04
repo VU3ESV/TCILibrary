@@ -6,11 +6,18 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci
 {
+    /// <summary>
+    /// Represents a transceiver (radio) and its state. Holds channels and TX/RX state.
+    /// </summary>
     public class Transceiver : ITransceiver
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Transceiver"/> class.
+        /// </summary>
+        /// <param name="periodicNumber">The periodic number (index) of this transceiver.</param>
         public Transceiver(uint periodicNumber)
         {
-            _channels = new List<Channel>();
+            _channels = new();
             PeriodicNumber = periodicNumber;
         }
 
@@ -223,7 +230,7 @@ namespace ExpertElectronics.Tci
             {
                 _channels.Add(new Channel(i, this));
             }
-        }       
+        }
 
         public event EventHandler<TrxEventArgs> OnTxEnableChanged;
         public event EventHandler<TrxEventArgs> OnTxFootSwitch;

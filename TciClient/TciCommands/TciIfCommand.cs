@@ -7,8 +7,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an IF command for the TCI device.
+    /// </summary>
     public class TciIfCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciIfCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to update IF filter state.</param>
         public TciIfCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
@@ -45,7 +52,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(ifMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(ifMessageElements[ChannelIndex]);
             var ifFrequency = Convert.ToInt64(ifMessageElements[IfFrequencyIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
             if (channel != null)
             {

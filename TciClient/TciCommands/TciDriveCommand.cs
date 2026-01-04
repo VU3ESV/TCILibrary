@@ -11,7 +11,7 @@ namespace ExpertElectronics.Tci.TciCommands
         public TciDriveCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }      
+        }
 
         public static TciDriveCommand Create(ITransceiverController transceiverController)
         {

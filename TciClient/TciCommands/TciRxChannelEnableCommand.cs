@@ -44,7 +44,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(rxEnableMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(rxEnableMessageElements[ChannelIndex]);
             var rxChannelEnable = Convert.ToBoolean(rxEnableMessageElements[RxChannelEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
             if (channel != null)
             {

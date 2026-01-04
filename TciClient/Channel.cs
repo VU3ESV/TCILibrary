@@ -4,8 +4,17 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci
 {
+    /// <summary>
+    /// Represents a channel belonging to a transceiver. A channel carries
+    /// per-channel state such as VFO, S-meter and IF filter settings.
+    /// </summary>
     public class Channel : IChannel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Channel"/> class.
+        /// </summary>
+        /// <param name="periodicNumber">The periodic number (index) of the channel within the transceiver.</param>
+        /// <param name="transceiver">The parent <see cref="ITransceiver"/> instance.</param>
         public Channel(uint periodicNumber, ITransceiver transceiver)
         {
             PeriodicNumber = periodicNumber;

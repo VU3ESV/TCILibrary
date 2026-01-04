@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an IF limits command for the TCI device.
+    /// </summary>
     public class TciIfLimitsCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciIfLimitsCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to set IF limits.</param>
         private TciIfLimitsCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;

@@ -6,12 +6,19 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an audio start command for the TCI device.
+    /// </summary>
     public class TciAudioStartCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciAudioStartCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to enable audio.</param>
         public TciAudioStartCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
-        }       
+        }
 
         public static TciAudioStartCommand Create(ITransceiverController transceiverController)
         {
@@ -42,7 +49,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var transceiverPeriodicNumber = Convert.ToUInt32(audioStartMessageElements[TransceiverIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber); // Fixed typo: GetTransceiver -> GetTransceiver
             if (transceiver != null)
             {
                 transceiver.AudioEnable = true;

@@ -43,7 +43,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(ritOffsetMessageElements[TransceiverIndex]);
             var ritOffset = Convert.ToInt32(ritOffsetMessageElements[RitOffsetIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.RitOffset = ritOffset;

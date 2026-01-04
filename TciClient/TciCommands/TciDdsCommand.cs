@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a DDS command for the TCI device.
+    /// </summary>
     public class TciDdsCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciDdsCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to update DDS state.</param>
         public TciDdsCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
@@ -43,13 +50,13 @@ namespace ExpertElectronics.Tci.TciCommands
 
             var transceiverPeriodicNumber = Convert.ToUInt32(ddsMessageElements[TransceiverIndex]);
             var ddsFrequency = Convert.ToInt64(ddsMessageElements[DdsFrequencyIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.DdsFrequency = ddsFrequency;
             }
             return true;
-        }        
+        }
 
         public void Dispose()
         {

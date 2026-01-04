@@ -70,7 +70,7 @@ namespace ExpertElectronics.Tci.Interfaces
 
         #region Methods      
 
-        ITransceiver GeTransceiver(uint transceiverPeriodicNumber);
+        ITransceiver GetTransceiver(uint transceiverPeriodicNumber);
 
         bool TxEnable(uint transceiverPeriodicNumber);
 

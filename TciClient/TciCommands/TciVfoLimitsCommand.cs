@@ -43,7 +43,7 @@ namespace ExpertElectronics.Tci.TciCommands
 
             _transceiverController.VfoMax = Convert.ToInt64(vfoLimitsMessageElements[MaxIndex]);
             _transceiverController.VfoMin = Convert.ToInt64(vfoLimitsMessageElements[MinIndex]);
-            
+
             return true;
         }
 

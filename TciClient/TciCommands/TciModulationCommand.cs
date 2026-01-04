@@ -6,8 +6,15 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents a modulation command for the TCI device.
+    /// </summary>
     public class TciModulationCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciModulationCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to update modulation state.</param>
         public TciModulationCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
@@ -45,7 +52,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(modulationMessageElements[TransceiverIndex]);
 
             var modulation = modulationMessageElements[ModulationIndex];
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.Modulation = modulation;

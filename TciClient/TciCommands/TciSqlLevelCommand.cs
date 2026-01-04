@@ -48,7 +48,7 @@ namespace ExpertElectronics.Tci.TciCommands
                 return false;
             }
 
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.SquelchThreshold = sqlLevel;

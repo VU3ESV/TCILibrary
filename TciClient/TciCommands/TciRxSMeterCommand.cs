@@ -10,8 +10,8 @@ namespace ExpertElectronics.Tci.TciCommands
     {
         public TciRxSMeterCommand(ITransceiverController transceiverController)
         {
-            _transceiverController = transceiverController;           
-        }       
+            _transceiverController = transceiverController;
+        }
 
         public static TciRxSMeterCommand Create(ITransceiverController transceiverController)
         {
@@ -44,7 +44,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(rxSMeterMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(rxSMeterMessageElements[ChannelIndex]);
             var rxSMeter = Convert.ToInt32(rxSMeterMessageElements[RxChannelEnableIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
             if (channel != null)
             {

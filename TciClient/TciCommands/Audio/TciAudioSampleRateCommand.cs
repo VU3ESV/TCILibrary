@@ -6,6 +6,10 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an audio sample rate command for the TCI device.
+    /// </summary>
+    /// <param name="transceiverController">The transceiver controller.</param>
     public class TciAudioSampleRateCommand : ITciCommand, IDisposable
     {
         public TciAudioSampleRateCommand(ITransceiverController transceiverController)

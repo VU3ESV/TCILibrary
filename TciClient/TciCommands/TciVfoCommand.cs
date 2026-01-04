@@ -46,7 +46,7 @@ namespace ExpertElectronics.Tci.TciCommands
             var transceiverPeriodicNumber = Convert.ToUInt32(vfoMessageElements[TransceiverIndex]);
             var channelNumber = Convert.ToUInt32(vfoMessageElements[ChannelIndex]);
             var vfo = Convert.ToInt32(vfoMessageElements[VfoIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             var channel = transceiver?.Channels?.FirstOrDefault(_ => _.PeriodicNumber == channelNumber);
             if (channel != null)
             {

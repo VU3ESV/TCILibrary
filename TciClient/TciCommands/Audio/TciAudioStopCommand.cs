@@ -6,13 +6,20 @@ using ExpertElectronics.Tci.Interfaces;
 
 namespace ExpertElectronics.Tci.TciCommands
 {
+    /// <summary>
+    /// Represents an audio stop command for the TCI device.
+    /// </summary>
     public class TciAudioStopCommand : ITciCommand, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TciAudioStopCommand"/> class.
+        /// </summary>
+        /// <param name="transceiverController">The transceiver controller used to disable audio.</param>
         public TciAudioStopCommand(ITransceiverController transceiverController)
         {
             _transceiverController = transceiverController;
         }
-                
+
         public static TciAudioStopCommand Create(ITransceiverController transceiverController)
         {
             Debug.Assert(transceiverController != null);
@@ -42,7 +49,7 @@ namespace ExpertElectronics.Tci.TciCommands
             }
 
             var transceiverPeriodicNumber = Convert.ToUInt32(audioStopMessageElements[TransceiverIndex]);
-            var transceiver = _transceiverController.GeTransceiver(transceiverPeriodicNumber);
+            var transceiver = _transceiverController.GetTransceiver(transceiverPeriodicNumber);
             if (transceiver != null)
             {
                 transceiver.AudioEnable = false;
