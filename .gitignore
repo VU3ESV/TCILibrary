@@ -28,3 +28,7 @@
 /TciClient/bin/Debug/netstandard2.1
 /StationMonitor/obj/Release
 /.vs/slnx.sqlite
+*.nuget.cache
+*.dll
+*.pdb
+
