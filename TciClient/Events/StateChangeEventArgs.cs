@@ -4,9 +4,7 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class StateChangeEventArgs : EventArgs
+public class StateChangeEventArgs(bool state) : EventArgs
 {
-    public StateChangeEventArgs(bool state) => State = state;
-
-    public bool State { get; }
+    public bool State { get; } = state;
 }

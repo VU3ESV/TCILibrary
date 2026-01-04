@@ -4,18 +4,11 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class ChannelSMeterChangeEventArgs : EventArgs
+public class ChannelSMeterChangeEventArgs(uint transceiverPeriodicNumber, uint channel, int sMeter) : EventArgs
 {
-    public ChannelSMeterChangeEventArgs(uint transceiverPeriodicNumber, uint channel, int sMeter)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Channel = channel;
-        SMeter = sMeter;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
+    public uint Channel { get; } = channel;
 
-    public uint Channel { get; }
-
-    public int SMeter { get; }
+    public int SMeter { get; } = sMeter;
 }

@@ -32,3 +32,5 @@
 *.dll
 *.pdb
 
+/StationMonitor/obj
+/TciClient/bin/Debug/net10.0

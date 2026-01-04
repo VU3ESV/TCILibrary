@@ -4,18 +4,11 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class VfoChangeEventArgs : EventArgs
+public class VfoChangeEventArgs(uint transceiverPeriodicNumber, uint channel, long vfo) : EventArgs
 {
-    public VfoChangeEventArgs(uint transceiverPeriodicNumber, uint channel, long vfo)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Channel = channel;
-        Vfo = vfo;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
+    public uint Channel { get; } = channel;
 
-    public uint Channel { get; }
-
-    public long Vfo { get; }
+    public long Vfo { get; } = vfo;
 }

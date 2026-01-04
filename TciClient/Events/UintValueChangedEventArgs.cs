@@ -4,9 +4,7 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class UintValueChangedEventArgs : EventArgs
+public class UintValueChangedEventArgs(uint value) : EventArgs
 {
-    public UintValueChangedEventArgs(uint value) => Value = value;
-
-    public uint Value { get; }
+    public uint Value { get; } = value;
 }

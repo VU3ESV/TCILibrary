@@ -4,9 +4,7 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class ModulationsListChangedEventArgs : EventArgs
+public class ModulationsListChangedEventArgs(IEnumerable<string> list) : EventArgs
 {
-    public ModulationsListChangedEventArgs(IEnumerable<string> list) => ModulationsList = list;
-
-    public IEnumerable<string> ModulationsList;
+    public IEnumerable<string> ModulationsList = list;
 }

@@ -4,15 +4,9 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class TrxEventArgs : EventArgs
+public class TrxEventArgs(uint transceiverPeriodicNumber, bool state) : EventArgs
 {
-    public TrxEventArgs(uint transceiverPeriodicNumber, bool state)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        State = state;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
-
-    public bool State { get; }
+    public bool State { get; } = state;
 }

@@ -4,18 +4,11 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class RxFilterChangedEventArgs : EventArgs
+public class RxFilterChangedEventArgs(uint transceiverPeriodicNumber, int low, int high) : EventArgs
 {
-    public RxFilterChangedEventArgs(uint transceiverPeriodicNumber, int low, int high)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Low = low;
-        High = high;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
+    public int Low { get; } = low;
 
-    public int Low { get; }
-
-    public int High { get; }
+    public int High { get; } = high;
 }

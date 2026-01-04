@@ -4,15 +4,9 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class TrxDoubleValueChangedEventArgs : EventArgs
+public class TrxDoubleValueChangedEventArgs(uint transceiverPeriodicNumber, double value) : EventArgs
 {
-    public TrxDoubleValueChangedEventArgs(uint transceiverPeriodicNumber, double value)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Value = value;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
-
-    public double Value { get; }
+    public double Value { get; } = value;
 }

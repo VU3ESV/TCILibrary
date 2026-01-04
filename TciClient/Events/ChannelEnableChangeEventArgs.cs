@@ -4,18 +4,11 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class ChannelEnableChangeEventArgs : EventArgs
+public class ChannelEnableChangeEventArgs(uint transceiverPeriodicNumber, uint channel, bool state) : EventArgs
 {
-    public ChannelEnableChangeEventArgs(uint transceiverPeriodicNumber, uint channel, bool state)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Channel = channel;
-        State = state;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
+    public uint Channel { get; } = channel;
 
-    public uint Channel { get; }
-
-    public bool State { get; }
+    public bool State { get; } = state;
 }

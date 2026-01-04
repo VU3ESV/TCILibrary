@@ -4,20 +4,14 @@
 /// Represents a channel belonging to a transceiver. A channel carries
 /// per-channel state such as VFO, S-meter and IF filter settings.
 /// </summary>
-public class Channel : IChannel
+/// <remarks>
+/// Initializes a new instance of the <see cref="Channel"/> class.
+/// </remarks>
+/// <param name="periodicNumber">The periodic number (index) of the channel within the transceiver.</param>
+/// <param name="transceiver">The parent <see cref="ITransceiver"/> instance.</param>
+public class Channel(uint periodicNumber, ITransceiver transceiver) : IChannel
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Channel"/> class.
-    /// </summary>
-    /// <param name="periodicNumber">The periodic number (index) of the channel within the transceiver.</param>
-    /// <param name="transceiver">The parent <see cref="ITransceiver"/> instance.</param>
-    public Channel(uint periodicNumber, ITransceiver transceiver)
-    {
-        PeriodicNumber = periodicNumber;
-        _transceiver = transceiver;
-    }
-
-    public uint PeriodicNumber { get; }
+    public uint PeriodicNumber { get; } = periodicNumber;
     public bool Enable
     {
         get => _enable;
@@ -62,7 +56,7 @@ public class Channel : IChannel
     public event EventHandler<ChannelSMeterChangeEventArgs> OnChannelSMeterChanged;
     public event EventHandler<ChannelEnableChangeEventArgs> OnChannelEnableChanged;
 
-    private readonly ITransceiver _transceiver;
+    private readonly ITransceiver _transceiver = transceiver;
 
     private long _vfo;
     private double _ifFilter;

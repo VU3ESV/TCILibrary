@@ -4,24 +4,15 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class SpotEventArgs : EventArgs
+public class SpotEventArgs(string callSign, string mode, long frequencyInHz, Color color, string additionalText) : EventArgs
 {
-    public SpotEventArgs(string callSign, string mode, long frequencyInHz, Color color, string additionalText)
-    {
-        CallSign = callSign;
-        Mode = mode;
-        FrequencyInHz = frequencyInHz;
-        Color = color;
-        AdditionalText = additionalText;
-    }
+    public string CallSign { get; } = callSign;
 
-    public string CallSign { get; }
+    public string Mode { get; } = mode;
 
-    public string Mode { get; }
+    public long FrequencyInHz { get; } = frequencyInHz;
 
-    public long FrequencyInHz { get; }
+    public Color Color { get; } = color;
 
-    public Color Color { get; }
-
-    public string AdditionalText { get; }
+    public string AdditionalText { get; } = additionalText;
 }

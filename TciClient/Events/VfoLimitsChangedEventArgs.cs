@@ -1,14 +1,8 @@
 ﻿namespace ExpertElectronics.Tci.Events;
 
-public class VfoLimitsChangedEventArgs : EventArgs
+public class VfoLimitsChangedEventArgs(long min, long max) : EventArgs
 {
-    public VfoLimitsChangedEventArgs(long min, long max)
-    {
-        Min = min;
-        Max = max;
-    }
+    public long Min { get; } = min;
 
-    public long Min { get; }
-
-    public long Max { get; }
+    public long Max { get; } = max;
 }

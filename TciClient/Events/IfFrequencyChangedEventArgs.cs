@@ -4,18 +4,11 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class IfFrequencyChangedEventArgs : EventArgs
+public class IfFrequencyChangedEventArgs(uint transceiverPeriodicNumber, uint channel, double value) : EventArgs
 {
-    public IfFrequencyChangedEventArgs(uint transceiverPeriodicNumber, uint channel, double value)
-    {
-        TransceiverPeriodicNumber = transceiverPeriodicNumber;
-        Channel = channel;
-        Value = value;
-    }
+    public uint TransceiverPeriodicNumber { get; } = transceiverPeriodicNumber;
 
-    public uint TransceiverPeriodicNumber { get; }
+    public uint Channel { get; } = channel;
 
-    public uint Channel { get; }
-
-    public double Value { get; }
+    public double Value { get; } = value;
 }

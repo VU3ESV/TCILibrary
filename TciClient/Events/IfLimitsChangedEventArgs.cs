@@ -4,15 +4,9 @@
 
 namespace ExpertElectronics.Tci.Events;
 
-public class IfLimitsChangedEventArgs : EventArgs
+public class IfLimitsChangedEventArgs(long min, long max) : EventArgs
 {
-    public IfLimitsChangedEventArgs(long min, long max)
-    {
-        Min = min;
-        Max = max;
-    }
+    public long Min { get; } = min;
 
-    public long Min { get; }
-
-    public long Max { get; }
+    public long Max { get; } = max;
 }
