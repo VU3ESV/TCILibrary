@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <AssemblyName>TciClientLibrary</AssemblyName>
-    <RootNamespace>ExpertElectronics.Tci</RootNamespace>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PackageTags>TCI</PackageTags>
-    <Copyright>Copyright (c) 2025 Vinod ES (LB9KJ/VU3ESV)</Copyright>
-      <LangVersion>14</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<AssemblyName>TciClientLibrary</AssemblyName>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<RootNamespace>ExpertElectronics.Tci</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<PackageTags>TCI</PackageTags>
+		<Copyright>Copyright (c) 2025 Vinod ES (LB9KJ/VU3ESV)</Copyright>
+		<LangVersion>14</LangVersion>
+	</PropertyGroup>
 
 </Project>
