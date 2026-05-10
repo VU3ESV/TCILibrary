@@ -17,13 +17,13 @@ public class TciChannelCountCommand : ITciCommand, IDisposable
     /// <summary>
     /// Gets the command name used in TCI responses.
     /// </summary>
-    public static string Name => "channels_count";
+    public static string Name => "channel_count";
 
     /// <summary>
-    /// Processes a collection of TCI response messages and handles the channels_count response.
+    /// Processes a collection of TCI response messages and handles the channel_count response.
     /// </summary>
     /// <param name="messages">The incoming response messages to inspect.</param>
-    /// <returns>True if a channels_count response was found and processed; otherwise false.</returns>
+    /// <returns>True if a channel_count response was found and processed; otherwise false.</returns>
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
@@ -75,7 +75,7 @@ public class TciChannelCountCommand : ITciCommand, IDisposable
     private const int TransceiverIndex = 1;
 
     /// <summary>
-    /// Expected number of parameters in the channels_count command message.
+    /// Expected number of parameters in the channel_count command message.
     /// </summary>
     private const int CommandParameterCount = 3;
 }

@@ -140,6 +140,77 @@ public class CommandParsingTests
         Assert.Equal(25, trx.RxNbPulseDuration);
     }
 
+    [Fact]
+    public void ChannelCount_command_uses_singular_wire_name()
+    {
+        Assert.Equal("channel_count", TciChannelCountCommand.Name);
+    }
+
+    [Fact]
+    public void Ctcss_commands_update_transceiver_state()
+    {
+        var c = BuildController();
+        Assert.True(TciCtcssEnableCommand.Create(c).ProcessCommandResponses(new[] { "ctcss_enable:0,true;" }));
+        Assert.True(c.GetTransceiver(0).CtcssEnable);
+        Assert.True(TciCtcssModeCommand.Create(c).ProcessCommandResponses(new[] { "ctcss_mode:0,1;" }));
+        Assert.Equal(1, c.GetTransceiver(0).CtcssMode);
+        Assert.True(TciCtcssRxToneCommand.Create(c).ProcessCommandResponses(new[] { "ctcss_rx_tone:0,18;" }));
+        Assert.Equal(18, c.GetTransceiver(0).CtcssRxTone);
+        Assert.True(TciCtcssTxToneCommand.Create(c).ProcessCommandResponses(new[] { "ctcss_tx_tone:0,15;" }));
+        Assert.Equal(15, c.GetTransceiver(0).CtcssTxTone);
+        Assert.True(TciCtcssLevelCommand.Create(c).ProcessCommandResponses(new[] { "ctcss_level:0,50;" }));
+        Assert.Equal(50, c.GetTransceiver(0).CtcssLevel);
+    }
+
+    [Fact]
+    public void ECoderSwitchRx_raises_event_with_indices()
+    {
+        var c = BuildController();
+        ECoderSwitchEventArgs received = null;
+        c.OnECoderRxSwitched += (s, e) => received = e;
+        Assert.True(TciECoderSwitchRxCommand.Create(c).ProcessCommandResponses(new[] { "ecoder_switch_rx:0,1;" }));
+        Assert.NotNull(received);
+        Assert.Equal(0u, received.ECoderPeriodicNumber);
+        Assert.Equal(1u, received.TargetPeriodicNumber);
+    }
+
+    [Fact]
+    public void ECoderSwitchChannel_raises_event_with_indices()
+    {
+        var c = BuildController();
+        ECoderSwitchEventArgs received = null;
+        c.OnECoderChannelSwitched += (s, e) => received = e;
+        Assert.True(TciECoderSwitchChannelCommand.Create(c).ProcessCommandResponses(new[] { "ecoder_switch_channel:1,0;" }));
+        Assert.NotNull(received);
+        Assert.Equal(1u, received.ECoderPeriodicNumber);
+        Assert.Equal(0u, received.TargetPeriodicNumber);
+    }
+
+    [Fact]
+    public void RxSensors_writes_signal_level_to_channel_zero()
+    {
+        var c = BuildController();
+        Assert.True(TciRxSensorsCommand.Create(c).ProcessCommandResponses(new[] { "rx_sensors:0,-78.5;" }));
+        var ch0 = System.Linq.Enumerable.First(c.GetTransceiver(0).Channels, ch => ch.PeriodicNumber == 0);
+        Assert.Equal(-78.5, ch0.RxSignalLevelDbm, 3);
+    }
+
+    [Fact]
+    public void TxPower_command_updates_controller_state()
+    {
+        var c = BuildController();
+        Assert.True(TciTxPowerCommand.Create(c).ProcessCommandResponses(new[] { "tx_power:13.5;" }));
+        Assert.Equal(13.5f, c.TxPower, 3);
+    }
+
+    [Fact]
+    public void TxSwr_command_updates_controller_state()
+    {
+        var c = BuildController();
+        Assert.True(TciTxSwrCommand.Create(c).ProcessCommandResponses(new[] { "tx_swr:2.4;" }));
+        Assert.Equal(2.4f, c.TxSwr, 3);
+    }
+
     private sealed class FakeTciClient : ITciClient
     {
         public ITransceiverController TransceiverController => null;

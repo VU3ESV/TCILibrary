@@ -346,6 +346,56 @@ public class Transceiver : ITransceiver
         }
     }
 
+    public bool CtcssEnable
+    {
+        get => _ctcssEnable;
+        set
+        {
+            _ctcssEnable = value;
+            OnCtcssEnableChanged?.Invoke(this, new TrxEventArgs(PeriodicNumber, _ctcssEnable));
+        }
+    }
+
+    public int CtcssMode
+    {
+        get => _ctcssMode;
+        set
+        {
+            _ctcssMode = value;
+            OnCtcssModeChanged?.Invoke(this, new TrxIntValueChangedEventArgs(PeriodicNumber, _ctcssMode));
+        }
+    }
+
+    public int CtcssRxTone
+    {
+        get => _ctcssRxTone;
+        set
+        {
+            _ctcssRxTone = value;
+            OnCtcssRxToneChanged?.Invoke(this, new TrxIntValueChangedEventArgs(PeriodicNumber, _ctcssRxTone));
+        }
+    }
+
+    public int CtcssTxTone
+    {
+        get => _ctcssTxTone;
+        set
+        {
+            _ctcssTxTone = value;
+            OnCtcssTxToneChanged?.Invoke(this, new TrxIntValueChangedEventArgs(PeriodicNumber, _ctcssTxTone));
+        }
+    }
+
+    public int CtcssLevel
+    {
+        get => _ctcssLevel;
+        set
+        {
+            _ctcssLevel = value;
+            OnCtcssLevelChanged?.Invoke(this, new TrxIntValueChangedEventArgs(PeriodicNumber, _ctcssLevel));
+        }
+    }
+
     public IEnumerable<Channel> Channels => _channels;
 
     public void AddChannel(uint channelNumbers)
@@ -386,6 +436,11 @@ public class Transceiver : ITransceiver
     public event EventHandler<TrxEventArgs> OnRxApfEnableChanged;
     public event EventHandler<TrxEventArgs> OnRxDseEnableChanged;
     public event EventHandler<TrxEventArgs> OnRxNfEnableChanged;
+    public event EventHandler<TrxEventArgs> OnCtcssEnableChanged;
+    public event EventHandler<TrxIntValueChangedEventArgs> OnCtcssModeChanged;
+    public event EventHandler<TrxIntValueChangedEventArgs> OnCtcssRxToneChanged;
+    public event EventHandler<TrxIntValueChangedEventArgs> OnCtcssTxToneChanged;
+    public event EventHandler<TrxIntValueChangedEventArgs> OnCtcssLevelChanged;
 
     private readonly List<Channel> _channels;
     private bool _txEnable;
@@ -420,4 +475,9 @@ public class Transceiver : ITransceiver
     private bool _rxApf;
     private bool _rxDse;
     private bool _rxNf;
+    private bool _ctcssEnable;
+    private int _ctcssMode;
+    private int _ctcssRxTone;
+    private int _ctcssTxTone;
+    private int _ctcssLevel;
 }

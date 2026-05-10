@@ -247,6 +247,14 @@ public interface ITransceiverController
     Task SetTxSensorsEnable(bool state, uint sendingIntervalMs = 0);
     Task Keyer(uint transceiverPeriodicNumber, bool pressed, int previousCharacterDurationMs = 0);
 
+    Task SetCtcssEnable(uint transceiverPeriodicNumber, bool state);
+    Task SetCtcssMode(uint transceiverPeriodicNumber, int mode);
+    Task SetCtcssRxTone(uint transceiverPeriodicNumber, int toneNumber);
+    Task SetCtcssTxTone(uint transceiverPeriodicNumber, int toneNumber);
+    Task SetCtcssLevel(uint transceiverPeriodicNumber, int levelPercent);
+    Task ECoderSwitchRx(uint ecoderPeriodicNumber, uint receiverPeriodicNumber);
+    Task ECoderSwitchChannel(uint ecoderPeriodicNumber, uint channelPeriodicNumber);
+
     #endregion
     #region Events
 
@@ -296,6 +304,8 @@ public interface ITransceiverController
     event EventHandler<KeyerEventArgs> OnKeyer;
     event EventHandler<TxSensorsEventArgs> OnTxSensorsChanged;
     event EventHandler<EventArgs> OnCwMacrosEmpty;
+    event EventHandler<ECoderSwitchEventArgs> OnECoderRxSwitched;
+    event EventHandler<ECoderSwitchEventArgs> OnECoderChannelSwitched;
 
     #endregion
 }

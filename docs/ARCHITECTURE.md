@@ -1,6 +1,11 @@
 # Architecture
 
-This document describes the architecture of the **ExpertElectronics.Tci** library and maps every TCI v2.0 protocol command/event to its C# implementation. The authoritative protocol source is [ExpertSDR3/TCI Protocol.pdf](https://github.com/ExpertSDR3/TCI/blob/main/TCI%20Protocol.pdf) (v2.0, 12 Jan 2024).
+This document describes the architecture of the **ExpertElectronics.Tci** library and maps every TCI protocol command/event to its C# implementation. The library covers the full cumulative protocol surface from v1.4 through v2.0:
+
+- **v2.0** (12 Jan 2024) — [ExpertSDR3/TCI Protocol.pdf](https://github.com/ExpertSDR3/TCI/blob/main/TCI%20Protocol.pdf)
+- **v1.6** (2021) — [maksimus1210/TCI/doc/TCI_interface_1.6.pdf](https://github.com/maksimus1210/TCI/blob/master/doc/TCI_interface_1.6.pdf) — adds the RX DSP block (NB/NB_PARAM/BIN/NR/ANC/ANF/APF/DSE/NF) and `TX_FREQUENCY`
+- **v1.5** — `TRX`, `DRIVE`, `TUNE_DRIVE`, `RX_SENSORS_ENABLE`, `TX_SENSORS_ENABLE`, `RX_SENSORS`, `TX_SENSORS`, `cw_terminal`, `cw_macros_empty`
+- **v1.4** — CTCSS controls (`CTCSS_ENABLE`/`MODE`/`RX_TONE`/`TX_TONE`/`LEVEL`), E-Coder switch (`ECODER_SWITCH_RX`/`ECODER_SWITCH_CHANNEL`), `RX_VOLUME`, `RX_BALANCE`
 
 ## 1. Solution layout
 
@@ -135,6 +140,17 @@ Below: every command and event in TCI v2.0, paired with the implementing class. 
 | `SQL_LEVEL`          | `TciSqlLevelCommand`                       | `SquelchLevel(...)`              | ✅     |
 | `DIGL_OFFSET`        | `TciDiglOffsetCommand`                     | `SetDiglOffset(...)`             | ✅ NEW |
 | `DIGU_OFFSET`        | `TciDiguOffsetCommand`                     | `SetDiguOffset(...)`             | ✅ NEW |
+| `CTCSS_ENABLE`       | `TciCtcssEnableCommand`                    | `SetCtcssEnable(...)`            | ✅ v1.4 |
+| `CTCSS_MODE`         | `TciCtcssModeCommand`                      | `SetCtcssMode(...)`              | ✅ v1.4 |
+| `CTCSS_RX_TONE`      | `TciCtcssRxToneCommand`                    | `SetCtcssRxTone(...)`            | ✅ v1.4 |
+| `CTCSS_TX_TONE`      | `TciCtcssTxToneCommand`                    | `SetCtcssTxTone(...)`            | ✅ v1.4 |
+| `CTCSS_LEVEL`        | `TciCtcssLevelCommand`                     | `SetCtcssLevel(...)`             | ✅ v1.4 |
+| `ECODER_SWITCH_RX`   | `TciECoderSwitchRxCommand`                 | `ECoderSwitchRx(...)`            | ✅ v1.4 |
+| `ECODER_SWITCH_CHANNEL` | `TciECoderSwitchChannelCommand`         | `ECoderSwitchChannel(...)`       | ✅ v1.4 |
+| `TX_POWER`           | `TciTxPowerCommand`                        | (read-only)                      | ✅ v1.0 |
+| `TX_SWR`             | `TciTxSwrCommand`                          | (read-only)                      | ✅ v1.0 |
+| `RX_SMETER`          | `TciRxSMeterCommand`                       | `ReadRxSMeter(...)`              | ✅ v1.0 |
+| `RX_SENSORS`         | `TciRxSensorsCommand`                      | (notification, deprecated in v2.0)| ✅ v1.5 |
 
 ### 3.3 Unidirectional control commands
 
@@ -175,8 +191,7 @@ Below: every command and event in TCI v2.0, paired with the implementing class. 
 | `KEYER`              | `TciKeyerCommand`                  | `OnKeyer` event                          | ✅ NEW |
 | `RX_SENSORS_ENABLE`  | `TciRxSensorsEnableCommand`        | `RxSensorsEnable` property               | ✅ NEW |
 | `TX_SENSORS_ENABLE`  | `TciTxSensorsEnableCommand`        | `TxSensorsEnable` property               | ✅ NEW |
-| `RX_SENSORS`         | `TciRxSMeterCommand` (legacy)      | `Channel.RxSMeter`                       | ✅     |
-| `TX_SENSORS`         | `TciTxSensorsCommand`              | `OnTxSensorsChanged` event               | ✅ NEW |
+| `TX_SENSORS`         | `TciTxSensorsCommand`              | `OnTxSensorsChanged` event               | ✅ v1.5 |
 
 ### 3.5 New in v2.0
 

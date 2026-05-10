@@ -1,4 +1,6 @@
-﻿namespace ExpertElectronics.Tci.TciCommands;
+﻿using System.Globalization;
+
+namespace ExpertElectronics.Tci.TciCommands;
 
 public class TciTxPowerCommand : ITciCommand, IDisposable
 {
@@ -33,7 +35,7 @@ public class TciTxPowerCommand : ITciCommand, IDisposable
             return false;
         }
 
-        _transceiverController.TxPower = (float)Convert.ToDouble(txPowerMessageElements[TxPowerIndex]);
+        _transceiverController.TxPower = (float)double.Parse(txPowerMessageElements[TxPowerIndex], CultureInfo.InvariantCulture);
         return true;
     }
 
@@ -43,6 +45,6 @@ public class TciTxPowerCommand : ITciCommand, IDisposable
     }
 
     private readonly ITransceiverController _transceiverController;
-    private const uint CommandParameterCount = 2;
+    private const uint CommandParameterCount = 3;
     private const uint TxPowerIndex = 1;
 }

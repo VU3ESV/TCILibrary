@@ -1588,6 +1588,63 @@ public class TransceiverController : ITransceiverController, IDisposable
         await TciClient.SendMessageAsync($"{TciKeyerCommand.Name}:{transceiverPeriodicNumber},{(pressed ? "true" : "false")},{previousCharacterDurationMs};");
     }
 
+    // ---------- TCI v1.4 CTCSS + ECODER + v1.5 RX_SENSORS ----------
+
+    public async Task SetCtcssEnable(uint transceiverPeriodicNumber, bool state)
+    {
+        var trx = GetTransceiver(transceiverPeriodicNumber);
+        if (trx == null || trx.CtcssEnable == state) return;
+        await TciClient.SendMessageAsync($"{TciCtcssEnableCommand.Name}:{transceiverPeriodicNumber},{(state ? "true" : "false")};");
+    }
+
+    public async Task SetCtcssMode(uint transceiverPeriodicNumber, int mode)
+    {
+        if (mode < 0 || mode > 2) return;
+        var trx = GetTransceiver(transceiverPeriodicNumber);
+        if (trx == null || trx.CtcssMode == mode) return;
+        await TciClient.SendMessageAsync($"{TciCtcssModeCommand.Name}:{transceiverPeriodicNumber},{mode};");
+    }
+
+    public async Task SetCtcssRxTone(uint transceiverPeriodicNumber, int toneNumber)
+    {
+        if (toneNumber < 0 || toneNumber > 41) return;
+        var trx = GetTransceiver(transceiverPeriodicNumber);
+        if (trx == null || trx.CtcssRxTone == toneNumber) return;
+        await TciClient.SendMessageAsync($"{TciCtcssRxToneCommand.Name}:{transceiverPeriodicNumber},{toneNumber};");
+    }
+
+    public async Task SetCtcssTxTone(uint transceiverPeriodicNumber, int toneNumber)
+    {
+        if (toneNumber < 0 || toneNumber > 41) return;
+        var trx = GetTransceiver(transceiverPeriodicNumber);
+        if (trx == null || trx.CtcssTxTone == toneNumber) return;
+        await TciClient.SendMessageAsync($"{TciCtcssTxToneCommand.Name}:{transceiverPeriodicNumber},{toneNumber};");
+    }
+
+    public async Task SetCtcssLevel(uint transceiverPeriodicNumber, int levelPercent)
+    {
+        if (levelPercent < 10 || levelPercent > 100) return;
+        var trx = GetTransceiver(transceiverPeriodicNumber);
+        if (trx == null || trx.CtcssLevel == levelPercent) return;
+        await TciClient.SendMessageAsync($"{TciCtcssLevelCommand.Name}:{transceiverPeriodicNumber},{levelPercent};");
+    }
+
+    public async Task ECoderSwitchRx(uint ecoderPeriodicNumber, uint receiverPeriodicNumber)
+    {
+        await TciClient.SendMessageAsync($"{TciECoderSwitchRxCommand.Name}:{ecoderPeriodicNumber},{receiverPeriodicNumber};");
+    }
+
+    public async Task ECoderSwitchChannel(uint ecoderPeriodicNumber, uint channelPeriodicNumber)
+    {
+        await TciClient.SendMessageAsync($"{TciECoderSwitchChannelCommand.Name}:{ecoderPeriodicNumber},{channelPeriodicNumber};");
+    }
+
+    /// <summary>Raises <see cref="OnECoderRxSwitched"/> from a command parser.</summary>
+    internal void RaiseECoderRxSwitched(ECoderSwitchEventArgs args) => OnECoderRxSwitched?.Invoke(this, args);
+
+    /// <summary>Raises <see cref="OnECoderChannelSwitched"/> from a command parser.</summary>
+    internal void RaiseECoderChannelSwitched(ECoderSwitchEventArgs args) => OnECoderChannelSwitched?.Invoke(this, args);
+
     /// <summary>Raises <see cref="OnCwMacrosEmpty"/> from a command parser.</summary>
     internal void RaiseCwMacrosEmpty() => OnCwMacrosEmpty?.Invoke(this, EventArgs.Empty);
 
@@ -1640,6 +1697,8 @@ public class TransceiverController : ITransceiverController, IDisposable
     public event EventHandler<KeyerEventArgs> OnKeyer;
     public event EventHandler<TxSensorsEventArgs> OnTxSensorsChanged;
     public event EventHandler<EventArgs> OnCwMacrosEmpty;
+    public event EventHandler<ECoderSwitchEventArgs> OnECoderRxSwitched;
+    public event EventHandler<ECoderSwitchEventArgs> OnECoderChannelSwitched;
 
     private void Initialize()
     {

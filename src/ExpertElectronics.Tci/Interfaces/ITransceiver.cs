@@ -70,6 +70,16 @@ public interface ITransceiver
 
     bool RxNf { get; set; }
 
+    bool CtcssEnable { get; set; }
+
+    int CtcssMode { get; set; }
+
+    int CtcssRxTone { get; set; }
+
+    int CtcssTxTone { get; set; }
+
+    int CtcssLevel { get; set; }
+
     void AddChannel(uint channelNumbers);
 
     event EventHandler<TrxEventArgs> OnTxEnableChanged;
@@ -131,4 +141,14 @@ public interface ITransceiver
     event EventHandler<TrxEventArgs> OnRxDseEnableChanged;
 
     event EventHandler<TrxEventArgs> OnRxNfEnableChanged;
+
+    event EventHandler<TrxEventArgs> OnCtcssEnableChanged;
+
+    event EventHandler<TrxIntValueChangedEventArgs> OnCtcssModeChanged;
+
+    event EventHandler<TrxIntValueChangedEventArgs> OnCtcssRxToneChanged;
+
+    event EventHandler<TrxIntValueChangedEventArgs> OnCtcssTxToneChanged;
+
+    event EventHandler<TrxIntValueChangedEventArgs> OnCtcssLevelChanged;
 }
