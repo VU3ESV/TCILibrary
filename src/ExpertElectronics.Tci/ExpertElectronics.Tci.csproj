@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<AssemblyName>ExpertElectronics.Tci</AssemblyName>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<RootNamespace>ExpertElectronics.Tci</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<PackageId>ExpertElectronics.Tci</PackageId>
+		<PackageTags>TCI;ExpertSDR;ExpertSDR3;HamRadio;SDR;Transceiver</PackageTags>
+		<Description>C# implementation of the Expert Electronics TCI (Transceiver Control Interface) protocol. Targets TCI Protocol v2.0.</Description>
+		<Authors>Vinod ES (LB9KJ/VU3ESV)</Authors>
+		<Copyright>Copyright (c) 2025 Vinod ES (LB9KJ/VU3ESV)</Copyright>
+		<LangVersion>14</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+	</PropertyGroup>
+
+</Project>
