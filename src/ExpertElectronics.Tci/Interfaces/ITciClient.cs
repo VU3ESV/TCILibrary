@@ -10,6 +10,8 @@ public interface ITciClient : IDisposable
 
     Task SendMessageAsync(string message);
 
+    Task SendBinaryMessageAsync(byte[] payload);
+
     event EventHandler<TciConnectedEventArgs> OnConnect;
 
     event EventHandler<TciConnectedEventArgs> OnDisconnect;

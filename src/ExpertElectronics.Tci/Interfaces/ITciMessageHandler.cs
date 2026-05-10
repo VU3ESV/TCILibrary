@@ -1,12 +1,15 @@
-﻿namespace ExpertElectronics.Tci.Interfaces;
+namespace ExpertElectronics.Tci.Interfaces;
 
 public interface ITciMessageHandler
 {
     void OnConnect(TciWebSocketClient tciWebSocketClient);
     void OnDisConnect(TciWebSocketClient tciWebSocketClient);
     void OnMessage(string message, TciWebSocketClient tciWebSocketClient);
+    void OnBinaryMessage(byte[] payload, TciWebSocketClient tciWebSocketClient);
 
     event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
+
+    event EventHandler<TciBinaryMessageReceivedEventArgs> OnSocketBinaryMessageReceived;
 
     event EventHandler<TciConnectedEventArgs> OnSocketConnectionChanged;
 }
@@ -16,6 +19,13 @@ public class TciMessageReceivedEventArgs : EventArgs
     public TciMessageReceivedEventArgs(string message) => Message = message;
 
     public string Message { get; }
+}
+
+public class TciBinaryMessageReceivedEventArgs : EventArgs
+{
+    public TciBinaryMessageReceivedEventArgs(byte[] payload) => Payload = payload;
+
+    public byte[] Payload { get; }
 }
 
 public class TciConnectedEventArgs : EventArgs

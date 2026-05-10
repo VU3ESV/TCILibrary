@@ -22,12 +22,12 @@ public class TciModulationListCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var modulationListsMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var modulationListsMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(modulationListsMessage))
         {
             return false;

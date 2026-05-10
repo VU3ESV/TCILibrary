@@ -15,12 +15,12 @@ public class TciFootSwitchCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var txFootSwitchMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var txFootSwitchMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(txFootSwitchMessage))
         {
             return false;

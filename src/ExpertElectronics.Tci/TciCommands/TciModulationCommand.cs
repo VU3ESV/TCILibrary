@@ -23,12 +23,12 @@ public class TciModulationCommand : ITciCommand, IDisposable
     {
 
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var modulationMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var modulationMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(modulationMessage))
         {
             return false;

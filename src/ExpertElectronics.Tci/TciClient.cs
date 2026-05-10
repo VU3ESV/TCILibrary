@@ -108,11 +108,20 @@ public class TciClient : ITciClient
         await _tciWebSocketClient.SendMessage(message);
     }
 
+    /// <summary>
+    /// Sends a binary websocket frame (e.g. a TX audio packet) to the server.
+    /// </summary>
+    public async Task SendBinaryMessageAsync(byte[] payload)
+    {
+        await _tciWebSocketClient.SendBinaryMessage(payload);
+    }
+
     private void Initialize()
     {
         _tciWebSocketClient.OnConnect(_messageHandler.OnConnect);
         _tciWebSocketClient.OnDisconnect(_messageHandler.OnDisConnect);
         _tciWebSocketClient.OnMessage(_messageHandler.OnMessage);
+        _tciWebSocketClient.OnBinaryMessage(_messageHandler.OnBinaryMessage);
     }
 
     public void Dispose()

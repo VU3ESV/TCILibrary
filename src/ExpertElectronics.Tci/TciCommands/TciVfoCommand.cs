@@ -17,12 +17,12 @@ public class TciVfoCommand : ITciCommand, IDisposable
     {
 
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var vfoMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var vfoMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(vfoMessage))
         {
             return false;

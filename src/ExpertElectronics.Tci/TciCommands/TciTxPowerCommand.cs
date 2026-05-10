@@ -18,12 +18,12 @@ public class TciTxPowerCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var txPowerMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var txPowerMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(txPowerMessage))
         {
             return false;

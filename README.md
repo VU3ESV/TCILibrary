@@ -9,6 +9,7 @@ The upstream protocol specification lives at [ExpertSDR3/TCI](https://github.com
 ```
 src/
   ExpertElectronics.Tci/         ← protocol library
+  ExpertElectronics.Tci.Client/  ← cross-platform Avalonia desktop client
 tests/
   ExpertElectronics.Tci.Tests/   ← xUnit tests
 docs/
@@ -24,7 +25,24 @@ dotnet build TciClient.sln
 
 # Run unit tests
 dotnet test tests/ExpertElectronics.Tci.Tests/ExpertElectronics.Tci.Tests.csproj
+
+# Run the desktop client (defaults to ws://localhost:40001; receive-only by default)
+dotnet run --project src/ExpertElectronics.Tci.Client
+
+# To allow microphone capture and TX audio to the radio, opt in explicitly:
+dotnet run --project src/ExpertElectronics.Tci.Client -- --enable-tx
 ```
+
+## Desktop client
+
+The Avalonia client targets `net10.0` and runs on **macOS (x64/arm64), Windows (x64), and Linux (x64)** out of the box. Audio playback / capture uses [Silk.NET.OpenAL.Soft](https://github.com/dotnet/Silk.NET) — the native OpenAL-Soft binaries ship with the NuGet package, so no system install is required.
+
+Features:
+- Connection panel (host + port).
+- Auto-discovery of every transceiver reported by the TCI server.
+- Per-transceiver card with **Start RX / Stop RX / Start TX / Stop TX** buttons, live VFO/modulation readouts, and a sample-rate / byte-counter meter.
+- TX audio is **opt-in** via the `--enable-tx` CLI flag. Without it the Start TX button reports the safety guard. With it, the client opens a microphone via OpenAL ALC capture, sends `TRX:n,true,tci`, and streams float32 TX_AUDIO_STREAM packets in response to TX_CHRONO timing markers from the server.
+- macOS: the first run with `--enable-tx` will prompt for microphone permission. Linux: the OpenAL-Soft native will use PulseAudio / PipeWire. Windows: WASAPI via OpenAL-Soft.
 
 ## What it covers
 

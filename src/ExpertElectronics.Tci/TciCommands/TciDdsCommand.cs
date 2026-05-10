@@ -30,12 +30,12 @@ public class TciDdsCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? messages.ToArray();
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var ddsMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var ddsMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(ddsMessage))
         {
             return false;

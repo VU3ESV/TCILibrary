@@ -15,12 +15,12 @@ public class TciRitOffsetCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var ritOffsetMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var ritOffsetMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(ritOffsetMessage))
         {
             return false;

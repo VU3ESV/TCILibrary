@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:ExpertElectronics.Tci.Client.ViewModels"
+        xmlns:views="using:ExpertElectronics.Tci.Client.Views"
+        mc:Ignorable="d" d:DesignWidth="820" d:DesignHeight="500"
+        x:Class="ExpertElectronics.Tci.Client.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{Binding Title}"
+        Width="820" Height="500">
+
+    <Window.Styles>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="#888"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontFamily" Value="Inter, Cascadia Mono, monospace"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="16">
+        <!-- Connection panel -->
+        <Border Grid.Row="0" Padding="12" CornerRadius="6" Background="#2A2A30" BorderBrush="#444" BorderThickness="1">
+            <StackPanel Orientation="Vertical" Spacing="6">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock Classes="label" Text="Host" VerticalAlignment="Center"/>
+                    <TextBox Width="200" Text="{Binding Host}" IsEnabled="{Binding !IsConnected}"/>
+                    <TextBlock Classes="label" Text="Port" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                    <TextBox Width="110" Text="{Binding PortText}" IsEnabled="{Binding !IsConnected}"
+                             MaxLength="5" HorizontalContentAlignment="Right"/>
+                    <Button Content="Connect" Click="OnConnectClick" IsEnabled="{Binding !IsConnected}" Margin="16,0,0,0"/>
+                    <Button Content="Disconnect" Click="OnDisconnectClick" IsEnabled="{Binding IsConnected}"/>
+                </StackPanel>
+                <TextBlock Classes="value" Text="{Binding ConnectionStatus}" Foreground="#3FA9F5"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Transceiver list -->
+        <ScrollViewer Grid.Row="1" Margin="0,8,0,0">
+            <ItemsControl ItemsSource="{Binding Transceivers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:TransceiverViewModel">
+                        <views:TransceiverCard/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="2" Margin="0,8,0,0" Classes="label" HorizontalAlignment="Right">
+            <Run Text="{Binding Device}"/>
+            <Run Text=" · "/>
+            <Run Text="{Binding Transceivers.Count, Mode=OneWay}"/>
+            <Run Text=" transceiver(s)"/>
+        </TextBlock>
+    </Grid>
+</Window>

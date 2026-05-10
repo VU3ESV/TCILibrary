@@ -5,6 +5,10 @@
 *.pdb
 *.nuget.cache
 
+## Publish artifacts (uploaded to GitHub releases, not tracked in git)
+artifacts/
+dist/
+
 ## Visual Studio / Rider / VS Code
 .vs/
 .idea/

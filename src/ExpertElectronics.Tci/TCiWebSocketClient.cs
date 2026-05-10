@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace ExpertElectronics.Tci;
 
 public class TciWebSocketClient
@@ -66,36 +68,31 @@ public class TciWebSocketClient
         }
     }
 
-    /// <summary>
-    /// Registers an action to be called after the client has connected.
-    /// </summary>
-    /// <param name="onConnect">The action to call with the connected client instance.</param>
-    /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
     public TciWebSocketClient OnConnect(Action<TciWebSocketClient> onConnect)
     {
         _onConnected = onConnect;
         return this;
     }
 
-    /// <summary>
-    /// Registers an action to be called when the client disconnects.
-    /// </summary>
-    /// <param name="onDisconnect">The action to call with the disconnected client instance.</param>
-    /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
     public TciWebSocketClient OnDisconnect(Action<TciWebSocketClient> onDisconnect)
     {
         _onDisconnected = onDisconnect;
         return this;
     }
 
-    /// <summary>
-    /// Registers an action to be called when a text message is received.
-    /// </summary>
-    /// <param name="onMessage">The action to call with the message text and the client instance.</param>
-    /// <returns>The same <see cref="TciWebSocketClient"/> instance to allow fluent configuration.</returns>
     public TciWebSocketClient OnMessage(Action<string, TciWebSocketClient> onMessage)
     {
         _onMessage = onMessage;
+        return this;
+    }
+
+    /// <summary>
+    /// Registers a handler for binary websocket frames (audio / IQ stream packets).
+    /// The byte array passed in is freshly allocated and owned by the receiver.
+    /// </summary>
+    public TciWebSocketClient OnBinaryMessage(Action<byte[], TciWebSocketClient> onBinaryMessage)
+    {
+        _onBinaryMessage = onBinaryMessage;
         return this;
     }
 
@@ -130,6 +127,20 @@ public class TciWebSocketClient
         }
     }
 
+    /// <summary>
+    /// Sends a binary message (audio TX stream packet) to the WebSocket server in a single frame.
+    /// </summary>
+    public async Task SendBinaryMessage(byte[] payload)
+    {
+        if (_clientWebSocket.State != WebSocketState.Open)
+        {
+            throw new Exception("Connection is not open.");
+        }
+
+        await _clientWebSocket.SendAsync(new ArraySegment<byte>(payload, 0, payload.Length),
+                                         WebSocketMessageType.Binary, true, _cancellationToken);
+    }
+
     private async Task StartListen()
     {
         var buffer = new byte[ReceiveChunkSize];
@@ -138,26 +149,43 @@ public class TciWebSocketClient
             while (_clientWebSocket.State == WebSocketState.Open)
             {
                 var stringResult = new StringBuilder();
+                using var binaryResult = new MemoryStream();
                 WebSocketReceiveResult result;
+                var isBinaryMessage = false;
+
                 do
                 {
                     result = await _clientWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), _cancellationToken);
 
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
-                        await
-                            _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                                                        string.Empty, CancellationToken.None);
+                        await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                                                          string.Empty, CancellationToken.None);
                         CallOnDisconnected();
+                        return;
+                    }
+
+                    if (result.MessageType == WebSocketMessageType.Binary)
+                    {
+                        isBinaryMessage = true;
+                        binaryResult.Write(buffer, 0, result.Count);
                     }
                     else
                     {
+                        // WebSocketMessageType.Text
                         var str = Encoding.UTF8.GetString(buffer, 0, result.Count);
                         stringResult.Append(str);
                     }
                 } while (!result.EndOfMessage);
 
-                CallOnMessage(stringResult);
+                if (isBinaryMessage)
+                {
+                    CallOnBinaryMessage(binaryResult.ToArray());
+                }
+                else
+                {
+                    CallOnMessage(stringResult);
+                }
             }
         }
         catch (Exception)
@@ -172,11 +200,14 @@ public class TciWebSocketClient
 
     private void CallOnMessage(StringBuilder stringResult)
     {
-        //if (_onMessage != null)
-        //    ExecuteInTask(() => _onMessage(stringResult.ToString(), this));
-
         if (_onMessage != null)
             _onMessage(stringResult.ToString(), this);
+    }
+
+    private void CallOnBinaryMessage(byte[] payload)
+    {
+        if (_onBinaryMessage != null)
+            _onBinaryMessage(payload, this);
     }
 
     private void CallOnDisconnected()
@@ -196,7 +227,7 @@ public class TciWebSocketClient
         Task.Factory.StartNew(action);
     }
 
-    private const int ReceiveChunkSize = 1024;
+    private const int ReceiveChunkSize = 8192;
     private const int SendChunkSize = 1024;
 
     private readonly ClientWebSocket _clientWebSocket;
@@ -206,5 +237,6 @@ public class TciWebSocketClient
 
     private Action<TciWebSocketClient> _onConnected;
     private Action<string, TciWebSocketClient> _onMessage;
+    private Action<byte[], TciWebSocketClient> _onBinaryMessage;
     private Action<TciWebSocketClient> _onDisconnected;
 }

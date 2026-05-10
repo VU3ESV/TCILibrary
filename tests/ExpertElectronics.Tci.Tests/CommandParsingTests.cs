@@ -141,9 +141,24 @@ public class CommandParsingTests
     }
 
     [Fact]
-    public void ChannelCount_command_uses_singular_wire_name()
+    public void ChannelCount_primary_wire_name_matches_actual_ExpertSDR3_server()
     {
-        Assert.Equal("channel_count", TciChannelCountCommand.Name);
+        // The reference server emits "channels_count" (plural). We accept this as the
+        // primary form and the spec-conformant singular as an alias.
+        Assert.Equal("channels_count", TciChannelCountCommand.Name);
+        Assert.Equal("channel_count", TciChannelCountSpecCommand.Name);
+    }
+
+    [Fact]
+    public void ChannelCount_spec_alias_creates_channels()
+    {
+        var c = BuildController();
+        // Replace the existing transceivers (built by BuildController with 2 channels) with
+        // a fresh set so we can verify CreateChannel runs through the spec alias path.
+        var fresh = new TransceiverController(new TciMessageHandler(), new FakeTciClient());
+        fresh.CreateTransceivers(1);
+        Assert.True(TciChannelCountSpecCommand.Create(fresh).ProcessCommandResponses(new[] { "channel_count:2;" }));
+        Assert.Equal(2, System.Linq.Enumerable.Count(System.Linq.Enumerable.First(fresh.Transceivers).Channels));
     }
 
     [Fact]
@@ -218,6 +233,7 @@ public class CommandParsingTests
         public Task ConnectAsync() => Task.CompletedTask;
         public Task DisConnectAsync() => Task.CompletedTask;
         public Task SendMessageAsync(string message) => Task.CompletedTask;
+        public Task SendBinaryMessageAsync(byte[] payload) => Task.CompletedTask;
         public void Dispose() { }
         public event System.EventHandler<TciConnectedEventArgs> OnConnect { add { } remove { } }
         public event System.EventHandler<TciConnectedEventArgs> OnDisconnect { add { } remove { } }

@@ -14,7 +14,7 @@ public class TciReadyCommand : ITciCommand, IDisposable
 
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
-        if (!messages.Any(_ => _.Contains(Name)))
+        if (!messages.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }

@@ -18,12 +18,12 @@ public class TciAudioSampleRateCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var audioSampleRateMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var audioSampleRateMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(audioSampleRateMessage))
         {
             return false;

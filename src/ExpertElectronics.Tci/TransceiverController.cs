@@ -1,4 +1,5 @@
-﻿using ExpertElectronics.Tci.TciCommands.Audio;
+﻿using ExpertElectronics.Tci.Streaming;
+using ExpertElectronics.Tci.TciCommands.Audio;
 
 namespace ExpertElectronics.Tci;
 
@@ -23,6 +24,7 @@ public class TransceiverController : ITransceiverController, IDisposable
         _transceivers = new();
         _messageHandler.OnSocketConnectionChanged += MessageHandler_OnSocketConnected;
         _messageHandler.OnSocketMessageReceived += MessageHandler_OnSocketMessageReceived;
+        _messageHandler.OnSocketBinaryMessageReceived += MessageHandler_OnSocketBinaryMessageReceived;
         _commands = new();
         Initialize();
     }
@@ -1699,6 +1701,11 @@ public class TransceiverController : ITransceiverController, IDisposable
     public event EventHandler<EventArgs> OnCwMacrosEmpty;
     public event EventHandler<ECoderSwitchEventArgs> OnECoderRxSwitched;
     public event EventHandler<ECoderSwitchEventArgs> OnECoderChannelSwitched;
+    public event EventHandler<StreamPacketEventArgs> OnIqStreamReceived;
+    public event EventHandler<StreamPacketEventArgs> OnRxAudioStreamReceived;
+    public event EventHandler<StreamPacketEventArgs> OnTxAudioStreamReceived;
+    public event EventHandler<StreamPacketEventArgs> OnTxChronoReceived;
+    public event EventHandler<StreamPacketEventArgs> OnLineOutStreamReceived;
 
     private void Initialize()
     {
@@ -1717,15 +1724,18 @@ public class TransceiverController : ITransceiverController, IDisposable
     {
         var message = e.Message;
         Debug.WriteLine($"Received Message: {message}");
-        var commandId = message.Split(':', ',', ';')[0];
-        if (_commands.ContainsKey(commandId))
+        // The protocol is case-insensitive (per spec); commands are registered lowercase.
+        // ExpertSDR3 sends many commands with uppercase keywords ("MODULATION:0,LSB;"), so
+        // normalize the lookup key while preserving the original message for argument parsing
+        // (modulation names and device strings keep their case).
+        var commandId = message.Split(':', ',', ';')[0].Trim().ToLowerInvariant();
+        if (_commands.TryGetValue(commandId, out var command))
         {
-            var command = _commands[commandId];
             command.ProcessCommandResponses([message]);
         }
         else
         {
-            //list the unsupported commands 
+            //list the unsupported commands
             Console.WriteLine($"No Command Implementation for {message}");
         }
     }
@@ -1735,6 +1745,45 @@ public class TransceiverController : ITransceiverController, IDisposable
         ConnectionState = e.TciConnection
             ? TransceiverConnectionState.Connected
             : TransceiverConnectionState.Disconnected;
+    }
+
+    private void MessageHandler_OnSocketBinaryMessageReceived(object sender, TciBinaryMessageReceivedEventArgs e)
+    {
+        var packet = DataStreamPacket.Parse(e.Payload);
+        if (packet == null)
+        {
+            return;
+        }
+
+        var args = new StreamPacketEventArgs(packet);
+        switch (packet.StreamType)
+        {
+            case TciStreamType.IqStream:
+                OnIqStreamReceived?.Invoke(this, args);
+                break;
+            case TciStreamType.RxAudioStream:
+                OnRxAudioStreamReceived?.Invoke(this, args);
+                break;
+            case TciStreamType.TxAudioStream:
+                OnTxAudioStreamReceived?.Invoke(this, args);
+                break;
+            case TciStreamType.TxChrono:
+                OnTxChronoReceived?.Invoke(this, args);
+                break;
+            case TciStreamType.LineOutStream:
+                OnLineOutStreamReceived?.Invoke(this, args);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Sends a TX_AUDIO_STREAM packet (float32 samples) to the server. Typically called in
+    /// response to a <see cref="OnTxChronoReceived"/> event.
+    /// </summary>
+    public Task SendTxAudioPacket(uint receiverNumber, uint sampleRate, uint channels, float[] samples)
+    {
+        var packet = DataStreamPacket.BuildTxAudioPacket(receiverNumber, sampleRate, channels, samples);
+        return TciClient.SendBinaryMessageAsync(packet);
     }
 
     public async Task VfoAToB(uint transceiverPeriodicNumber)

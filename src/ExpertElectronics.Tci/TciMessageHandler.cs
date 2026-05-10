@@ -43,9 +43,26 @@ public class TciMessageHandler : ITciMessageHandler
     }
 
     /// <summary>
+    /// Called when a binary frame (audio / IQ stream) is received from the websocket.
+    /// </summary>
+    public void OnBinaryMessage(byte[] payload, TciWebSocketClient tciWebSocketClient)
+    {
+        if (_tciWebSocketClient != tciWebSocketClient)
+        {
+            return;
+        }
+        OnSocketBinaryMessageReceived?.Invoke(this, new TciBinaryMessageReceivedEventArgs(payload));
+    }
+
+    /// <summary>
     /// Raised when a message has been received and validated for this client instance.
     /// </summary>
     public event EventHandler<TciMessageReceivedEventArgs> OnSocketMessageReceived;
+
+    /// <summary>
+    /// Raised when a binary frame has been received and validated for this client instance.
+    /// </summary>
+    public event EventHandler<TciBinaryMessageReceivedEventArgs> OnSocketBinaryMessageReceived;
 
     /// <summary>
     /// Raised when the underlying socket connection state changes.

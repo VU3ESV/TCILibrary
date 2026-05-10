@@ -16,8 +16,14 @@ public class TciChannelCountCommand : ITciCommand, IDisposable
 
     /// <summary>
     /// Gets the command name used in TCI responses.
+    ///
+    /// The TCI specification (v1.6 / v2.0 PDFs) names this command CHANNEL_COUNT (singular),
+    /// but the actual ExpertSDR3 server emits "channels_count" (plural). We register the
+    /// plural form as the primary name so the live server is matched, and a sibling
+    /// <see cref="TciChannelCountSpecCommand"/> registers the singular form as a fallback
+    /// for spec-conformant implementations.
     /// </summary>
-    public static string Name => "channel_count";
+    public static string Name => "channels_count";
 
     /// <summary>
     /// Processes a collection of TCI response messages and handles the channel_count response.
@@ -27,12 +33,12 @@ public class TciChannelCountCommand : ITciCommand, IDisposable
     public bool ProcessCommandResponses(IEnumerable<string> messages)
     {
         var enumerable = messages as string[] ?? [.. messages];
-        if (!enumerable.Any(_ => _.Contains(Name)))
+        if (!enumerable.Any(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase)))
         {
             return false;
         }
 
-        var channelCountMessage = enumerable.FirstOrDefault(_ => _.Contains(Name));
+        var channelCountMessage = enumerable.FirstOrDefault(_ => _.Contains(Name, StringComparison.OrdinalIgnoreCase));
         if (string.IsNullOrEmpty(channelCountMessage))
         {
             return false;

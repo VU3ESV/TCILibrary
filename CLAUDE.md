@@ -13,12 +13,15 @@ The repo ships a library plus reference apps, all targeting **.NET 10**.
 ```
 src/
   ExpertElectronics.Tci/         # The protocol library (NuGet-shippable). namespace: ExpertElectronics.Tci
+  ExpertElectronics.Tci.Client/  # Cross-platform Avalonia desktop client (Windows/macOS/Linux). Uses Silk.NET.OpenAL.
 tests/
   ExpertElectronics.Tci.Tests/   # xUnit unit tests for the library.
 docs/
   ARCHITECTURE.md                # Architecture & TCI protocol mapping.
 TciClient.sln                    # Solution file (kept name for backwards compat).
 ```
+
+The Client project is `net10.0` (no platform suffix) — it works cross-platform because Avalonia abstracts the windowing system and Silk.NET.OpenAL.Soft.Native ships per-rid OpenAL binaries.
 
 ## Common commands
 
@@ -31,6 +34,12 @@ dotnet build TciClient.sln
 
 # Run unit tests
 dotnet test tests/ExpertElectronics.Tci.Tests/ExpertElectronics.Tci.Tests.csproj
+
+# Run the desktop client (RX-only)
+dotnet run --project src/ExpertElectronics.Tci.Client
+
+# Run the desktop client with TX (mic capture + keying) enabled
+dotnet run --project src/ExpertElectronics.Tci.Client -- --enable-tx
 ```
 
 ## Library architecture (what to know before editing)

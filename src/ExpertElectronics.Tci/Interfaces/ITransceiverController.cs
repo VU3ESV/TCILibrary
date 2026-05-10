@@ -1,4 +1,6 @@
-﻿namespace ExpertElectronics.Tci.Interfaces;
+﻿using ExpertElectronics.Tci.Streaming;
+
+namespace ExpertElectronics.Tci.Interfaces;
 
 public interface ITransceiverController
 {
@@ -247,6 +249,8 @@ public interface ITransceiverController
     Task SetTxSensorsEnable(bool state, uint sendingIntervalMs = 0);
     Task Keyer(uint transceiverPeriodicNumber, bool pressed, int previousCharacterDurationMs = 0);
 
+    Task SendTxAudioPacket(uint receiverNumber, uint sampleRate, uint channels, float[] samples);
+
     Task SetCtcssEnable(uint transceiverPeriodicNumber, bool state);
     Task SetCtcssMode(uint transceiverPeriodicNumber, int mode);
     Task SetCtcssRxTone(uint transceiverPeriodicNumber, int toneNumber);
@@ -306,6 +310,11 @@ public interface ITransceiverController
     event EventHandler<EventArgs> OnCwMacrosEmpty;
     event EventHandler<ECoderSwitchEventArgs> OnECoderRxSwitched;
     event EventHandler<ECoderSwitchEventArgs> OnECoderChannelSwitched;
+    event EventHandler<StreamPacketEventArgs> OnIqStreamReceived;
+    event EventHandler<StreamPacketEventArgs> OnRxAudioStreamReceived;
+    event EventHandler<StreamPacketEventArgs> OnTxAudioStreamReceived;
+    event EventHandler<StreamPacketEventArgs> OnTxChronoReceived;
+    event EventHandler<StreamPacketEventArgs> OnLineOutStreamReceived;
 
     #endregion
 }
